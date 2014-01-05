@@ -12,6 +12,7 @@ files = [
   'app/bower_components/angular-route/angular-route.js',
   'app/bower_components/angular-resource/angular-resource.js',
   'app/bower_components/angular-sanitize/angular-sanitize.js',
+  'app/bower_components/showdown/compressed/showdown.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
@@ -49,7 +50,7 @@ autoWatch = false;
 // - Safari (only Mac)
 // - PhantomJS
 // - IE (only Windows)
-browsers = ['PhantomJS'];
+browsers = ['Chrome'];
 
 // If browser does not capture in given timeout [ms], kill it
 captureTimeout = 5000;
