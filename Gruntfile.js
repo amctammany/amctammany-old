@@ -117,7 +117,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        'models/*.js',
+        'db/*.js',
         'routes/*.js',
         '<%= yeoman.app %>/scripts/**/*.js'
       ]
@@ -228,7 +228,7 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'bower_components/**/*',
+            //'bower_components/**/*',
             'templates/**/*.html',
             'sounds/**/*.wav',
             'images/{,*/}*.{gif,webp,svg}',

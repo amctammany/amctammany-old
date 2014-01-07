@@ -23,6 +23,14 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/posts/edit.html',
         controller: 'EditPostCtrl'
       })
+      .when('/experiments/maze', {
+        templateUrl: 'views/experiments/maze.html',
+        controller: 'MazeCtrl'
+      })
+      .when('/experiments/cloth', {
+        templateUrl: 'views/experiments/cloth.html',
+        controller: 'ClothCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -9,11 +9,10 @@ angular.module('mctApp')
     });
     $scope.getClass = function (id) {
       if (!$scope.activeNavId) {return;}
-			if ($scope.activeNavId.substring(0, id.length) === id) {
-				return 'active';
-			} else {
-				return '';
-			}
+      if ($scope.activeNavId.substring(0, id.length) === id) {
+        return 'active';
+      } else {
+        return '';
+      }
     };
-
   });
