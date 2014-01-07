@@ -17,6 +17,9 @@ angular.module('mctApp')
       $scope.canvas = canvas;
     };
 
+    $scope.initDemo = function (canvas) {
+      $scope.maze = $scope.maze || new Maze(canvas, $scope.columns, $scope.rows);
+    };
     $scope.deleteMaze = function (maze) {
       var confirm = window.confirm('Delete maze: ' + maze.name);
       if (!confirm) {return;}

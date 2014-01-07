@@ -207,8 +207,6 @@ angular.module('mctApp')
 
 
       this.cells = new Array(this.rows * this.columns);
-      console.log(this.columns);
-      console.log(this.rows);
       for (row = 0; row < this.rows; row++) {
         for (column = 0; column < this.columns; column++) {
           cell = this.addCell(column, row);

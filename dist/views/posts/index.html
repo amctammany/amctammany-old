@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Blog Home</h1>
+    <ol class="breadcrumb">
+      <li class="active">Blog Home</li>
+    </ol>
+  </div>
+
+</div>
+
+<div class="row">
+    <div class="posts col-lg-9 col-md-9" ng-init="init()">
+        <div class="post row" ng-repeat="post in posts | filter:query">
+            <div class="col-lg-3 col-md-3">
+                {{post.createdAt | date}}
+                <div class="post-tags-list well clearfix">
+                  <span class="post-tag-list-item" ng-class="getTagClass(tag.name)" ng-repeat="tag in post.tags">
+                      <a>{{tag.name}}</a>
+                  </span>
+                </div>
+
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="title">
+                    <h2>
+                        <a ng-href="#/posts/{{post.urlString}}">{{post.title}}</a>
+                    </h2>
+                </div>
+                <div class="content">
+                    <p ng-bind-html="parseContent(post.content)"></p>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="search col-lg-3 col-md-3 well">
+        <div class="input-group well">
+            <input type="text" class="form-control" ng-model="query">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
+        </div><!-- /input-group -->
+        <div class="tag-list">
+          <ul class="list-group">
+              <li class="list-group-item" ng-class="getTagClass(tag.name)" ng-repeat="tag in tags" ng-click="toggleTag(tag.name)">
+                {{tag.name}}
+              </li>
+          </ul>
+        </div>
+    </div>
+</div>

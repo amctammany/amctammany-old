@@ -5,9 +5,5 @@ module.exports = function (app) {
   require('./tags')(app);
   require('./mazes')(app);
   app.get('/', function (req, res) {
-    console.log('foo');
-    res.render('index', {
-      title: 'Express'
-    });
   });
 };
