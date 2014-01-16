@@ -9,6 +9,9 @@
 .center{margin:0 auto;text-align:center}
 .title > h2{vertical-align:top}
 
+table.matrix{border:1px solid #000;}
+table.matrix td{width:35px;height:20px}
+
 .post{margin-bottom:20px;}
 .post .post-tags-list{vertical-align:top;padding:5px;}
 .post .post-tags-list .post-tag-list-item{float:left;display:inline-block;padding:2px 6px;margin:2px 4px;border:1px solid #000;}
