@@ -9,8 +9,8 @@
 .center{margin:0 auto;text-align:center}
 .title > h2{vertical-align:top}
 
-table.matrix{border:1px solid #000;}
-table.matrix td{width:35px;height:20px}
+.matrix-table{border:1px solid #000;}
+.matrix-table td{display:inline-block;text-align:center;width:45px;height:25px}
 
 .post{margin-bottom:20px;}
 .post .post-tags-list{vertical-align:top;padding:5px;}
