@@ -138,11 +138,11 @@ angular.module('mctApp')
       $scope.camera = new Camera();
       $scope.camera.position.z = 10;
       $scope.renderer = new Renderer(canvas);
-      render();
       function render() {
         $scope.renderer.render($scope.world, $scope.camera);
       }
 
+      render();
       $scope.forward = function () {
         $scope.camera.position.z -= 1;
         render();
@@ -161,5 +161,5 @@ angular.module('mctApp')
         render();
       };
 
-    }
+    };
   });
