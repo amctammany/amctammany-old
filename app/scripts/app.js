@@ -43,6 +43,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/chemistry/periodictable.html',
         controller: 'PeriodicTableCtrl'
       })
+      .when('/three', {
+        templateUrl: 'views/three/three.html',
+        controller: 'ThreeCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

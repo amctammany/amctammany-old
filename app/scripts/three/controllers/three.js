@@ -15,7 +15,7 @@ angular.module('mctApp')
       $scope.scene = new THREE.Scene();
 
       var sphere = new THREE.Mesh(new THREE.SphereGeometry(10, 100, 100), new THREE.MeshNormalMaterial());
-      sphere.position.x = 200;
+      sphere.position.x = 0;
       sphere.overdraw = true;
 
       $scope.scene.add(sphere);

@@ -94,6 +94,15 @@
                   </ul>
                 </li>
 
+                <li class="dropdown" ng-class="getClass('/three')">
+                  <a class="dropdown-toggle" data-toggle="dropdown">Three <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#" ng-href="#/three">Three</a>
+                    </li>
+                  </ul>
+                </li>
+
                 <li class="dropdown" ng-class="getClass('/chemistry')">
                   <a class="dropdown-toggle" data-toggle="dropdown">Chemistry <b class="caret"></b></a>
                   <ul class="dropdown-menu">
@@ -133,6 +142,7 @@
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/threejs/build/three.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -159,7 +169,9 @@
         <script src="scripts/mc3/services/mc3.js"></script>
         <script src="scripts/chemistry/controllers/chemistry.js"></script>
         <script src="scripts/chemistry/controllers/periodictable.js"></script>
-        <script src="scripts/directives/matrix.js"></script>
+        <script src="scripts/mc3/directives/matrix.js"></script>
+        <script src="scripts/three/controllers/three.js"></script>
+        <script src="scripts/three/directives/threedemo.js"></script>
         <!-- endbuild -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     </body>
