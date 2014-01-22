@@ -17,8 +17,8 @@ angular.module('mctApp')
       console.log(coord);
       var pt = Vector3.TransformCoordinates(coord, transformMatrix);
       console.log(pt);
-      var x = pt.x * this.width + this.width / 2; // / 2.0  >> 0;
-      var y = pt.y * this.height + this.height / 2; // / 2.0 >> 0;
+      var x = pt.x * this.width / 4 + this.width / 2.0  >> 0;
+      var y = pt.y * this.height / 4 + this.height / 2.0 >> 0;
       return {
         x: x,
         y: y,
