@@ -53,6 +53,13 @@ angular.module('mctApp')
       this.z += v.z;
       return this;
     };
+    // addVectors => Add two vectors and set to self
+    Vector3.prototype.addVectors = function (a, b) {
+      this.x = a.x + b.x;
+      this.y = a.y + b.y;
+      this.z = a.z + b.z;
+      return this;
+    };
     // sub => Subtract vector from vector => new Vector
     Vector3.prototype.sub = function (v) {
       var x = this.x - v.x,
@@ -68,6 +75,13 @@ angular.module('mctApp')
       return this;
     };
 
+    // subVectors => Subtract two vectors and set to self
+    Vector3.prototype.subVectors = function (a, b) {
+      this.x = a.x - b.x;
+      this.y = a.y - b.y;
+      this.z = a.z - b.z;
+      return this;
+    };
     // dot => Vector dot product Vector => Scalar
     Vector3.prototype.dot = function (v) {
       var sum = this.x * v.x + this.y * v.y + this.z * v.z;
@@ -82,9 +96,20 @@ angular.module('mctApp')
       return new Vector3(x, y, z);
     };
 
+    // crossVectors => Set self to cross product of a and b
+    Vector3.prototype.crossVectors = function (a, b) {
+      var ax = a.x, ay = a.y, az = a.z;
+      var bx = b.x, by = b.y, bz = b.z;
+      this.x = ay * bz - az * by;
+      this.y = az * bx - ax * bz;
+      this.z = ax * by - ay * bx;
 
-    // getMagnitude => Scalar
-    Vector3.prototype.getMagnitude = function () {
+      return this;
+    }
+
+
+    // length => Scalar
+    Vector3.prototype.length = function () {
       var length = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
       return length;
     };
@@ -97,7 +122,7 @@ angular.module('mctApp')
 
     // normalize => Vector (w/ length = 1)
     Vector3.prototype.normalize = function () {
-      var d = this.getMagnitude();
+      var d = this.length();
       return new Vector3(this.x / d, this.y / d, this.z / d);
     };
     Vector3.prototype.zero = function () {
@@ -105,6 +130,24 @@ angular.module('mctApp')
       this.y = 0;
       this.z = 0;
       return this;
+    };
+
+    Vector3.Zero = function () {
+      return new Vector3(0, 0, 0);
+    };
+    Vector3.TransformCoordinates = function (v, matrix) {
+      var result = Vector3.Zero()
+      var me = matrix.elements;
+      var x = (v.x * me[0]) + (v.y * me[4]) + (v.z * me[8]) + me[12];
+      var y = (v.x * me[1]) + (v.y * me[5]) + (v.z * me[9]) + me[13];
+      var z = (v.x * me[2]) + (v.y * me[6]) + (v.z * me[10]) + me[14];
+      var w = (v.x * me[3]) + (v.y * me[7]) + (v.z * me[11]) + me[15];
+      result.x = x / w;
+      result.y = y / w;
+      result.z = z / w;
+
+      return result;
+
     };
 
     return Vector3;
