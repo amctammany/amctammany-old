@@ -13,8 +13,8 @@ angular.module('mctApp')
     $scope.mesh.vertices[6] = new Vector3(-1, 1, -1);
     $scope.mesh.vertices[7] = new Vector3(-1, -1, -1);
     $scope.camera = new Camera();
-    $scope.camera.position = new Vector3(0, 0, 10);
-    $scope.camera.target = new Vector3(0, 0, 1);
+    $scope.camera.position = new Vector3(0, 0, 2);
+    $scope.camera.target = new Vector3(0, 0, 0);
 
 
     $scope.initDemo = function (canvas) {

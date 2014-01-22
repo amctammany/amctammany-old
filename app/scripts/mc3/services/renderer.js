@@ -31,7 +31,7 @@ angular.module('mctApp')
     Renderer.prototype.render = function (camera, meshes) {
       this.ctx.clearRect(0, 0, this.width, this.height);
       this.viewMatrix.lookAt(camera.position, camera.target, camera.up);
-      this.projectionMatrix = Matrix4.PerspectiveFov(0.78, this.width / this.height, 0.01, 1.0);
+      this.projectionMatrix = Matrix4.PerspectiveFov(0.78, this.width / this.height, 0.01, 100.0);
 
       var mesh;
       for (var i = 0, l = meshes.length; i < l; i++) {
