@@ -64,6 +64,26 @@ angular.module('mctApp')
           }
         }
       },
+      rotateOnAxis: function (axis, angle) {
+        var q1 = new Quaternion();
+        q1.setFromAxisAngle(axis, angle);
+        this.quaternion.multiply(q1);
+        return this;
+      },
+      rotateX: function (angle) {
+        var v1 = new Vector3(1, 0, 0);
+        this.rotateOnAxis(v1, angle);
+      },
+      rotateY: function (angle) {
+        var v1 = new Vector3(0, 1, 0);
+        this.rotateOnAxis(v1, angle);
+      },
+      rotateZ: function (angle) {
+        var v1 = new Vector3(0, 0, 1);
+        this.rotateOnAxis(v1, angle);
+      },
+
+
       lookAt: function (vector) {
         var m1 = new Matrix4();
         m1.lookAt(vector, this.position, this.up);

@@ -45,6 +45,29 @@ angular.module('mctApp')
     };
 
 
+    Quaternion.prototype.multiply = function (q) {
+      return this.multiplyQuaternions(this, q);
+    };
+    Quaternion.prototype.multiplyQuaternions = function (a, b) {
+      var qax = a.x, qay = a.y, qaz = a.z, qaw = a.w;
+      var qbx = b.x, qby = b.y, qbz = b.z, qbw = b.w;
+
+      this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+      this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+      this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+      this.w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+      return this;
+    }
+    Quaternion.prototype.setFromAxisAngle = function (axis, angle) {
+      var halfAngle = angle / 2, s = Math.sin(halfAngle);
+
+      this.x = axis.x * s;
+      this.y = axis.y * s;
+      this.z = axis.z * s;
+      this.w = Math.cos(halfAngle);
+      return this;
+    };
+
     Quaternion.RotationYawPitchRoll = function (yaw, pitch, roll) {
       var result = new Quaternion(0, 0, 0, 1);
 

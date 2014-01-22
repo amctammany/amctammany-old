@@ -8,15 +8,17 @@ angular.module('mctApp')
       this.height = canvas.height;
       this.ctx = canvas.getContext('2d');
 
-      this.vertices = [];
 
       this.projector = new Projector();
 
       this.viewMatrix = new Matrix4();
       this.viewProjectionMatrix = new Matrix4();
+      this.modelViewProjectionMatrix = new Matrix4();
     };
 
     Renderer.prototype.render = function (world, camera) {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+      this.vertices = [];
       //var renderData = this.projector.projectWorld(world, camera);
       //console.log(renderData)
       if (world.autoUpdate === true) { world.updateMatrixWorld();}
@@ -28,21 +30,19 @@ angular.module('mctApp')
       for (var i = 0, l = world.children.length; i < l; i++) {
         var mesh = world.children[i];
         if (mesh instanceof Mesh) {
-          var worldMatrix = mesh.worldMatrix;
+          //mesh.updateMatrix();
+          this.modelViewProjectionMatrix.multiplyMatrices(this.viewProjectionMatrix, mesh.matrixWorld);
           for (var j = 0, vl = mesh.vertices.length; j < vl; j++) {
             var v = new Vector3();
             var vertex = mesh.vertices[j];
-            v.copy(vertex).applyProjection(this.viewProjectionMatrix);
+            v.copy(vertex).applyProjection(this.modelViewProjectionMatrix);
             this.vertices.push(v);
+            this.drawVertex(v);
           }
         }
       }
-      for (var i = 0, l = this.vertices.length; i < l; i++) {
-        this.drawVertex(this.vertices[i]);
-      }
     };
     Renderer.prototype.drawVertex = function (v) {
-      console.log(v);
       var x = v.x * this.width + this.width / 2;
       var y = v.y * this.height + this.height / 2;
       this.ctx.fillRect(x, y, 4, 4);
