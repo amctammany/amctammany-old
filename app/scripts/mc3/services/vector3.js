@@ -3,9 +3,9 @@
 angular.module('mctApp')
   .factory('Vector3', function () {
     var Vector3 = function (x, y, z) {
-      this.x = x;
-      this.y = y;
-      this.z = z;
+      this.x = x || 0;
+      this.y = y || 0;
+      this.z = z || 0;
     };
 
     // mul => Multiply vector by scalar => New Vector
@@ -132,6 +132,31 @@ angular.module('mctApp')
       return this;
     };
 
+    // applyMatrix4 => Apply Affine Matrix
+    Vector3.prototype.applyMatrix4 = function (m) {
+      var x = this.x, y = this.y, z = this.z;
+      var e = m.elements;
+
+      this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
+      this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
+      this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+
+      return this;
+    };
+
+    // applyProjection => Apply Transformation Matrix
+    Vector3.prototype.applyProjection = function (m) {
+      var x = this.x, y = this.y, z = this.z;
+      var e = m.elements;
+
+      var d = 1 / (e[3] * x + e[7] * y + e[11] * z + e[15]); //perspective divide
+
+      this.x = (e[0] * x + e[4] * y + e[8] * z + e[12]) * d;
+      this.y = (e[1] * x + e[5] * y + e[9] * z + e[13]) * d;
+      this.z = (e[2] * x + e[6] * y + e[10] * z + e[14]) * d;
+
+      return this;
+    }
     Vector3.Zero = function () {
       return new Vector3(0, 0, 0);
     };

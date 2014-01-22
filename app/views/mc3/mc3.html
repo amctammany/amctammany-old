@@ -18,16 +18,16 @@
 
 <div class="row">
   <div class="col-lg-3 col-md-3">
-    <matrix4 data="renderer.viewMatrix">View Matrix</matrix4>
+    <matrix4 data="projector.viewMatrix">View Matrix</matrix4>
   </div>
   <div class="col-lg-3 col-md-3">
-    <matrix4 data="renderer.projectionMatrix">Projection Matrix</matrix4>
+    <matrix4 data="projector.viewProjectionMatrix">Projection Matrix</matrix4>
   </div>
 
   <div class="col-lg-3 col-md-3">
-    <matrix4 data="renderer.worldMatrix">World Matrix</matrix4>
+    <matrix4 data="camera.matrixWorld">Camera Matrix World</matrix4>
   </div>
   <div class="col-lg-3 col-md-3">
-    <matrix4 data="renderer.transformMatrix">Transform Matrix</matrix4>
+    <matrix4 data="camera.matrixWorldInverse">Camera Matrix World Inverse</matrix4>
   </div>
 </div>

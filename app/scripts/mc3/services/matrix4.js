@@ -42,6 +42,28 @@ angular.module('mctApp')
       return this;
     };
 
+    Matrix4.prototype.copy = function (m) {
+      this.set.apply(this, m.elements);
+      return this;
+    };
+
+    Matrix4.prototype.compose = function (position, quaternion, scale) {
+      this.makeRotationFromQuaternion(quaternion);
+      this.scale(scale);
+      this.setPosition(position);
+      return this;
+    };
+
+    Matrix4.prototype.scale = function (v) {
+      var te = this.elements;
+      var x = v.x, y = v.y, z = v.z;
+
+      te[0] *= x; te[4] *= y; te[8] *= z;
+      te[1] *= x; te[5] *= y; te[9] *= z;
+      te[2] *= x; te[6] *= y; te[10] *= z;
+      te[3] *= x; te[7] *= y; te[11] *= z;
+      return this;
+    };
     Matrix4.prototype.multiply = function (m) {
       var result = new Matrix4();
       result.multiplyMatrices(this, m);
@@ -134,6 +156,16 @@ angular.module('mctApp')
       return this;
     };
 
+    Matrix4.prototype.setPosition = function (v) {
+      var te = this.elements;
+
+      te[12] = v.x;
+      te[13] = v.y;
+      te[14] = v.z;
+
+      return this;
+    };
+
     Matrix4.prototype.makeRotationFromQuaternion = function (q) {
       var te = this.elements;
 
@@ -165,7 +197,34 @@ angular.module('mctApp')
       te[15] = 1;
 
       return this;
-    }
+    };
+
+    Matrix4.prototype.makeFrustum = function (left, right, bottom, top, near, far) {
+      var te = this.elements;
+      var x = 2 * near / (right - left);
+      var y = 2 * near / (top - bottom);
+
+      var a = (right + left) / (right - left);
+      var b = (top + bottom) / (top - bottom);
+      var c = - (far + near) / (far - near);
+      var d = - 2 * far * near / (far - near);
+
+      te[0] = x; te[4] = 0; te[8] = a; te[12] = 0;
+      te[1] = 0; te[5] = y; te[9] = b; te[13] = 0;
+      te[2] = 0; te[6] = 0; te[10] = c; te[14] = d;
+      te[3] = 0; te[7] = 0; te[11] = -1; te[15] = 0;
+
+      return this;
+    };
+
+    Matrix4.prototype.makePerspective = function (fov, aspect, near, far) {
+      var ymax = near * Math.tan((fov * 0.5 * Math.PI / 180));
+      var ymin = - ymax;
+      var xmin = ymin * aspect;
+      var xmax = ymax * aspect;
+      return this.makeFrustum(xmin, xmax, ymin, ymax, near, far);
+    };
+
     Matrix4.prototype.lookAt = function (eye, target, up) {
       var te = this.elements;
       var x = Vector3.Zero()
@@ -189,12 +248,15 @@ angular.module('mctApp')
       var ey = -1 * y.dot(eye);
       var ez = -1 * z.dot(eye);
 
-      this.set(
-        x.x, y.x, z.x, 0,
-        x.y, y.y, z.y, 0,
-        x.z, y.z, z.z, 0,
-        ex, ey, ez, 1
-      );
+          //this.set(
+            //x.x, y.x, z.x, 0,
+            //x.y, y.y, z.y, 0,
+            //x.z, y.z, z.z, 0,
+            //ex, ey, ez, 1
+          //);
+      te[0] = x.x; te[4] = y.x; te[8] = z.x;
+      te[1] = x.y; te[5] = y.y; te[9] = z.y;
+      te[2] = x.z; te[6] = y.z; te[10] = z.z;
       return this;
     };
 

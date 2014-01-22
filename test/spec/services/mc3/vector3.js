@@ -23,8 +23,8 @@ describe('Service: Vector3', function () {
     expect(v.z).toBe(z);
   });
 
-  it('should get magnitude of vector', function () {
-    var length = v.getMagnitude();
+  it('should get length of vector', function () {
+    var length = v.length();
     expect(length).toBe(Math.sqrt(300));
   });
 

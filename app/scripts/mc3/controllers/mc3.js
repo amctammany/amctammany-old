@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('Mc3Ctrl', function ($scope, Vector3, Camera, Mesh, Renderer) {
+  .controller('Mc3Ctrl', function ($scope, Vector3, Camera, Mesh, Renderer, World) {
 
+    $scope.world = new World();
     $scope.mesh = new Mesh('cube', 8);
     $scope.mesh.vertices[0] = new Vector3(1, 1, 1);
     $scope.mesh.vertices[1] = new Vector3(1, -1, 1);
@@ -12,9 +13,10 @@ angular.module('mctApp')
     $scope.mesh.vertices[5] = new Vector3(1, -1, -1);
     $scope.mesh.vertices[6] = new Vector3(-1, 1, -1);
     $scope.mesh.vertices[7] = new Vector3(-1, -1, -1);
+
+    $scope.world.add($scope.mesh);
     $scope.camera = new Camera();
-    $scope.camera.position = new Vector3(0, 0, 1);
-    $scope.camera.target = new Vector3(0, 0, 0);
+    console.log($scope.world);
 
 
     $scope.initDemo = function (canvas) {
@@ -22,9 +24,8 @@ angular.module('mctApp')
       drawingLoop();
     };
     function drawingLoop () {
-      $scope.mesh.rotation.x += 0.05;
-      $scope.mesh.rotation.y += 0.05;
-      $scope.renderer.render($scope.camera, [$scope.mesh]);
+      $scope.renderer.render($scope.world, $scope.camera);
+      //$scope.renderer.render($scope.camera, [$scope.mesh]);
       //window.requestAnimationFrame(drawingLoop);
     }
   });
