@@ -2,7 +2,33 @@
   <div class="col-lg-12">
   
     <h2>Mc3 - Physics and renderering engine</h2>
-    {{object}}
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3 col-md-3 well">
+    <h4>Settings</h4>
+    <button class="btn" ng-click="advance()">Next Frame</button>
   </div>
 
+  <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 well">
+    <demo></demo>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3 col-md-3">
+    <matrix4 data="renderer.viewMatrix">View Matrix</matrix4>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <matrix4 data="renderer.viewProjectionMatrix">View Projection Matrix</matrix4>
+  </div>
+
+  <div class="col-lg-3 col-md-3">
+    <matrix4 data="renderer.modelMatrix">Model Matrix</matrix4>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <matrix4 data="renderer.modelViewProjectionMatrix">MVP Matrix</matrix4>
+  </div>
 </div>

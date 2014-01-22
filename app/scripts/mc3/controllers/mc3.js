@@ -1,10 +1,42 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('Mc3Ctrl', function ($scope, Object3d) {
+  .controller('Mc3Ctrl', function ($scope, Matrix4, Vector3, Camera, Mesh, Renderer, World) {
 
-    $scope.object = new Object3d();
-    $scope.object.position.x = -10;
-    $scope.object.position.y = -10;
-    $scope.object.position.z = -10;
+
+
+    $scope.initDemo = function (canvas) {
+      $scope.rotX = 0.0;
+      $scope.world = new World();
+      $scope.mesh = new Mesh('cube', 8);
+      $scope.mesh.vertices[0] = new Vector3(1, 1, 1);
+      $scope.mesh.vertices[1] = new Vector3(1, -1, 1);
+      $scope.mesh.vertices[2] = new Vector3(-1, 1, 1);
+      $scope.mesh.vertices[3] = new Vector3(-1, -1, 1);
+      $scope.mesh.vertices[4] = new Vector3(1, 1, -1);
+      $scope.mesh.vertices[5] = new Vector3(1, -1, -1);
+      $scope.mesh.vertices[6] = new Vector3(-1, 1, -1);
+      $scope.mesh.vertices[7] = new Vector3(-1, -1, -1);
+
+      $scope.world.add($scope.mesh);
+      $scope.camera = new Camera();
+      $scope.camera.position.z = 20;
+
+      $scope.renderer = new Renderer(canvas);
+      drawingLoop();
+    };
+    $scope.advance = function () {
+      $scope.world.rotateX(0.01);
+      $scope.world.rotateZ(0.02);
+      $scope.renderer.render($scope.world, $scope.camera);
+
+    };
+    function drawingLoop () {
+      $scope.advance();
+      //$scope.rotX += 0.5;
+      //$scope.world.rotateX($scope.rotX);
+      //$scope.renderer.render($scope.world, $scope.camera);
+      //$scope.renderer.render($scope.camera, [$scope.mesh]);
+      //window.requestAnimationFrame(drawingLoop);
+    }
   });

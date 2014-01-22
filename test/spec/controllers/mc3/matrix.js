@@ -1,18 +1,19 @@
 'use strict';
 
-describe('Controller: ThreeCtrl', function () {
+describe('Controller: Matrix4Ctrl', function () {
 
   // load the controller's module
   beforeEach(module('mctApp'));
 
-  var ThreeCtrl,
+  var Matrix4Ctrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ThreeCtrl = $controller('ThreeCtrl', {
+    Matrix4Ctrl = $controller('Matrix4Ctrl', {
       $scope: scope
     });
   }));
+
 });

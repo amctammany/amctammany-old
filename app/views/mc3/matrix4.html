@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h3>Matrix4 Page</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-3 center">
+    <h4>Matrix 1</h4>
+    <textarea ng-model="m1.textarea" rows=4 cols=30></textarea>
+    <button class="btn" ng-click="loadMatrix('m1')">Load Matrix 1</button>
+    <hr />
+    <matrix4 data="m1">M1</matrix>
+  </div>
+  <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 center">
+    <h4>Matrix 2</h4>
+    <textarea ng-model="m2.textarea" rows=4 cols=30></textarea>
+    <button class="btn" ng-click="loadMatrix('m2')">Load Matrix 2</button>
+    <hr />
+    <div class="center">
+      <matrix4 data="m2">M2</matrix>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 center">
+    <h4>Matrix 1</h4>
+    <textarea ng-model="m3TextArea" rows=4 cols=30></textarea>
+    <hr />
+    <button class="btn" ng-click="calculate()">Multiply</button>
+    <button class="btn" ng-click="calculate1()">Multiply !</button>
+    <matrix4 data="m3">Result</matrix>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-lg-3 col-md-3 center">
+    <matrix4 data="m1Inverse">M1 Inverse</matrix4>
+  </div>
+</div>

@@ -5,7 +5,7 @@ angular.module('mctApp')
     $scope.initDemo = function (div) {
       $scope.renderer = new THREE.WebGLRenderer();
       var width = div.clientWidth;
-      var height = div.clientHeight;
+      var height = div.clientHeight || 500;
       $scope.renderer.setSize(width, height);
       div.appendChild($scope.renderer.domElement);
 
