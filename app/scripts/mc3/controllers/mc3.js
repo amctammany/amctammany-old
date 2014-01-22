@@ -20,6 +20,25 @@ angular.module('mctApp')
       $scope.mesh.vertices[6] = new Vector3(-1, 1, -1);
       $scope.mesh.vertices[7] = new Vector3(-1, -1, -1);
 
+      // Front face lines
+      $scope.mesh.connectVertices(0, 1);
+      $scope.mesh.connectVertices(0, 2);
+      $scope.mesh.connectVertices(2, 3);
+      $scope.mesh.connectVertices(1, 3);
+
+
+      // Back face lines
+      $scope.mesh.connectVertices(4, 5);
+      $scope.mesh.connectVertices(4, 6);
+      $scope.mesh.connectVertices(6, 7);
+      $scope.mesh.connectVertices(5, 7);
+
+      // Front to back lines
+      $scope.mesh.connectVertices(0, 4);
+      $scope.mesh.connectVertices(1, 5);
+      $scope.mesh.connectVertices(2, 6);
+      $scope.mesh.connectVertices(3, 7);
+
       $scope.world.add($scope.mesh);
       $scope.camera = new Camera();
       $scope.camera.position.z = 20;

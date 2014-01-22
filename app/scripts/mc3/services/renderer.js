@@ -39,13 +39,36 @@ angular.module('mctApp')
             this.vertices.push(v);
             this.drawVertex(v);
           }
+          for (var k = 0, ll = mesh.lines.length; k < ll; k++) {
+            var line = mesh.lines[k];
+            var v1 = new Vector3();
+            v1.copy(line.start).applyProjection(this.modelViewProjectionMatrix);
+            var v2 = new Vector3();
+            v2.copy(line.end).applyProjection(this.modelViewProjectionMatrix);
+            this.drawLine(v1, v2);
+          }
         }
       }
+    };
+    Renderer.prototype.drawLine = function (v1, v2) {
+      var x1 = v1.x * this.width + this.width / 2;
+      var y1 = v1.y * this.height + this.height / 2;
+
+      var x2 = v2.x * this.width + this.width / 2;
+      var y2 = v2.y * this.height + this.height / 2;
+      this.ctx.beginPath();
+      this.ctx.moveTo(x1, y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.stroke();
     };
     Renderer.prototype.drawVertex = function (v) {
       var x = v.x * this.width + this.width / 2;
       var y = v.y * this.height + this.height / 2;
-      this.ctx.fillRect(x, y, 4, 4);
+      //this.ctx.fillRect(x, y, 4, 4);
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, 3, 0, 6.28, 0);
+      this.ctx.closePath();
+      this.ctx.fill();
     };
     //Renderer.prototype.project = function (coord, transformMatrix) {
       //console.log(coord);
