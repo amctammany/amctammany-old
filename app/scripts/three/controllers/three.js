@@ -5,7 +5,7 @@ angular.module('mctApp')
     $scope.initDemo = function (div) {
       $scope.renderer = new THREE.WebGLRenderer();
       var width = div.clientWidth;
-      var height = div.clientHeight;
+      var height = div.clientHeight || 500;
       $scope.renderer.setSize(width, height);
       div.appendChild($scope.renderer.domElement);
 
@@ -15,7 +15,7 @@ angular.module('mctApp')
       $scope.scene = new THREE.Scene();
 
       var sphere = new THREE.Mesh(new THREE.SphereGeometry(10, 100, 100), new THREE.MeshNormalMaterial());
-      sphere.position.x = 200;
+      sphere.position.x = 0;
       sphere.overdraw = true;
 
       $scope.scene.add(sphere);
