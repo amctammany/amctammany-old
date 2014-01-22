@@ -30,7 +30,7 @@ angular.module('mctApp')
       for (var i = 0, l = world.children.length; i < l; i++) {
         var mesh = world.children[i];
         if (mesh instanceof Mesh) {
-          //mesh.updateMatrix();
+          this.worldMatrix = mesh.matrixWorld;
           this.modelViewProjectionMatrix.multiplyMatrices(this.viewProjectionMatrix, mesh.matrixWorld);
           for (var j = 0, vl = mesh.vertices.length; j < vl; j++) {
             var v = new Vector3();

@@ -6,7 +6,9 @@ angular.module('mctApp')
 
 
     $scope.initDemo = function (canvas) {
-      $scope.rotX = 0.0;
+      $scope.rotX = 0.02;
+      $scope.rotY = 0.01;
+      $scope.rotZ = 0.00;
       $scope.world = new World();
       $scope.mesh = new Mesh('cube', 8);
       $scope.mesh.vertices[0] = new Vector3(1, 1, 1);
@@ -23,11 +25,20 @@ angular.module('mctApp')
       $scope.camera.position.z = 20;
 
       $scope.renderer = new Renderer(canvas);
-      drawingLoop();
+      $scope.renderer.render($scope.world, $scope.camera);
+    };
+    $scope.toggleAnimation = function () {
+      if ($scope.animFrame) {
+        window.cancelAnimationFrame($scope.animFrame);
+        $scope.animFrame = undefined;
+      } else {
+        drawingLoop();
+      }
     };
     $scope.advance = function () {
-      $scope.world.rotateX(0.01);
-      $scope.world.rotateZ(0.02);
+      $scope.world.rotateX($scope.rotX);
+      $scope.world.rotateY($scope.rotY);
+      $scope.world.rotateZ($scope.rotZ);
       $scope.renderer.render($scope.world, $scope.camera);
 
     };
@@ -37,6 +48,6 @@ angular.module('mctApp')
       //$scope.world.rotateX($scope.rotX);
       //$scope.renderer.render($scope.world, $scope.camera);
       //$scope.renderer.render($scope.camera, [$scope.mesh]);
-      //window.requestAnimationFrame(drawingLoop);
+      $scope.animFrame = window.requestAnimationFrame(drawingLoop);
     }
   });

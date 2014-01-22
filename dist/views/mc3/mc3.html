@@ -7,12 +7,81 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-3 col-md-3 well">
+  <div class="col-lg-5 col-md-5 well center">
     <h4>Settings</h4>
+    <div class="row">
+      <h5>World Position</h5>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">X</span>
+          <input class="form-control" type="number" ng-model="world.position.x">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Y</span>
+          <input class="form-control" type="number" ng-model="world.position.y">
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Z</span>
+          <input class="form-control" type="number" ng-model="world.position.z">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <h5>World Rotation Speed</h5>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">X</span>
+          <input class="form-control" type="number" ng-model="rotX" step="0.01">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Y</span>
+          <input class="form-control" type="number" ng-model="rotY" step="0.01">
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Z</span>
+          <input class="form-control" type="number" ng-model="rotZ" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <h5>Camera Position</h5>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">X</span>
+          <input class="form-control" type="number" ng-model="camera.position.x">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Y</span>
+          <input class="form-control" type="number" ng-model="camera.position.y">
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon">Z</span>
+          <input class="form-control" type="number" ng-model="camera.position.z">
+        </div>
+      </div>
+    </div>
+
     <button class="btn" ng-click="advance()">Next Frame</button>
+    <toggle action="toggleAnimation" on="Pause" off="Start"></toggle>
   </div>
 
-  <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 well">
+  <div class="col-lg-7 col-md-7 well">
     <demo></demo>
   </div>
 </div>
@@ -26,7 +95,7 @@
   </div>
 
   <div class="col-lg-3 col-md-3">
-    <matrix4 data="renderer.modelMatrix">Model Matrix</matrix4>
+    <matrix4 data="renderer.worldMatrix">Model Matrix</matrix4>
   </div>
   <div class="col-lg-3 col-md-3">
     <matrix4 data="renderer.modelViewProjectionMatrix">MVP Matrix</matrix4>
