@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('Mc3Ctrl', function ($scope, Matrix4, Vector3, Camera, Mesh, Renderer, World) {
+  .controller('Mc3Ctrl', function ($scope, Vector3, Camera, Mesh, Renderer, World) {
 
 
 
