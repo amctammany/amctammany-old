@@ -42,8 +42,23 @@ angular.module('mctApp')
       return this;
     };
 
+    Matrix4.prototype.transpose = function () {
+      var te = this.elements;
+      var tmp;
+
+      tmp = te[1]; te[1] = te[4]; te[4] = tmp;
+      tmp = te[2]; te[2] = te[8]; te[8] = tmp;
+      tmp = te[6]; te[6] = te[9]; te[9] = tmp;
+
+      tmp = te[3]; te[3] = te[12]; te[12] = tmp;
+      tmp = te[7]; te[7] = te[13]; te[13] = tmp;
+      tmp = te[11]; te[11] = te[14]; te[14] = tmp;
+
+      return this;
+
+    };
     Matrix4.prototype.copy = function (m) {
-      this.set.apply(this, m.elements);
+      this.elements.set(m.elements);
       return this;
     };
 
@@ -169,7 +184,7 @@ angular.module('mctApp')
     Matrix4.prototype.makeRotationFromQuaternion = function (q) {
       var te = this.elements;
 
-      var x = q.x, y = q.y, z = q.z, w = q.q;
+      var x = q.x, y = q.y, z = q.z, w = q.w;
       var x2 = x + x, y2 = y + y, z2 = z + z;
       var xx = x * x2, xy = x * y2, xz = x * z2;
       var yy = y * y2, yz = y * z2, zz = z * z2;

@@ -1,25 +1,52 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('Renderer', function (Matrix4, Vector3, Projector) {
+  .factory('Renderer', function (Matrix4, Vector3, Projector, Mesh) {
     var Renderer = function (canvas) {
       this.canvas = canvas;
       this.width = canvas.width;
       this.height = canvas.height;
       this.ctx = canvas.getContext('2d');
 
+      this.vertices = [];
 
       this.projector = new Projector();
 
       this.viewMatrix = new Matrix4();
-      this.projectionMatrix = new Matrix4();
+      this.viewProjectionMatrix = new Matrix4();
     };
 
     Renderer.prototype.render = function (world, camera) {
-      var renderData = this.projector.projectWorld(world, camera);
-      console.log(this.projector)
+      //var renderData = this.projector.projectWorld(world, camera);
+      //console.log(renderData)
+      if (world.autoUpdate === true) { world.updateMatrixWorld();}
+      if (camera.parent === undefined) { camera.updateMatrixWorld();}
 
+      this.viewMatrix.copy(camera.matrixWorldInverse.getInverse(camera.matrixWorld));
+      this.viewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, this.viewMatrix);
+
+      for (var i = 0, l = world.children.length; i < l; i++) {
+        var mesh = world.children[i];
+        if (mesh instanceof Mesh) {
+          var worldMatrix = mesh.worldMatrix;
+          for (var j = 0, vl = mesh.vertices.length; j < vl; j++) {
+            var v = new Vector3();
+            var vertex = mesh.vertices[j];
+            v.copy(vertex).applyProjection(this.viewProjectionMatrix);
+            this.vertices.push(v);
+          }
+        }
+      }
+      for (var i = 0, l = this.vertices.length; i < l; i++) {
+        this.drawVertex(this.vertices[i]);
+      }
     };
+    Renderer.prototype.drawVertex = function (v) {
+      console.log(v);
+      var x = v.x * this.width + this.width / 2;
+      var y = v.y * this.height + this.height / 2;
+      this.ctx.fillRect(x, y, 4, 4);
+    }
     //Renderer.prototype.project = function (coord, transformMatrix) {
       //console.log(coord);
       //var pt = Vector3.TransformCoordinates(coord, transformMatrix);

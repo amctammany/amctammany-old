@@ -9,15 +9,14 @@ angular.module('mctApp')
       this.children = [];
 
       this.position = new Vector3(0, 0, 0);
-      this._rotation = new Vector3(0, 0, 0);
-      this._quaternion = new Quaternion();
+      this.rotation = new Vector3(0, 0, 0);
+      this.quaternion = new Quaternion();
       this.scale = new Vector3(1, 1, 1);
 
-      this._rotation._quaternion = this.quaternion;
-      this._quaternion._euler = this.rotation;
 
       this.matrix = new Matrix4();
       this.matrixWorld = new Matrix4();
+      this.matrixWorld.makeRotationFromQuaternion(this.quaternion);
 
       this.matrixAutoUpdate = true;
       this.matrixWorldNeedsUpdate = true;
@@ -25,31 +24,7 @@ angular.module('mctApp')
     };
 
     Object3d.prototype = {
-      constructor: Object3d,
-
-      get rotation () {
-        return this._rotation;
-      },
-
-      set rotation (value) {
-        this._rotation = value;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._euler = this._rotation;
-        this._rotation._updateQuaternion();
-      },
-
-      get quaternion () {
-        return this._quaternion;
-      },
-
-      set quaternion (value) {
-        this._quaternion = value;
-        this._quaternion._euler = this._rotation;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._updateEuler();
-      },
-
-      add: function (object) {
+       add: function (object) {
         if (object === this) {
           console.warn('Cannot add object as child of itself');
           return;
@@ -101,7 +76,6 @@ angular.module('mctApp')
       },
 
       updateMatrixWorld: function (force) {
-        console.log('update matrix world');
         if (this.matrixAutoUpdate === true) { this.updateMatrix(); }
         if (this.matrixWorldNeedsUpdate === true || force === true) {
           if (this.parent === undefined) {
