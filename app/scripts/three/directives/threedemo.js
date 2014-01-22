@@ -8,6 +8,7 @@ angular.module('mctApp')
       replace: true,
       link: function postLink(scope, element, attrs) {
         scope.initDemo(element[0]);
+        console.log('foo')
       }
     };
   });

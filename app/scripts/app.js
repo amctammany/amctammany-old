@@ -47,6 +47,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/mc3/matrix4.html',
         controller: 'Matrix4Ctrl'
       })
+      .when('/three', {
+        templateUrl: 'views/three/three.html',
+        controller: 'ThreeCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
