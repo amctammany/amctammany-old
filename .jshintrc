@@ -20,6 +20,7 @@
     "smarttabs": true,
     "globals": {
         "angular": false,
-        "Showdown": false
+        "Showdown": false,
+        "THREE": false
     }
 }
