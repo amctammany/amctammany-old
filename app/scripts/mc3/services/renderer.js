@@ -39,11 +39,11 @@ angular.module('mctApp')
             this.vertices.push(v);
             this.drawVertex(v);
           }
+          var v1 = new Vector3();
+          var v2 = new Vector3();
           for (var k = 0, ll = mesh.lines.length; k < ll; k++) {
             var line = mesh.lines[k];
-            var v1 = new Vector3();
             v1.copy(line.start).applyProjection(this.modelViewProjectionMatrix);
-            var v2 = new Vector3();
             v2.copy(line.end).applyProjection(this.modelViewProjectionMatrix);
             this.drawLine(v1, v2);
           }

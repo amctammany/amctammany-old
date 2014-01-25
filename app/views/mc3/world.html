@@ -11,12 +11,51 @@
     <demo></demo>
   </div>
 </div>
-<div class="row center">
-  <button class="btn" ng-click="forward()">Forward</button>
-</div>
-<div class="row center">
-  <button class="btn" ng-click="left()">Left</button>
-  <button class="btn" ng-click="back()">Back</button>
-  <button class="btn" ng-click="right()">Right</button>
-</div>
+<div class="row">
 
+  <div class="col-lg-4 col-md-4 well center">
+    <div class="row">
+      <h5>Camera Position</h5>
+      <div class="col-lg-4 col-md-4">
+        X: {{camera.position.x}}
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        Y: {{camera.position.y}}
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        Z: {{camera.position.z}}
+      </div>
+    </div>
+    <div class="row">
+      <h5>Camera Rotation</h5>
+      <div class="col-lg-4 col-md-4">
+        X: {{camera.rotation.x}}
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        Y: {{camera.rotation.y}}
+      </div>
+
+      <div class="col-lg-4 col-md-4">
+        Z: {{camera.rotation.z}}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-8">
+  <div class="row center">
+    <button class="btn" ng-click="lookLeft()">Look Left</button>
+    <button class="btn" ng-click="forward()">Forward</button>
+    <button class="btn" ng-click="lookRight()">Look Right</button>
+  </div>
+  <div class="row center">
+    <button class="btn" ng-click="left()">Left</button>
+    <button class="btn" ng-click="back()">Back</button>
+    <button class="btn" ng-click="right()">Right</button>
+  </div>
+
+  </div>
+</div>

@@ -151,12 +151,20 @@ angular.module('mctApp')
         $scope.camera.position.z += 1;
         render();
       };
-
       $scope.left = function () {
-        $scope.camera.rotateY(0.05);
+        $scope.camera.position.x -= 1;
         render();
       };
       $scope.right = function () {
+        $scope.camera.position.x += 1;
+        render();
+      };
+
+      $scope.lookLeft = function () {
+        $scope.camera.rotateY(0.05);
+        render();
+      };
+      $scope.lookRight = function () {
         $scope.camera.rotateY(-0.05);
         render();
       };
