@@ -3,12 +3,70 @@
 angular.module('mctApp')
   .factory('Quaternion', function () {
     var Quaternion = function (x, y, z, w) {
-      this.x = x || 0;
-      this.y = y || 0;
-      this.z = z || 0;
-      this.w = (w !== undefined) ? w : 1;
+      this._x = x || 0;
+      this._y = y || 0;
+      this._z = z || 0;
+      this._w = (w !== undefined) ? w : 1;
     };
 
+    Quaternion.prototype = {
+      _updateEuler: function () {
+        if (this._euler !== undefined) {
+          this._euler.setFromQuaternion(this, undefined, false);
+        }
+      },
+      get x () {
+        return this._x;
+      },
+      set x (value) {
+        this._x = value;
+        this._updateEuler();
+      },
+
+      get y () {
+        return this._y;
+      },
+      set y (value) {
+        this._y = value;
+        this._updateEuler();
+      },
+
+      get z () {
+        return this._z;
+      },
+      set z (value) {
+        this._z = value;
+        this._updateEuler();
+      },
+      get w () {
+        return this._w;
+      },
+      set w (value) {
+        this._w = value;
+        this._updateEuler();
+      },
+    };
+
+    Quaternion.prototype.setFromEuler = function (euler, update) {
+      var c1 = Math.cos(euler._x / 2);
+      var c2 = Math.cos(euler._y / 2);
+      var c3 = Math.cos(euler._z / 2);
+      var s1 = Math.sin(euler._x / 2);
+      var s2 = Math.sin(euler._y / 2);
+      var s3 = Math.sin(euler._z / 2);
+
+      if (euler.order = 'XYZ') {
+        this._x = s1 * c2 * c3 + c1 * s2 * s3;
+        this._y = c1 * s2 * c3 - s1 * c2 * s3;
+        this._z = c1 * c2 * s3 + s1 * s2 * c3;
+        this._y = c1 * c2 * c3 - s1 * s2 * s3
+      }
+
+      if (update !== false) {
+        this._updateEuler();
+      }
+      return this;
+    };
     Quaternion.prototype.toRotationMatrix = function (matrix) {
       var me = matrix.elements;
 

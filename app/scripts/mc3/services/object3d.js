@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('Object3d', function (Vector3, Matrix4, Quaternion) {
+  .factory('Object3d', function (Vector3, Matrix4, Quaternion, Euler) {
     var Object3d = function () {
 
       this.name = '';
@@ -9,9 +9,12 @@ angular.module('mctApp')
       this.children = [];
 
       this.position = new Vector3(0, 0, 0);
-      this.rotation = new Vector3(0, 0, 0);
-      this.quaternion = new Quaternion();
+      this._rotation = new Euler();
+      this._quaternion = new Quaternion();
       this.scale = new Vector3(1, 1, 1);
+
+      this._rotation._quaternion = this.quaternion;
+      this._quaternion._euler = this.rotation;
 
 
       this.matrix = new Matrix4();
@@ -24,7 +27,28 @@ angular.module('mctApp')
     };
 
     Object3d.prototype = {
-       add: function (object) {
+
+      get rotation () {
+        return this._rotation;
+      },
+      set rotation (value) {
+        this._rotation = value;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._euler = this._rotation;
+        this._rotation._updateQuaternion();
+      },
+
+      get quaternion () {
+        return this._quaternion;
+      },
+      set quaternion (value) {
+        this._quaternion = value;
+        this._quaternion._euler = this._rotation;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._updateEuler();
+      },
+
+      add: function (object) {
         if (object === this) {
           console.warn('Cannot add object as child of itself');
           return;

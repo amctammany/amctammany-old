@@ -31,15 +31,15 @@
     <div class="row">
       <h5>Camera Rotation</h5>
       <div class="col-lg-4 col-md-4">
-        X: {{camera.rotation.x}}
+        X: {{camera.rotation.x | number:2}}
       </div>
 
       <div class="col-lg-4 col-md-4">
-        Y: {{camera.rotation.y}}
+        Y: {{camera.rotation.y | number:2}}
       </div>
 
       <div class="col-lg-4 col-md-4">
-        Z: {{camera.rotation.z}}
+        Z: {{camera.rotation.z | number:2}}
       </div>
     </div>
 
@@ -47,14 +47,26 @@
 
   <div class="col-lg-8">
   <div class="row center">
-    <button class="btn" ng-click="lookLeft()">Look Left</button>
-    <button class="btn" ng-click="forward()">Forward</button>
-    <button class="btn" ng-click="lookRight()">Look Right</button>
+    <button class="btn" ng-click="lookLeft()">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </button>
+    <button class="btn" ng-click="forward()">
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    </button>
+    <button class="btn" ng-click="lookRight()">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </button>
   </div>
   <div class="row center">
-    <button class="btn" ng-click="left()">Left</button>
-    <button class="btn" ng-click="back()">Back</button>
-    <button class="btn" ng-click="right()">Right</button>
+    <button class="btn" ng-click="left()">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+    <button class="btn" ng-click="back()">
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    </button>
+    <button class="btn" ng-click="right()">
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
   </div>
 
   </div>
