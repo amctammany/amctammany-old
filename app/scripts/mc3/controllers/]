@@ -145,13 +145,13 @@ angular.module('mctApp')
       render();
       $scope.forward = function () {
         var dx = Math.sin($scope.camera.rotation.y * 180 / Math.PI) / $scope.camera.position.z;
-        $scope.camera.position.z -= 0.1;
+        $scope.camera.position.z -= .1;
         $scope.camera.position.x += dx;
         render();
       };
       $scope.back = function () {
         var dx = Math.sin($scope.camera.rotation.y * 180 / Math.PI) / $scope.camera.position.z;
-        $scope.camera.position.z += 0.1;
+        $scope.camera.position.z += .1;
         $scope.camera.position.x -= dx;
         render();
       };

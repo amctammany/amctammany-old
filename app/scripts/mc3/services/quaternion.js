@@ -55,11 +55,11 @@ angular.module('mctApp')
       var s2 = Math.sin(euler._y / 2);
       var s3 = Math.sin(euler._z / 2);
 
-      if (euler.order = 'XYZ') {
+      if (euler.order === 'XYZ') {
         this._x = s1 * c2 * c3 + c1 * s2 * s3;
         this._y = c1 * s2 * c3 - s1 * c2 * s3;
         this._z = c1 * c2 * s3 + s1 * s2 * c3;
-        this._y = c1 * c2 * c3 - s1 * s2 * s3
+        this._y = c1 * c2 * c3 - s1 * s2 * s3;
       }
 
       if (update !== false) {
