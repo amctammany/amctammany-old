@@ -3,6 +3,8 @@
 .title h2{line-height:1em;margin:0 0 20px;}
 .title h2 a{vertical-align:top}
 
+.chem-sketcher .demo-container{background:#fff}
+
 .demo-container{width:100%;min-height:400px;border:1px solid #000}
 
 .main-container{margin-top:60px}

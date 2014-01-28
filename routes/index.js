@@ -4,6 +4,7 @@ module.exports = function (app) {
   require('./posts')(app);
   require('./tags')(app);
   require('./mazes')(app);
+  require('./molecules')(app);
   app.get('/', function (req, res) {
     res.render('index', {
       title: 'Express'

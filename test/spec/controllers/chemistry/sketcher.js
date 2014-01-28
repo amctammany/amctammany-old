@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: ChemistryCtrl', function () {
+describe('Controller: SketcherCtrl', function () {
 
   // load the controller's module
   beforeEach(module('mctApp'));
 
-  var ChemistryCtrl,
+  var SketcherCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ChemistryCtrl = $controller('ChemistryCtrl', {
+    SketcherCtrl = $controller('SketcherCtrl', {
       $scope: scope
     });
   }));
