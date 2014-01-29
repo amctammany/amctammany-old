@@ -1,26 +1,34 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('Atom', function () {
+  .factory('Atom', function (Vector3) {
     var Atom = function (element, x, y, z, molecule) {
       this.element = element;
       this.x = x;
       this.y = y;
       this.z = z;
+
+      this.position = new Vector3(x, y, z);
       this.molecule = molecule;
+
 
       this.bonds = [];
       this.index = undefined;
       this.selected = false;
+      this.getScreenPosition();
 
     };
 
+    Atom.prototype.getScreenPosition = function () {
+      this.screenX = this.position.x * this.molecule.workingWidth + this.molecule.halfWidth;
+      this.screenY = this.position.y * this.molecule.workingHeight + this.molecule.halfHeight;
+    };
     Atom.prototype.distanceFrom = function (x, y, z) {
-      var dx = this.x - x;
-      var dy = this.y - y;
-      var dz = this.z - z;
-      var distance = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
-      return distance;
+      var v = this.molecule.toNormalCoordinates(x, y, z);
+      var d = this.position.sub(v);
+      var length = d.length();
+      console.log(length);
+      return length;
     };
 
     Atom.prototype.bondTo = function (atom, order) {
@@ -38,21 +46,23 @@ angular.module('mctApp')
     };
 
     Atom.prototype.shift = function (dx, dy, dz) {
-      this.x += dx;
-      this.y += dy;
-      this.z += dz;
+      this.position.x += dx;
+      this.position.y += dy;
+      this.position.z += dz;
+      this.getScreenPosition();
       return this;
     };
     Atom.prototype.draw = function (ctx) {
+      this.getScreenPosition();
       ctx.fillStyle = 'white';
       ctx.beginPath();
-      ctx.arc(this.x, this.y, 8, 0, 6.28, 0);
+      ctx.arc(this.screenX, this.screenY, 8, 0, 6.28, 0);
       //ctx.rect(this.x - 5, this.y - 5, 10, 10);
       ctx.fill();
       ctx.closePath();
       ctx.beginPath();
       ctx.fillStyle = this.selected ? 'red' : 'black';
-      ctx.fillText(this.element, this.x - 4, this.y + 5);
+      ctx.fillText(this.element, this.screenX - 4, this.screenY + 5);
       ctx.closePath();
       ctx.fill();
     };

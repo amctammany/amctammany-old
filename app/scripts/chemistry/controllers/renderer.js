@@ -52,7 +52,7 @@ angular.module('mctApp')
       }
       $scope.molecule = molecule;
       $scope.world = new World();
-      var lines = molecule.normalizedMolFile.split('\n');
+      var lines = molecule.molFile.split('\n');
       var name = lines[0];
       var info = lines[1].split(' ');
       var nAtoms = parseInt(info[0], 10);

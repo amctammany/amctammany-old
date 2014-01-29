@@ -32,8 +32,8 @@ angular.module('mctApp')
       ctx.beginPath();
       ctx.strokeStyle = this.molecule.selectedBond === this ? 'red' : 'black';
       for (var i = 1; i <= this.order; i++) {
-        ctx.moveTo(this.startAtom.x + (i * 2 - 1), this.startAtom.y + i * 2 - 1);
-        ctx.lineTo(this.endAtom.x + i * 2 - 1, this.endAtom.y + i * 2 - 1);
+        ctx.moveTo(this.startAtom.screenX + (i * 2 - 1), this.startAtom.screenY + i * 2 - 1);
+        ctx.lineTo(this.endAtom.screenX + i * 2 - 1, this.endAtom.screenY + i * 2 - 1);
       }
       ctx.closePath();
       ctx.stroke();

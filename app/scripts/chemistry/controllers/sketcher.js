@@ -17,7 +17,7 @@ angular.module('mctApp')
     $scope.changeAtomTool = function (atom) {
       $scope.atomTool = atom;
       $scope.bondTool = $scope.bondTool ? $scope.bondTool : '1';
-      $scope.mouseTool = false;
+      $scope.mouseTool = undefined;
     };
     $scope.getAtomToolClass = function (atom) {
       var status = $scope.atomTool === atom ? 'active' : '';
@@ -42,29 +42,27 @@ angular.module('mctApp')
       var status = $scope.bondTool === bond ? 'active' : '';
       return status;
     };
-    $scope.generateMolFile = function () {
-      var mol = $scope.molecule.generateMolFile();
-      console.table(mol);
-    };
     $scope.save = function () {
       var molFile = $scope.molecule.generateMolFile();
-      var mol = molFile.original;
-      var normal = molFile.normalized;
       if ($scope.moleculeStore) {
         $scope.moleculeStore.name = $scope.name;
-        $scope.moleculeStore.molFile = mol;
-        $scope.moleculeStore.normalizedMolFile = normal;
+        $scope.moleculeStore.molFile = molFile;
         $scope.moleculeStore.$save();
       } else {
-        $scope.moleculeStore = new MoleculeStore({name: $scope.name, molFile: mol, normalizedMolFile: normal});
+        $scope.moleculeStore = new MoleculeStore({name: $scope.name, molFile: molFile});
         $scope.moleculeStore.$save();
       }
     };
 
+    $scope.newMolecule = function () {
+      $scope.molecule = new Molecule($scope.name, undefined, $scope.canvas);
+      $scope.molecule.draw();
+    };
     $scope.loadMolecule = function (molecule) {
       $scope.moleculeStore = molecule;
       $scope.name = molecule.name;
       $scope.molecule = new Molecule(molecule.name, molecule.molFile, $scope.canvas);
+      console.log($scope.molecule);
       $scope.molecule.draw();
     };
 
@@ -74,6 +72,7 @@ angular.module('mctApp')
         $scope.moleculeStore = MoleculeStore.get({name: $routeParams.name}, function () {
           $scope.name = $scope.moleculeStore.name;
           $scope.molecule = new Molecule($scope.moleculeStore.name, $scope.moleculeStore.molFile, $scope.canvas);
+          console.log($scope.molecule);
           $scope.molecule.draw();
         });
       } else {
@@ -95,25 +94,26 @@ angular.module('mctApp')
       var molecule = $scope.molecule;
 
       var closestObject = molecule.findClosestObject(x, y, 0);
-      console.log(closestObject);
       if ($scope.mouseTool !== undefined) {
         if ($scope.mouseTool === 'select') {
-          if (closestObject.distance < 15 && closestObject.object instanceof Atom) {
+          if (closestObject.distance < 0.05 && closestObject.object instanceof Atom) {
             molecule.changeSelection([closestObject.object]);
             $scope.dragging = true;
             $scope.dragStart = {x: x, y: y};
+          } else {
+            molecule.changeSelection([]);
           }
         }
 
 
       } else if ($scope.atomTool !== undefined) {
         var atom;
-        if (closestObject.object instanceof Atom && closestObject.distance < 15) {
+        if (closestObject.object instanceof Atom && closestObject.distance < 0.05) {
           atom = closestObject.object;
         } else {
-          atom = molecule.addAtom($scope.atomTool, x, y, 0);
+          atom = molecule.addAtom($scope.atomTool, x, y, 0, false);
         }
-        if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 50) {
+        if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 0.35) {
           molecule.selectedAtom.bondTo(atom, $scope.bondTool);
         }
         molecule.changeSelection([atom]);
@@ -131,15 +131,18 @@ angular.module('mctApp')
       $scope.mouseX = x;
       $scope.mouseY = y;
     };
+
     $scope.handleMouseMove = function (e) {
+      if (!$scope.molecule) {return;}
       var x = e.offsetX;
       var y = e.offsetY;
       var molecule = $scope.molecule;
       $scope.mouseX = x;
       $scope.mouseY = y;
       if ($scope.dragging) {
-        var dx = x - $scope.dragStart.x;
-        var dy = y - $scope.dragStart.y;
+        console.log('drag');
+        var dx = (x - $scope.dragStart.x) / molecule.workingWidth;
+        var dy = (y - $scope.dragStart.y) / molecule.workingHeight;
         molecule.selection.forEach(function (obj) {
           obj.shift(dx, dy, 0);
         });

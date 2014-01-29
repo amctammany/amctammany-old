@@ -1,11 +1,21 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('Molecule', function (Atom, Bond) {
+  .factory('Molecule', function (Vector3, Atom, Bond) {
     var Molecule = function (name, molFile, canvas) {
       this.name = name;
       this.molFile = molFile;
       this.canvas = canvas;
+
+      this.canvasWidth = this.canvas.width;
+      this.halfWidth = 0.5 * this.canvasWidth;
+      this.offsetWidth = 0.2 * this.canvasWidth;
+      this.workingWidth = 0.6 * this.canvasWidth;
+
+      this.canvasHeight = this.canvas.height;
+      this.halfHeight = 0.5 * this.canvasHeight;
+      this.offsetHeight = 0.2 * this.canvasHeight;
+      this.workingHeight = 0.6 * this.canvasHeight;
       this.ctx = this.canvas.getContext('2d');
 
       this.atoms = [];
@@ -39,8 +49,19 @@ angular.module('mctApp')
       }
     };
 
-    Molecule.prototype.addAtom = function (element, x, y, z) {
+    Molecule.prototype.toNormalCoordinates = function (x, y, z) {
+      var x = (x - this.halfWidth) / this.workingWidth;
+      var y = (y - this.halfHeight) / this.workingHeight;
+      return new Vector3(x, y, z);
+    }
+    Molecule.prototype.addAtom = function (element, x, y, z, normalized) {
+      if (normalized === false) {
+        var x = (x - this.halfWidth) / this.workingWidth;
+        var y = (y - this.halfHeight) / this.workingHeight;
+        //console.log('x: ' + x + '; y:' + y);
+      }
       var atom = new Atom(element, x, y, z, this);
+      //console.log(atom);
       this.atoms.push(atom);
       atom.index = this.atoms.indexOf(atom);
       return atom;
@@ -101,27 +122,28 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.generateMolFile = function () {
-      var result = [];
+      //var result = [];
       var normalized = [];
-      result.push(this.name);
+      //result.push(this.name);
       normalized.push(this.name);
-      result.push(this.atoms.length + ' ' + this.bonds.length);
+      //result.push(this.atoms.length + ' ' + this.bonds.length);
       normalized.push(this.atoms.length + ' ' + this.bonds.length);
       this.normalize();
       this.atoms.forEach(function (atom) {
-        result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
-        normalized.push([atom.element, atom.nx, atom.ny, atom.nz].join(' '));
+        //result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
+        normalized.push([atom.element, atom.position.x.toFixed(3), atom.position.y.toFixed(3), atom.position.z.toFixed(3)].join(' '));
       });
 
       this.bonds.forEach(function (bond) {
-        result.push([bond.startAtom.index, bond.endAtom.index, bond.order].join(' '));
+        //result.push([bond.startAtom.index, bond.endAtom.index, bond.order].join(' '));
         normalized.push([bond.startAtom.index, bond.endAtom.index, bond.order].join(' '));
       });
 
-      return {
-        original: result.join('\n'),
-        normalized: normalized.join('\n')
-      };
+      //return {
+        //original: result.join('\n'),
+        //normalized: normalized.join('\n')
+      //};
+      return normalized.join('\n');
     };
 
     Molecule.prototype.parseMolFile = function () {
@@ -140,7 +162,7 @@ angular.module('mctApp')
         var y = parseFloat(lineInfo[2]);
         var z = parseFloat(lineInfo[3]);
         //new Atom(element, x, y, z, this);
-        this.addAtom(element, x, y, z);
+        this.addAtom(element, x, y, z, true);
         //atom.draw(this.ctx);
       }
       for (i = 0; i < numBonds; i++) {
