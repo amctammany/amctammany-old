@@ -27,7 +27,6 @@ angular.module('mctApp')
       var v = this.molecule.toNormalCoordinates(x, y, z);
       var d = this.position.sub(v);
       var length = d.length();
-      console.log(length);
       return length;
     };
 

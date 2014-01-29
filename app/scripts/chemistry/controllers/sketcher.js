@@ -3,7 +3,6 @@
 angular.module('mctApp')
   .controller('SketcherCtrl', function ($scope, $routeParams, $filter, Molecule, MoleculeStore, Atom) {
     $scope.molecules = MoleculeStore.query();
-    console.log($routeParams.name);
     $scope.name = 'molecule';
     $scope.dragging = false;
     $scope.dragStart = undefined;
@@ -62,7 +61,6 @@ angular.module('mctApp')
       $scope.moleculeStore = molecule;
       $scope.name = molecule.name;
       $scope.molecule = new Molecule(molecule.name, molecule.molFile, $scope.canvas);
-      console.log($scope.molecule);
       $scope.molecule.draw();
     };
 
@@ -83,10 +81,10 @@ angular.module('mctApp')
     };
 
     $scope.logMolFile = function () {
-      console.log($scope.molecule.generateMolFile());
+      console.log($scope.molecule.normalize());
     };
     $scope.normalize = function () {
-      console.table($scope.molecule.normalize());
+      console.table($scope.molecule.generateMolFile());
     };
     $scope.handleMouseDown = function (e) {
       var x = e.offsetX;
