@@ -23,12 +23,16 @@ angular.module('mctApp')
       $scope.animFrame = $window.requestAnimationFrame(render);
     }
     $scope.initDemo = function (canvas) {
+      if ($scope.molecule) {
+        return;
+      }
       $scope.renderer = new Renderer(canvas);
       if ($routeParams.name) {
         $scope.molecule = MoleculeStore.get({name: $routeParams.name}, function (molecule){
           $scope.loadMolecule(molecule);
         });
       }
+      $scope.molecule.draw();
     };
 
     $scope.camera = new Camera();
