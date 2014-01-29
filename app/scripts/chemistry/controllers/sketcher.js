@@ -126,6 +126,7 @@ angular.module('mctApp')
       var x = e.offsetX;
       var y = e.offsetY;
       var molecule = $scope.molecule;
+      molecule.draw();
       $scope.dragging = false;
       $scope.mouseX = x;
       $scope.mouseY = y;

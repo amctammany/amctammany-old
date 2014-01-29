@@ -23,7 +23,7 @@ angular.module('mctApp')
 
     Molecule.prototype.changeSelection = function (objects) {
       this.selection.forEach(function (obj) {
-        obj.deselect()
+        obj.deselect();
       });
       this.selection = objects;
       objects.forEach(function (obj) {
@@ -37,7 +37,8 @@ angular.module('mctApp')
           this.selectedBond = obj;
         }
       }
-    }
+    };
+
     Molecule.prototype.addAtom = function (element, x, y, z) {
       var atom = new Atom(element, x, y, z, this);
       this.atoms.push(atom);
