@@ -60,6 +60,7 @@ angular.module('mctApp')
     $scope.loadMolecule = function (molecule) {
       $scope.moleculeStore = molecule;
       $scope.name = molecule.name;
+      console.log(molecule);
       $scope.molecule = new Molecule(molecule.name, molecule.molFile, $scope.canvas);
       $scope.molecule.draw();
     };

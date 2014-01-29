@@ -149,6 +149,7 @@ angular.module('mctApp')
 
     Molecule.prototype.parseMolFile = function () {
       var lines = this.molFile.split('\n');
+      console.log(lines);
       this.name = lines[0];
       var info = lines[1].split(' ');
 
@@ -157,13 +158,16 @@ angular.module('mctApp')
       var line, lineInfo, i;
       for (i = 0; i < numAtoms; i++) {
         line = lines[i + 2];
+        console.log(line);
         lineInfo = line.split(' ');
         var element = lineInfo[0];
         var x = parseFloat(lineInfo[1]);
+        console.log(x);
         var y = parseFloat(lineInfo[2]);
         var z = parseFloat(lineInfo[3]);
         //new Atom(element, x, y, z, this);
-        this.addAtom(element, x, y, z, true);
+        var atom = this.addAtom(element, x, y, z, true);
+        console.log(atom);
         //atom.draw(this.ctx);
       }
       for (i = 0; i < numBonds; i++) {
@@ -178,6 +182,7 @@ angular.module('mctApp')
         //new Bond(startAtom, endAtom, order, this);
         //bond.draw(this.ctx);
       }
+      console.log(this);
 
     };
 
@@ -210,9 +215,9 @@ angular.module('mctApp')
       var minX = this.minX, minY = this.minY, minZ = this.minZ;
       var height = this.height, width = this.width, depth = this.depth;
       var atoms = this.atoms.map(function (atom) {
-        atom.nx = (((atom.x - minX) / width) - 0.5).toFixed(3);
-        atom.ny = (((atom.y - minY) / height) - 0.5).toFixed(3);
-        atom.nz = (((atom.z - minZ) / depth)).toFixed(3);
+        atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(3);
+        atom.ny = (((atom.position.y - minY) / height) - 0.5).toFixed(3);
+        atom.nz = (((atom.position.z - minZ) / depth)).toFixed(3);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);
         //atom.nx = atom.nx.toFixed(3);

@@ -9,7 +9,7 @@ angular.module('mctApp')
 
     $scope.sketcher = function () {
       if ($scope.molecule) {
-        $location.path('chemistry/sketcher/' + $scope.molecule.urlString);
+        $location.path('chemistry/sketcher/' + $scope.molecule.name);
       }
     };
 
