@@ -131,6 +131,9 @@ angular.module('mctApp')
       $scope.mouseX = x;
       $scope.mouseY = y;
     };
+    $scope.toggleAnimation = function () {
+      console.log('foo')
+    }
 
     $scope.handleMouseMove = function (e) {
       var x = e.offsetX;

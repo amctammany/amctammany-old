@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('RendererCtrl', function ($scope, $location, $routeParams, MoleculeStore, Vector3, Camera, Mesh, Renderer, World) {
+  .controller('RendererCtrl', function ($scope, $window, $location, $routeParams, MoleculeStore, Vector3, Camera, Mesh, Renderer, World) {
     $scope.molecules = MoleculeStore.query();
     $scope.rotX = 0.02;
     $scope.rotY = 0.00;
@@ -20,7 +20,7 @@ angular.module('mctApp')
       $scope.world.rotateZ($scope.rotZ);
       //$scope.world.rotation.y += 0.02;
       $scope.renderer.render($scope.world, $scope.camera);
-      $scope.animFrame = window.requestAnimationFrame(render);
+      $scope.animFrame = $window.requestAnimationFrame(render);
     }
     $scope.initDemo = function (canvas) {
       $scope.renderer = new Renderer(canvas);
@@ -33,6 +33,15 @@ angular.module('mctApp')
 
     $scope.camera = new Camera();
     $scope.camera.position.z = 10;
+    $scope.toggleAnimation = function () {
+      if ($scope.animFrame) {
+        $window.cancelAnimationFrame($scope.animFrame);
+        $scope.animFrame = undefined;
+      } else {
+        $scope.animFrame = $window.requestAnimationFrame(render);
+      }
+    }
+
 
     $scope.loadMolecule = function (molecule) {
       if ($scope.animFrame) {
@@ -65,6 +74,6 @@ angular.module('mctApp')
       }
 
       $scope.world.add(mesh);
-      render();
+      $scope.renderer.render($scope.world, $scope.camera);
     };
   });
