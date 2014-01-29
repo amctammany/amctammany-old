@@ -28,11 +28,10 @@ angular.module('mctApp')
       }
       $scope.renderer = new Renderer(canvas);
       if ($routeParams.name) {
-        $scope.molecule = MoleculeStore.get({name: $routeParams.name}, function (molecule){
+        MoleculeStore.get({name: $routeParams.name}, function (molecule){
           $scope.loadMolecule(molecule);
         });
       }
-      $scope.molecule.draw();
     };
 
     $scope.camera = new Camera();
