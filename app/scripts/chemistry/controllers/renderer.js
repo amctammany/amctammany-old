@@ -35,7 +35,7 @@ angular.module('mctApp')
     };
 
     $scope.camera = new Camera();
-    $scope.camera.position.z = 10;
+    $scope.camera.position.z = 5;
     $scope.toggleAnimation = function () {
       if ($scope.animFrame) {
         $window.cancelAnimationFrame($scope.animFrame);
@@ -76,6 +76,7 @@ angular.module('mctApp')
         mesh.connectVertices(start, end);
       }
 
+      console.table(mesh.vertices);
       $scope.world.add(mesh);
       $scope.renderer.render($scope.world, $scope.camera);
     };

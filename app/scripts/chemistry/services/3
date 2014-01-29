@@ -81,7 +81,7 @@ angular.module('mctApp')
       var bestAtom = this.findClosestAtom(x, y, z);
       var bestBond = this.findClosestBond(x, y, z);
       var obj;
-      if (bestAtom.distance < bestBond.distance * 1.0) {
+      if (bestAtom.distance < bestBond.distance * 1.5) {
         obj = {object: bestAtom.atom, distance: bestAtom.distance};
       } else {
         obj = {object: bestBond.bond, distance: bestBond.distance};
@@ -111,10 +111,9 @@ angular.module('mctApp')
       var bestScore = 999,
           bestBond;
       var length = this.bonds.length;
-      var v = this.toNormalCoordinates(x, y, z);
       for (var i = 0; i < length; i ++) {
         var bond = this.bonds[i];
-        var distance = bond.distanceFrom(v.x, v.y, v.z);
+        var distance = bond.distanceFrom(x, y, z);
         if (distance < bestScore) {
           bestScore = distance;
           bestBond = bond;
@@ -136,7 +135,7 @@ angular.module('mctApp')
       this.normalize();
       this.atoms.forEach(function (atom) {
         //result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
-        normalized.push([atom.element, atom.normal.x, atom.normal.y, atom.normal.z].join(' '));
+        normalized.push([atom.element, atom.nx, atom.ny, atom.nz].join(' '));
       });
 
       this.bonds.forEach(function (bond) {
@@ -153,6 +152,7 @@ angular.module('mctApp')
 
     Molecule.prototype.parseMolFile = function () {
       var lines = this.molFile.split('\n');
+      console.log(lines);
       this.name = lines[0];
       var info = lines[1].split(' ');
 
@@ -161,13 +161,16 @@ angular.module('mctApp')
       var line, lineInfo, i;
       for (i = 0; i < numAtoms; i++) {
         line = lines[i + 2];
+        console.log(line);
         lineInfo = line.split(' ');
         var element = lineInfo[0];
         var x = parseFloat(lineInfo[1]);
+        console.log(x);
         var y = parseFloat(lineInfo[2]);
         var z = parseFloat(lineInfo[3]);
         //new Atom(element, x, y, z, this);
-        this.addAtom(element, x, y, z, true);
+        var atom = this.addAtom(element, x, y, z, true);
+        console.log(atom);
         //atom.draw(this.ctx);
       }
       for (i = 0; i < numBonds; i++) {
@@ -182,6 +185,7 @@ angular.module('mctApp')
         //new Bond(startAtom, endAtom, order, this);
         //bond.draw(this.ctx);
       }
+      console.log(this);
 
     };
 
@@ -217,6 +221,7 @@ angular.module('mctApp')
         atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(3);
         atom.ny = (((atom.position.y - minY) / height) - 0.5).toFixed(3);
         atom.nz = (((atom.position.z - minZ) / depth)).toFixed(3);
+        atom.normal = new Vector3(atom.nx, atom.ny, atom.nz);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);
         //atom.nx = atom.nx.toFixed(3);
@@ -227,7 +232,6 @@ angular.module('mctApp')
         //atom.nz = atom.z / (1 * depth / 2);
         //atom.nz = atom.nz ? atom.nz : 1;
         //atom.nz = atom.nz.toFixed(3);
-        atom.normal = new Vector3(atom.nx, atom.ny, atom.nz);
         return atom;
       });
       return atoms;

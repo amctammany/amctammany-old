@@ -10,12 +10,19 @@ angular.module('mctApp')
       this.order = order;
       this.molecule = molecule;
 
+      this.restLength = 2.75;
+      this.k = 0.1;
+
+    };
+
+    Bond.prototype.satisfy = function () {
+      var dir = this.startAtom.position.sub(this.endAtom.position);
+      var d = dir.length() / this.restLength;
+      this.startAtom.position.isub(dir.mul(this.k * d));
+      this.endAtom.position.iadd(dir.mul(this.k * d));
     };
     Bond.prototype.length = function () {
-      var dx = this.endAtom.x - this.startAtom.x;
-      var dy = this.endAtom.y - this.startAtom.y;
-      var dz = this.endAtom.z - this.startAtom.z;
-      var length = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      var length = this.startAtom.position.sub(this.endAtom.position).length();
       return length;
     };
     Bond.prototype.distanceFrom = function (x, y, z) {
@@ -38,7 +45,10 @@ angular.module('mctApp')
       ctx.closePath();
       ctx.stroke();
     };
-
+    Bond.prototype.increment = function () {
+      this.order = (this.order++ % 3) + 1;
+      console.log(this.order);
+    };
 
     return Bond;
   });

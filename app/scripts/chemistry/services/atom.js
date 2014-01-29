@@ -19,6 +19,16 @@ angular.module('mctApp')
 
     };
 
+    Atom.prototype.vsper = function () {
+      var donated;
+      if (this.element === 'C') {
+        donated = this.bonds.reduce(function (a, b) {
+          return (a + b.order);
+        }, 0);
+      }
+      return donated;
+    };
+
     Atom.prototype.getScreenPosition = function () {
       this.screenX = this.position.x * this.molecule.workingWidth + this.molecule.halfWidth;
       this.screenY = this.position.y * this.molecule.workingHeight + this.molecule.halfHeight;

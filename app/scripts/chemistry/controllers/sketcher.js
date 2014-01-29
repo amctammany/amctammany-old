@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('SketcherCtrl', function ($scope, $routeParams, $filter, Molecule, MoleculeStore, Atom) {
+  .controller('SketcherCtrl', function ($scope, $routeParams, $filter, Molecule, MoleculeStore, Atom, Bond) {
     $scope.molecules = MoleculeStore.query();
     $scope.name = 'molecule';
     $scope.dragging = false;
@@ -71,7 +71,6 @@ angular.module('mctApp')
         $scope.moleculeStore = MoleculeStore.get({name: $routeParams.name}, function () {
           $scope.name = $scope.moleculeStore.name;
           $scope.molecule = new Molecule($scope.moleculeStore.name, $scope.moleculeStore.molFile, $scope.canvas);
-          console.log($scope.molecule);
           $scope.molecule.draw();
         });
       } else {
@@ -85,7 +84,7 @@ angular.module('mctApp')
       console.log($scope.molecule.normalize());
     };
     $scope.normalize = function () {
-      console.table($scope.molecule.generateMolFile());
+      console.table($scope.molecule.normalize());
     };
     $scope.handleMouseDown = function (e) {
       var x = e.offsetX;
@@ -96,9 +95,12 @@ angular.module('mctApp')
       if ($scope.mouseTool !== undefined) {
         if ($scope.mouseTool === 'select') {
           if (closestObject.distance < 0.05 && closestObject.object instanceof Atom) {
+            console.log(closestObject.object.vsper());
             molecule.changeSelection([closestObject.object]);
             $scope.dragging = true;
             $scope.dragStart = {x: x, y: y};
+          } else if (closestObject.distance < 0.05 && closestObject.object instanceof Bond){
+            closestObject.object.increment();
           } else {
             molecule.changeSelection([]);
           }
@@ -112,7 +114,7 @@ angular.module('mctApp')
         } else {
           atom = molecule.addAtom($scope.atomTool, x, y, 0, false);
         }
-        if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 0.35) {
+        if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 0.45) {
           molecule.selectedAtom.bondTo(atom, $scope.bondTool);
         }
         molecule.changeSelection([atom]);
@@ -139,7 +141,6 @@ angular.module('mctApp')
       $scope.mouseX = x;
       $scope.mouseY = y;
       if ($scope.dragging) {
-        console.log('drag');
         var dx = (x - $scope.dragStart.x) / molecule.workingWidth;
         var dy = (y - $scope.dragStart.y) / molecule.workingHeight;
         molecule.selection.forEach(function (obj) {
@@ -149,10 +150,14 @@ angular.module('mctApp')
         $scope.dragStart.y = y;
       }
       molecule.draw();
-
-
     };
 
+    $scope.satisfy = function () {
+      $scope.molecule.bonds.forEach(function (bond) {
+        bond.satisfy();
+      });
+      $scope.molecule.draw();
+    };
 
 
   });
