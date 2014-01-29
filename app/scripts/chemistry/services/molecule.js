@@ -13,12 +13,31 @@ angular.module('mctApp')
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
 
+      this.selection = [];
+
 
       if (this.molFile !== undefined) {
         this.parseMolFile();
       }
     };
 
+    Molecule.prototype.changeSelection = function (objects) {
+      this.selection.forEach(function (obj) {
+        obj.deselect()
+      });
+      this.selection = objects;
+      objects.forEach(function (obj) {
+        obj.select();
+      });
+      if (objects.length === 1) {
+        var obj = objects[0];
+        if (obj instanceof Atom) {
+          this.selectedAtom = obj;
+        } else if (obj instanceof Bond) {
+          this.selectedBond = obj;
+        }
+      }
+    }
     Molecule.prototype.addAtom = function (element, x, y, z) {
       var atom = new Atom(element, x, y, z, this);
       this.atoms.push(atom);

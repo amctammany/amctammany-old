@@ -55,10 +55,19 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/chemistry/sketcher.html',
         controller: 'SketcherCtrl'
       })
+      .when('/chemistry/sketcher/:name', {
+        templateUrl: 'views/chemistry/sketcher.html',
+        controller: 'SketcherCtrl'
+      })
       .when('/chemistry/renderer', {
         templateUrl: 'views/chemistry/renderer.html',
         controller: 'RendererCtrl'
       })
+      .when('/chemistry/renderer/:name', {
+        templateUrl: 'views/chemistry/renderer.html',
+        controller: 'RendererCtrl'
+      })
+
       .otherwise({
         redirectTo: '/'
       });

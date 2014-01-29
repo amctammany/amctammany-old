@@ -11,6 +11,7 @@ angular.module('mctApp')
 
       this.bonds = [];
       this.index = undefined;
+      this.selected = false;
 
     };
 
@@ -25,11 +26,23 @@ angular.module('mctApp')
     Atom.prototype.bondTo = function (atom, order) {
       this.molecule.addBond(this, atom, order);
     };
+    Atom.prototype.select = function () {
+      this.selected = this.selected ? false : true;
+    };
+    Atom.prototype.deselect = function () {
+      this.selected = false;
+    };
 
     Atom.prototype.copy = function () {
       return new Atom(this.element, this.x, this.y, this.z, this.molecule);
     };
 
+    Atom.prototype.shift = function (dx, dy, dz) {
+      this.x += dx;
+      this.y += dy;
+      this.z += dz;
+      return this;
+    };
     Atom.prototype.draw = function (ctx) {
       ctx.fillStyle = 'white';
       ctx.beginPath();
@@ -38,7 +51,7 @@ angular.module('mctApp')
       ctx.fill();
       ctx.closePath();
       ctx.beginPath();
-      ctx.fillStyle = this.molecule.selectedAtom === this ? 'red' : 'black';
+      ctx.fillStyle = this.selected ? 'red' : 'black';
       ctx.fillText(this.element, this.x - 4, this.y + 5);
       ctx.closePath();
       ctx.fill();

@@ -1,24 +1,40 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('RendererCtrl', function ($scope, MoleculeStore, Vector3, Camera, Mesh, Renderer, World) {
+  .controller('RendererCtrl', function ($scope, $location, $routeParams, MoleculeStore, Vector3, Camera, Mesh, Renderer, World) {
     $scope.molecules = MoleculeStore.query();
+    $scope.rotX = 0.02;
+    $scope.rotY = 0.00;
+    $scope.rotZ = 0.02;
+
+    $scope.sketcher = function () {
+      $location.path('chemistry/sketcher/' + $scope.molecule.urlString);
+    }
+
 
     function render() {
-      $scope.world.rotation.x += 0.02;
+      $scope.world.rotateX($scope.rotX);
+      $scope.world.rotateY($scope.rotY);
+      $scope.world.rotateZ($scope.rotZ);
       //$scope.world.rotation.y += 0.02;
       $scope.renderer.render($scope.world, $scope.camera);
-      window.requestAnimationFrame(render);
+      $scope.animFrame = window.requestAnimationFrame(render);
     }
     $scope.initDemo = function (canvas) {
       $scope.renderer = new Renderer(canvas);
+      $scope.molecule = MoleculeStore.get({name: $routeParams.name}, function (molecule){
+        $scope.loadMolecule(molecule);
+      });
     };
 
-    $scope.world = new World();
     $scope.camera = new Camera();
     $scope.camera.position.z = 10;
 
     $scope.loadMolecule = function (molecule) {
+      if ($scope.animFrame) {
+        window.cancelAnimationFrame($scope.animFrame);
+      }
+      $scope.world = new World();
       var lines = molecule.normalizedMolFile.split('\n');
       var name = lines[0];
       var info = lines[1].split(' ');
