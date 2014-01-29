@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('SketcherCtrl', function ($scope, $filter, Molecule, MoleculeStore) {
-    $scope.name = 'foobar';
+  .controller('SketcherCtrl', function ($scope, $filter, Molecule, MoleculeStore, Atom) {
+    $scope.molecules = MoleculeStore.query();
+    $scope.name = 'molecule';
     $scope.atomTool = 'C';
     $scope.bondTool = '1';
     $scope.mouseTool = undefined;
@@ -54,9 +55,17 @@ angular.module('mctApp')
       }
     };
 
+    $scope.loadMolecule = function (molecule) {
+      $scope.moleculeStore = molecule;
+      $scope.name = molecule.name;
+      $scope.molecule = new Molecule(molecule.name, molecule.molFile, $scope.canvas);
+      $scope.molecule.draw();
+    };
+
     $scope.initDemo = function (canvas) {
+      $scope.canvas = canvas;
       $scope.molecule = $scope.molecule || new Molecule($scope.name, undefined, canvas);
-      $scope.molecule.draw()
+      $scope.molecule.draw();
     };
 
     $scope.logMolFile = function () {
@@ -65,11 +74,39 @@ angular.module('mctApp')
     $scope.handleMouseDown = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
-      if ($scope.atomTool !== undefined) {
-        $scope.molecule.addAtom($scope.atomTool, x, y, 0);
+      var molecule = $scope.molecule;
+
+      var closestObject = molecule.findClosestObject(x, y, 0);
+      if ($scope.mouseTool !== undefined) {
+
+
+      } else if ($scope.atomTool !== undefined) {
+        var atom;
+        if (closestObject.object instanceof Atom && closestObject.distance < 15) {
+          atom = closestObject.object;
+        } else {
+          atom = molecule.addAtom($scope.atomTool, x, y, 0);
+        }
+        if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 50) {
+          molecule.selectedAtom.bondTo(atom, $scope.bondTool);
+        }
+        molecule.selectedAtom = atom;
       }
 
-      $scope.molecule.draw();
+      molecule.draw();
+    };
+
+    $scope.handleMouseUp = function (e) {
+      var x = e.offsetX;
+      var y = e.offsetY;
+      console.log('x: ' + x + '; y: ' + y);
+    };
+
+    $scope.handleMouseMove = function (e) {
+      var x = e.offsetX;
+      var y = e.offsetY;
+      console.log('x: ' + x + '; y: ' + y);
+
     };
 
 
