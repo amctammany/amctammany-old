@@ -76,7 +76,7 @@ angular.module('mctApp')
     };
     $scope.normalize = function () {
       console.table($scope.molecule.normalize());
-    }
+    };
     $scope.handleMouseDown = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
@@ -105,13 +105,15 @@ angular.module('mctApp')
     $scope.handleMouseUp = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
-      //console.log('x: ' + x + '; y: ' + y);
+      $scope.mouseX = x;
+      $scope.mouseY = y;
     };
 
     $scope.handleMouseMove = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
-      //console.log('x: ' + x + '; y: ' + y);
+      $scope.mouseX = x;
+      $scope.mouseY = y;
 
     };
 

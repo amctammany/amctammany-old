@@ -20,7 +20,6 @@ angular.module('mctApp')
 
     $scope.loadMolecule = function (molecule) {
       var lines = molecule.normalizedMolFile.split('\n');
-      console.log(lines);
       var name = lines[0];
       var info = lines[1].split(' ');
       var nAtoms = parseInt(info[0], 10);
@@ -29,9 +28,8 @@ angular.module('mctApp')
       var line, lineInfo, i;
       for (i = 0; i < nAtoms; i++) {
         line = lines[i + 2];
-        console.log(line);
         lineInfo = line.split(' ');
-        var element = lineInfo[0];
+        //var element = lineInfo[0];
         var x = parseFloat(lineInfo[1]);
         var y = parseFloat(lineInfo[2]);
         var z = parseFloat(lineInfo[3]);
@@ -39,7 +37,6 @@ angular.module('mctApp')
       }
       for (i = 0; i < nBonds; i++) {
         line = lines[i + nAtoms + 2];
-        console.log(line);
         lineInfo = line.split(' ');
         var start = parseInt(lineInfo[0], 10);
         var end = parseInt(lineInfo[1], 10);
