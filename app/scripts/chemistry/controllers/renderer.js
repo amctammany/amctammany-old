@@ -8,7 +8,9 @@ angular.module('mctApp')
     $scope.rotZ = 0.02;
 
     $scope.sketcher = function () {
-      $location.path('chemistry/sketcher/' + $scope.molecule.urlString);
+      if ($scope.molecule) {
+        $location.path('chemistry/sketcher/' + $scope.molecule.urlString);
+      }
     };
 
 
@@ -22,9 +24,11 @@ angular.module('mctApp')
     }
     $scope.initDemo = function (canvas) {
       $scope.renderer = new Renderer(canvas);
-      $scope.molecule = MoleculeStore.get({name: $routeParams.name}, function (molecule){
-        $scope.loadMolecule(molecule);
-      });
+      if ($routeParams.name) {
+        $scope.molecule = MoleculeStore.get({name: $routeParams.name}, function (molecule){
+          $scope.loadMolecule(molecule);
+        });
+      }
     };
 
     $scope.camera = new Camera();
@@ -34,6 +38,7 @@ angular.module('mctApp')
       if ($scope.animFrame) {
         window.cancelAnimationFrame($scope.animFrame);
       }
+      $scope.molecule = molecule;
       $scope.world = new World();
       var lines = molecule.normalizedMolFile.split('\n');
       var name = lines[0];
