@@ -41,16 +41,19 @@ angular.module('mctApp')
     };
     $scope.generateMolFile = function () {
       var mol = $scope.molecule.generateMolFile();
-      console.log(mol);
+      console.table(mol);
     };
     $scope.save = function () {
       var molFile = $scope.molecule.generateMolFile();
+      var mol = molFile.original;
+      var normal = molFile.normalized;
       if ($scope.moleculeStore) {
         $scope.moleculeStore.name = $scope.name;
-        $scope.moleculeStore.molFile = molFile;
+        $scope.moleculeStore.molFile = mol;
+        $scope.moleculeStore.normalizedMolFile = normal;
         $scope.moleculeStore.$save();
       } else {
-        $scope.moleculeStore = new MoleculeStore({name: $scope.name, molFile: molFile});
+        $scope.moleculeStore = new MoleculeStore({name: $scope.name, molFile: mol, normalizedMolFile: normal});
         $scope.moleculeStore.$save();
       }
     };
@@ -71,6 +74,9 @@ angular.module('mctApp')
     $scope.logMolFile = function () {
       console.log($scope.molecule.generateMolFile());
     };
+    $scope.normalize = function () {
+      console.table($scope.molecule.normalize());
+    }
     $scope.handleMouseDown = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
@@ -99,13 +105,13 @@ angular.module('mctApp')
     $scope.handleMouseUp = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
-      console.log('x: ' + x + '; y: ' + y);
+      //console.log('x: ' + x + '; y: ' + y);
     };
 
     $scope.handleMouseMove = function (e) {
       var x = e.offsetX;
       var y = e.offsetY;
-      console.log('x: ' + x + '; y: ' + y);
+      //console.log('x: ' + x + '; y: ' + y);
 
     };
 

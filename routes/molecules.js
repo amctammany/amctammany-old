@@ -28,6 +28,7 @@ module.exports = function (app) {
       if (err) {console.log(err);}
       molecule.name = req.body.name;
       molecule.molFile = req.body.molFile;
+      molecule.normalizedMolFile = req.body.normalizedMolFile;
       molecule.save(function (err) {
         if (err ) { console.log(err); }
         res.send(molecule);

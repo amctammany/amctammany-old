@@ -26,6 +26,9 @@ angular.module('mctApp')
       this.molecule.addBond(this, atom, order);
     };
 
+    Atom.prototype.copy = function () {
+      return new Atom(this.element, this.x, this.y, this.z, this.molecule);
+    };
 
     Atom.prototype.draw = function (ctx) {
       ctx.fillStyle = 'white';
