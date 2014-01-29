@@ -44,7 +44,7 @@ angular.module('mctApp')
       } else {
         $scope.animFrame = $window.requestAnimationFrame(render);
       }
-    }
+    };
 
 
     $scope.loadMolecule = function (molecule) {
