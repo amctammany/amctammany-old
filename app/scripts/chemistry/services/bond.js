@@ -35,7 +35,7 @@ angular.module('mctApp')
         ctx.moveTo(this.startAtom.x + (i * 2 - 1), this.startAtom.y + i * 2 - 1);
         ctx.lineTo(this.endAtom.x + i * 2 - 1, this.endAtom.y + i * 2 - 1);
       }
-      //ctx.closePath();
+      ctx.closePath();
       ctx.stroke();
     };
 

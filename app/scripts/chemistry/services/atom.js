@@ -29,11 +29,14 @@ angular.module('mctApp')
 
     Atom.prototype.draw = function (ctx) {
       ctx.fillStyle = 'white';
-      ctx.arc(this.x, this.y, 5, 0, 6.28, 1);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 8, 0, 6.28, 0);
+      //ctx.rect(this.x - 5, this.y - 5, 10, 10);
       ctx.fill();
+      ctx.closePath();
       ctx.beginPath();
       ctx.fillStyle = this.molecule.selectedAtom === this ? 'red' : 'black';
-      ctx.fillText(this.element, this.x - 2, this.y + 5);
+      ctx.fillText(this.element, this.x - 4, this.y + 5);
       ctx.closePath();
       ctx.fill();
     };
