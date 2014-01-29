@@ -50,17 +50,18 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.toNormalCoordinates = function (x, y, z) {
-      var x = (x - this.halfWidth) / this.workingWidth;
-      var y = (y - this.halfHeight) / this.workingHeight;
-      return new Vector3(x, y, z);
-    }
+      var x1 = (x - this.halfWidth) / this.workingWidth;
+      var y1 = (y - this.halfHeight) / this.workingHeight;
+      return new Vector3(x1, y1, z);
+    };
     Molecule.prototype.addAtom = function (element, x, y, z, normalized) {
+      var x1, y1;
       if (normalized === false) {
-        var x = (x - this.halfWidth) / this.workingWidth;
-        var y = (y - this.halfHeight) / this.workingHeight;
+        x1 = (x - this.halfWidth) / this.workingWidth;
+        y1 = (y - this.halfHeight) / this.workingHeight;
         //console.log('x: ' + x + '; y:' + y);
       }
-      var atom = new Atom(element, x, y, z, this);
+      var atom = new Atom(element, x1, y1, z, this);
       //console.log(atom);
       this.atoms.push(atom);
       atom.index = this.atoms.indexOf(atom);
