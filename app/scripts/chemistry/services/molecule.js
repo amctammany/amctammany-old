@@ -60,6 +60,9 @@ angular.module('mctApp')
         x1 = (x - this.halfWidth) / this.workingWidth;
         y1 = (y - this.halfHeight) / this.workingHeight;
         //console.log('x: ' + x + '; y:' + y);
+      } else {
+        x1 = x;
+        y1 = y;
       }
       var atom = new Atom(element, x1, y1, z, this);
       //console.log(atom);
