@@ -20,13 +20,14 @@ angular.module('mctApp')
     };
 
     Atom.prototype.vsper = function () {
-      var donated;
-      if (this.element === 'C') {
-        donated = this.bonds.reduce(function (a, b) {
-          return (a + b.order);
-        }, 0);
-      }
-      return donated;
+      return this.bonds.length;
+      //var donated;
+      //if (this.element === 'C') {
+        //donated = this.bonds.reduce(function (a, b) {
+          //return (a + b.order);
+        //}, 0);
+      //}
+      //return donated;
     };
 
     Atom.prototype.getScreenPosition = function () {

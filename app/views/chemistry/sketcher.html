@@ -78,11 +78,27 @@
         
         </div>
       </div>
-
     </div>
-    <div class="col-lg-9 col-md-9 well chem-sketcher">
+
+    <div class="col-lg-7 col-md-7 well chem-sketcher">
       <demo></demo>
     </div>
+
+    <div class="col-lg-2 col-md-2 well center">
+      <h4>Info</h4>
+      <div class="well" ng-show="molecule.selectedAtom">
+        <div class="input-group">
+          <span class="input-group-addon">Element</span>
+          <span class="form-control">{{molecule.selectedAtom.element}}</span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">VSPER</span>
+          <span class="form-control">{{molecule.selectedAtom.vsper()}}</span>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 

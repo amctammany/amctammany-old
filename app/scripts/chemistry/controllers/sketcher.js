@@ -95,12 +95,14 @@ angular.module('mctApp')
       if ($scope.mouseTool !== undefined) {
         if ($scope.mouseTool === 'select') {
           if (closestObject.distance < 0.05 && closestObject.object instanceof Atom) {
-            console.log(closestObject.object.vsper());
             molecule.changeSelection([closestObject.object]);
             $scope.dragging = true;
             $scope.dragStart = {x: x, y: y};
           } else if (closestObject.distance < 0.05 && closestObject.object instanceof Bond){
-            closestObject.object.increment();
+            if (molecule.selectedBond === closestObject.object) {
+              closestObject.object.increment();
+            }
+            molecule.changeSelection([closestObject.object])
           } else {
             molecule.changeSelection([]);
           }

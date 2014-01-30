@@ -12,9 +12,16 @@ angular.module('mctApp')
 
       this.restLength = 2.75;
       this.k = 0.1;
+      this.selected = false;
 
     };
 
+    Bond.prototype.select = function () {
+      this.selected = true;
+    };
+    Bond.prototype.deselect = function () {
+      this.selected = false;
+    };
     Bond.prototype.satisfy = function () {
       var dir = this.startAtom.position.sub(this.endAtom.position);
       var d = dir.length() / this.restLength;
@@ -37,7 +44,7 @@ angular.module('mctApp')
     };
     Bond.prototype.draw = function (ctx) {
       ctx.beginPath();
-      ctx.strokeStyle = this.molecule.selectedBond === this ? 'red' : 'black';
+      ctx.strokeStyle = this.selected ? 'red' : 'black';
       for (var i = 1; i <= this.order; i++) {
         ctx.moveTo(this.startAtom.screenX + (i * 2 - 1), this.startAtom.screenY + i * 2 - 1);
         ctx.lineTo(this.endAtom.screenX + i * 2 - 1, this.endAtom.screenY + i * 2 - 1);

@@ -32,6 +32,8 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.changeSelection = function (objects) {
+      this.selectedAtom = undefined;
+      this.selectedBond = undefined;
       this.selection.forEach(function (obj) {
         obj.deselect();
       });
