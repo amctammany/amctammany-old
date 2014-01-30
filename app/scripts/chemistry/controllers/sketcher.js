@@ -102,7 +102,7 @@ angular.module('mctApp')
             if (molecule.selectedBond === closestObject.object) {
               closestObject.object.increment();
             }
-            molecule.changeSelection([closestObject.object])
+            molecule.changeSelection([closestObject.object]);
           } else {
             molecule.changeSelection([]);
           }
