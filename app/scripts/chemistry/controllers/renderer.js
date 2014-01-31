@@ -57,12 +57,13 @@ angular.module('mctApp')
       $scope.world.y = $scope.molecule.cy;
       $scope.world.z = $scope.molecule.cz;
       var mesh = new Mesh($scope.molecule.name, $scope.molecule.atoms.length + 1);
-      for (var i = 0, l = $scope.molecule.atoms.length; i < l; i++) {
+      var i, l;
+      for (i = 0, l = $scope.molecule.atoms.length; i < l; i++) {
         var atom = $scope.molecule.atoms[i];
         mesh.vertices[i] = atom.position;
       }
       mesh.vertices[$scope.molecule.atoms.length] = new Vector3($scope.molecule.cx, $scope.molecule.cy, $scope.molecule.cz);
-      for (var i = 0, l = $scope.molecule.bonds.length; i < l; i++) {
+      for (i = 0, l = $scope.molecule.bonds.length; i < l; i++) {
         var bond = $scope.molecule.bonds[i];
         mesh.connectVertices(bond.startAtom.getIndex(), bond.endAtom.getIndex());
 
