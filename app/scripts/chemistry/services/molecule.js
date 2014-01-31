@@ -235,7 +235,7 @@ angular.module('mctApp')
       var atoms = this.atoms.map(function (atom) {
         atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(5);
         atom.ny = ((((atom.position.y - minY) / height) * aspect - 0.5)).toFixed(5);
-        atom.nz = (((atom.position.z - minZ) / depth)).toFixed(5);
+        atom.nz = (((atom.position.z - minZ) / depth) - 0.5).toFixed(5);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);
         //atom.nx = atom.nx.toFixed(3);

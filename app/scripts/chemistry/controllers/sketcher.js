@@ -216,15 +216,16 @@ angular.module('mctApp')
       $scope.molecule.draw();
     };
     $scope.satisfy = function () {
-      for (var i = 0; i < 100; i++) {
-
-      $scope.molecule.bonds.forEach(function (bond) {
+      var satisfyBond = function (bond) {
         bond.satisfy();
-      });
-      $scope.molecule.bondAngles.forEach(function (angle) {
-        angle.satisfy();
-      });
       };
+      var satisfyBondAngle = function (angle) {
+        angle.satisfy();
+      };
+      for (var i = 0; i < 100; i++) {
+        $scope.molecule.bonds.forEach(satisfyBond);
+        $scope.molecule.bondAngles.forEach(satisfyBondAngle);
+      }
 
       $scope.molecule.draw();
     };

@@ -85,7 +85,7 @@ angular.module('mctApp')
       this.bonds.forEach(function (bond) {
         bond.remove();
       });
-    }
+    };
     Atom.prototype.select = function () {
       this.selected = true;
     };

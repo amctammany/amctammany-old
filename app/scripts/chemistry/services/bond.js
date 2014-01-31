@@ -47,6 +47,7 @@ angular.module('mctApp')
       var dx = midX - x;
       var dy = midY - y;
       var dz = midZ - z;
+      if (z === 0) { dz = 0;}
       var length = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
       return length;
     };
