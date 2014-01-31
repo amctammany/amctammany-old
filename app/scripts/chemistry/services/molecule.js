@@ -141,7 +141,6 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.generateMolFile = function () {
-      this.normalize();
       //var result = [];
       var normalized = [];
       //result.push(this.name);
@@ -151,7 +150,7 @@ angular.module('mctApp')
       this.normalize();
       this.atoms.forEach(function (atom) {
         //result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
-        normalized.push([atom.element, atom.normal.x, atom.normal.y, atom.normal.z].join(' '));
+        normalized.push([atom.element, atom.position.x, atom.position.y, atom.position.z].join(' '));
       });
 
       this.bonds.forEach(function (bond) {
