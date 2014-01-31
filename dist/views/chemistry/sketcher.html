@@ -51,36 +51,77 @@
       </ul>
     </div>
   </nav>
-  <div class="row">
-    <div class="col-lg-3 col-md-3 well">
-      <div class="row center">
-        <h3>Name</h3>
-         <input type="text" name="" ng-model="name">
+  <div class="row center">
+    <div class="col-lg-4 col-md-4">
+      <div class="input-group">
+        <span class="input-group-addon">Name</span>
+        <input type="text" class="form-control" ng-model="name">
       </div>
-      <div class="row center">
-        <h4>Mouse</h4>
-        <div class="btn-group">
-          <button class="btn btn-default" ng-class="getMouseToolClass(mouse)" ng-click="changeMouseTool(mouse)" ng-repeat="mouse in mouseTools">
-            {{mouse}}
-          </button>
-        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+      <div class="btn-group">
+        <span class="btn btn-info">Mouse</span>
+        <button ng-class="getMouseToolClass('select')" class="btn btn-default" ng-click="changeMouseTool('select')">
+          <span class="glyphicon glyphicon-screenshot"></span>
+        </button>
+        <button ng-class="getMouseToolClass('group')" class="btn btn-default" ng-click="changeMouseTool('group')">
+          <span class="glyphicon glyphicon-unchecked"></span>
+        </button>
+        <button ng-class="getMouseToolClass('delete')" class="btn btn-default" ng-click="changeMouseTool('delete')">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
       </div>
-      <div class="row center">
-        <h4>Atom</h4>
-        <div class="btn-group" ng-repeat="group in atomGroups">
-          <button class="btn btn-default" ng-class="getAtomToolClass(atom)" ng-repeat="atom in group" ng-click="changeAtomTool(atom)">{{atom}}</button>
-        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+      <div class="btn-group">
+        <span class="btn btn-info">Bond</span>
+        <button ng-class="getBondToolClass(bond)" class="btn btn-default" ng-repeat="bond in bondTypes">
+          {{bond}}
+        </button>
       </div>
-      <div class="row center">
-        <h4>Bond</h4>
-        <div class="btn-group" ng-repeat="bond in bondTypes">
-          <button class="btn btn-default" ng-class="getBondToolClass(bond)" ng-click="changeBondTool(bond)">{{bond}}</button>
-        
-        </div>
+    </div>
+  </div>
+  <div class="row center">
+    <div class="col-lg-12 col-md-12">
+      <div class="btn-group">
+        <span class="btn btn-info">Atom</span>
+        <button ng-class="getAtomToolClass(atom)" class="btn btn-default" ng-repeat="atom in atoms" ng-click="changeAtomTool(atom)">
+          {{atom}}
+        </button>
       </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 well chem-sketcher">
+  </div>
+  <div class="row">
+    <!--<div class="col-lg-3 col-md-3 well">-->
+      <!--<div class="row center">-->
+        <!--<h3>Name</h3>-->
+         <!--<input type="text" name="" ng-model="name" />-->
+      <!--</div>-->
+      <!--<div class="row center">-->
+        <!--<h4>Mouse</h4>-->
+        <!--<div class="btn-group">-->
+          <!--<button class="btn btn-default" ng-class="getMouseToolClass(mouse)" ng-click="changeMouseTool(mouse)" ng-repeat="mouse in mouseTools">-->
+            <!--{{mouse}}-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row center">-->
+        <!--<h4>Atom</h4>-->
+        <!--<div class="btn-group" ng-repeat="group in atomGroups">-->
+          <!--<button class="btn btn-default" ng-class="getAtomToolClass(atom)" ng-repeat="atom in group" ng-click="changeAtomTool(atom)" >{{atom}}</button>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row center">-->
+        <!--<h4>Bond</h4>-->
+        <!--<div class="btn-group" ng-repeat="bond in bondTypes">-->
+          <!--<button class="btn btn-default" ng-class="getBondToolClass(bond)" ng-click="changeBondTool(bond)">{{bond}}</button>-->
+        
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div class="col-lg-9 col-md-9 well chem-sketcher">
       <demo></demo>
     </div>
 
