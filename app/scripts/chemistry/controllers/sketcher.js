@@ -11,7 +11,6 @@ angular.module('mctApp')
     $scope.selectedBond = undefined;
     $scope.selectedBondAngle = undefined;
     $scope.mouseTool = undefined;
-    $scope.mouseTools = ['select', 'group', 'delete'];
     $scope.bondTypes = ['1', '2', '3', 'd', 's'];
     $scope.atoms = ['C', 'H', 'N', 'O', 'P', 'S', 'B', 'Si', 'F', 'Cl', 'Br', 'I'];
     $scope.atomGroups = $filter('groupBy')($scope.atoms, 6);
