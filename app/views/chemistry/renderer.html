@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-4 col-md-4 well">
+  <div class="col-lg-4 col-md-4 well center">
     <h4>Molecules</h4>
-    <ul ng-repeat="molecule in molecules">
-      <li>
-        <a ng-click="loadMolecule(molecule)">{{molecule.name}}</a>
+    <ul class="list-group">
+      <li class="list-group-item" ng-class="getMoleculeClass(molecule)" ng-repeat="molecule in molecules" ng-click="loadMolecule(molecule)">
+        {{molecule.name}}
       </li>
     </ul>
   </div>

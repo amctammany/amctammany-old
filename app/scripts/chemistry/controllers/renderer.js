@@ -9,7 +9,7 @@ angular.module('mctApp')
 
     $scope.sketcher = function () {
       if ($scope.molecule) {
-        $location.path('chemistry/sketcher/' + $scope.molecule.urlString);
+        $location.path('chemistry/sketcher/' + $scope.moleculeStore.urlString);
       }
     };
 
@@ -46,10 +46,16 @@ angular.module('mctApp')
     };
 
 
+    $scope.getMoleculeClass = function (molecule) {
+      if (molecule.urlString === $routeParams.name) {return 'active';}
+      return $scope.moleculeStore === molecule ? 'active' : '';
+    };
     $scope.loadMolecule = function (molecule) {
       if ($scope.animFrame) {
         window.cancelAnimationFrame($scope.animFrame);
       }
+      $scope.moleculeStore = molecule;
+      $routeParams.name = molecule.urlString;
       $scope.molecule = new Molecule(molecule.name, molecule.molFile, undefined);
       $scope.molecule.getBoundingBox();
       $scope.world = new World();
