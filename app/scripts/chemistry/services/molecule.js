@@ -13,8 +13,8 @@ angular.module('mctApp')
       this.atoms = [];
       this.bonds = [];
       this.bondAngles = [];
-      this.bondConstant = 0.25;
-      this.bondAngleConstant = 0.05;
+      this.bondConstant = 0.05;
+      this.bondAngleConstant = 0.0025;
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
 
@@ -82,14 +82,12 @@ angular.module('mctApp')
       var atom = new Atom(element, x1, y1, z, this);
       //console.log(atom);
       this.atoms.push(atom);
-      atom.index = this.atoms.indexOf(atom);
       return atom;
     };
 
     Molecule.prototype.addBond = function (start, end, order) {
       var bond = new Bond(start, end, order, this);
       this.bonds.push(bond);
-
       return bond;
     };
     Molecule.prototype.findClosestObject = function (x, y, z) {
@@ -156,7 +154,7 @@ angular.module('mctApp')
 
       this.bonds.forEach(function (bond) {
         //result.push([bond.startAtom.index, bond.endAtom.index, bond.order].join(' '));
-        normalized.push([bond.startAtom.index, bond.endAtom.index, bond.order].join(' '));
+        normalized.push([bond.startAtom.getIndex(), bond.endAtom.getIndex(), bond.order].join(' '));
       });
 
       //return {

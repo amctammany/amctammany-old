@@ -9,6 +9,7 @@ angular.module('mctApp')
       this.endAtom.bonds.push(this);
       this.order = order;
       this.molecule = molecule;
+      this.index = undefined;
 
       this.atoms = [this.startAtom, this.endAtom];
 
@@ -48,6 +49,11 @@ angular.module('mctApp')
       var dz = midZ - z;
       var length = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
       return length;
+    };
+    Bond.prototype.remove = function () {
+      var index = this.molecule.bonds.indexOf(this);
+      this.molecule.bonds.splice(index, 1);
+
     };
     Bond.prototype.draw = function (ctx) {
       ctx.beginPath();

@@ -126,18 +126,34 @@ angular.module('mctApp')
           } else {
             molecule.changeSelection([]);
           }
-        }
+        } else if ($scope.mouseTool === 'delete') {
+            if (closestObject.distance < 0.05 && closestObject.object instanceof Atom) {
+              closestObject.object.remove();
+            }
+          }
+
 
 
       } else if ($scope.atomTool !== undefined) {
         var atom;
+        var z = 0;
+        if ($scope.bondTool === 's') {
+          z = 0.25;
+        } else if ($scope.bondTool === 'd') {
+          z = -0.25;
+        }
         if (closestObject.object instanceof Atom && closestObject.distance < 0.05) {
           atom = closestObject.object;
         } else {
-          atom = molecule.addAtom($scope.atomTool, x, y, 0, false);
+          atom = molecule.addAtom($scope.atomTool, x, y, z, false);
         }
         if (molecule.selectedAtom && molecule.selectedAtom.distanceFrom(x, y, 0) < 0.45) {
-          molecule.selectedAtom.bondTo(atom, $scope.bondTool);
+
+          var order = $scope.bondTool;
+          if ($scope.bondTool === 's' || $scope.bondTool === 'd') {
+            order = 1;
+          }
+          molecule.selectedAtom.bondTo(atom, order);
         }
         molecule.changeSelection([atom]);
       }
@@ -200,12 +216,16 @@ angular.module('mctApp')
       $scope.molecule.draw();
     };
     $scope.satisfy = function () {
+      for (var i = 0; i < 100; i++) {
+
       $scope.molecule.bonds.forEach(function (bond) {
         bond.satisfy();
       });
       $scope.molecule.bondAngles.forEach(function (angle) {
         angle.satisfy();
       });
+      };
+
       $scope.molecule.draw();
     };
 

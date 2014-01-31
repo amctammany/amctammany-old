@@ -14,7 +14,6 @@ angular.module('mctApp')
 
       this.bonds = [];
       this.bondAngles = undefined;
-      this.index = undefined;
       this.selected = false;
       this.getScreenPosition();
 
@@ -33,6 +32,9 @@ angular.module('mctApp')
       this.bondAngles.push(bondAngle);
       this.molecule.bondAngles.push(bondAngle);
       return bondAngle;
+    };
+    Atom.prototype.getIndex = function () {
+      return this.molecule.atoms.indexOf(this);
     };
     Atom.prototype.getBondAngles = function () {
       if (this.bondAngles !== undefined) {return;}
@@ -70,8 +72,20 @@ angular.module('mctApp')
     };
 
     Atom.prototype.bondTo = function (atom, order) {
+      for (var i = 0, l = this.bonds.length; i < l; i++) {
+        var bond = this.bonds[i];
+        if (bond.atoms.indexOf(atom) >= 0) {
+          return false;
+        }
+      }
       this.molecule.addBond(this, atom, order);
     };
+    Atom.prototype.remove = function () {
+      this.molecule.atoms.splice(this.getIndex(), 1);
+      this.bonds.forEach(function (bond) {
+        bond.remove();
+      });
+    }
     Atom.prototype.select = function () {
       this.selected = true;
     };
