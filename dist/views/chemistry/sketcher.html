@@ -55,7 +55,7 @@
     <div class="col-lg-3 col-md-3 well">
       <div class="row center">
         <h3>Name</h3>
-         <input type="text" name="" ng-model="name" />
+         <input type="text" name="" ng-model="name">
       </div>
       <div class="row center">
         <h4>Mouse</h4>
@@ -68,7 +68,7 @@
       <div class="row center">
         <h4>Atom</h4>
         <div class="btn-group" ng-repeat="group in atomGroups">
-          <button class="btn btn-default" ng-class="getAtomToolClass(atom)" ng-repeat="atom in group" ng-click="changeAtomTool(atom)" >{{atom}}</button>
+          <button class="btn btn-default" ng-class="getAtomToolClass(atom)" ng-repeat="atom in group" ng-click="changeAtomTool(atom)">{{atom}}</button>
         </div>
       </div>
       <div class="row center">
@@ -80,11 +80,11 @@
       </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 well chem-sketcher">
+    <div class="col-lg-7 col-md-7 well chem-sketcher">
       <demo></demo>
     </div>
 
-    <div class="col-lg-3 col-md-3 well center">
+    <div class="col-lg-2 col-md-2 well center">
       <h4>Info</h4>
       <div class="well" ng-hide="molecule.selectedAtom || molecule.selectedBond">
         <div class="input-group row">
@@ -126,7 +126,7 @@
           <li class="list-group-item list-group-item-info">
             <b>Bonds</b>
           </li>
-          <li class="list-group-item" ng-class="getBondClass(bond)" ng-click="selectBond(bond)"ng-repeat="bond in molecule.selectedAtom.bonds">{{bond.order}}</li>
+          <li class="list-group-item" ng-class="getBondClass(bond)" ng-click="selectBond(bond)" ng-repeat="bond in molecule.selectedAtom.bonds">{{bond.order}}</li>
         </ul>
         <ul class="list-group list-group-small row">
           <li class="list-group-item list-group-item-info">
@@ -134,7 +134,7 @@
               <b>Bond Angles</b>
             </a>
           </li>
-          <li class="list-group-item" ng-class="getBondAngleClass(bondAngle)" ng-click="selectBondAngle(bondAngle)"ng-repeat="bondAngle in molecule.selectedAtom.bondAngles">
+          <li class="list-group-item" ng-class="getBondAngleClass(bondAngle)" ng-click="selectBondAngle(bondAngle)" ng-repeat="bondAngle in molecule.selectedAtom.bondAngles">
             {{bondAngle.getAngle() | number: 2}} | {{bondAngle.ideal | number:2}}
           </li>
         </ul>
@@ -179,4 +179,3 @@
   </div>
 
 </div>
-

@@ -94,7 +94,6 @@ angular.module('mctApp')
         $scope.molecule.resize();
         $scope.molecule.draw();
       }
-
     };
 
     $scope.logMolFile = function () {

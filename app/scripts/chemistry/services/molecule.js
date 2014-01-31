@@ -37,7 +37,7 @@ angular.module('mctApp')
 
       this.aspect = this.canvasWidth / this.canvasHeight;
 
-    }
+    };
     Molecule.prototype.changeSelection = function (objects) {
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
