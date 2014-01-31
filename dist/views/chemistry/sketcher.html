@@ -46,7 +46,7 @@
           <a ng-click="satisfy()">Satisfy</a>
         </li>
         <li ng-show="moleculeStore">
-          <a href="#" ng-href="#/chemistry/renderer/{{name}}">Renderer</a>
+          <a href="#" ng-href="#/chemistry/renderer/{{moleculeStore.urlString}}">Renderer</a>
         </li>
       </ul>
     </div>
@@ -86,17 +86,58 @@
 
     <div class="col-lg-2 col-md-2 well center">
       <h4>Info</h4>
+      <div class="well" ng-hide="molecule.selectedAtom || molecule.selectedBond">
+        <div class="input-group row">
+          <span class="input-group-addon">Atoms</span>
+          <span class="form-control">{{molecule.atoms.length}}</span>
+        </div>
+        <div class="input-group row">
+          <span class="input-group-addon">Bonds</span>
+          <span class="form-control">{{molecule.bonds.length}}</span>
+        </div>
+        <div class="input-group row">
+          <span class="input-group-addon">Bond Angles</span>
+          <span class="form-control">{{molecule.bondAngles.length}}</span>
+        </div>
+      </div>
       <div class="well" ng-show="molecule.selectedAtom">
-        <div class="input-group">
+        <div class="input-group row">
           <span class="input-group-addon">Element</span>
           <span class="form-control">{{molecule.selectedAtom.element}}</span>
         </div>
-        <div class="input-group">
+        <div class="input-group row">
           <span class="input-group-addon">VSPER</span>
           <span class="form-control">{{molecule.selectedAtom.vsper()}}</span>
         </div>
+        <ul class="list-group list-group-small row">
+          <li class="list-group-item list-group-item-info">
+            <b>Bonds</b>
+          </li>
+          <li class="list-group-item" ng-class="getBondClass(bond)" ng-click="selectBond(bond)" ng-repeat="bond in molecule.selectedAtom.bonds">{{bond.order}}</li>
+        </ul>
+        <ul class="list-group list-group-small row">
+          <li class="list-group-item list-group-item-info">
+            <a ng-click="molecule.selectedAtom.getBondAngles()">
+              <b>Bond Angles</b>
+            </a>
+          </li>
+          <li class="list-group-item" ng-class="getBondAngleClass(bondAngle)" ng-click="selectBondAngle(bondAngle)" ng-repeat="bondAngle in molecule.selectedAtom.bondAngles">
+            {{bondAngle.getAngle() | number: 2}} | {{bondAngle.ideal | number:2}}
+          </li>
+        </ul>
 
       </div>
+      <div class="well" ng-show="molecule.selectedBond">
+        <div class="input-group">
+          <span class="input-group-addon">Order</span>
+          <span class="form-control">{{molecule.selectedBond.order}}</span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">Length</span>
+          <span class="form-control">{{molecule.selectedBond.length() | number:2}}</span>
+        </div>
+      </div>
+
     </div>
 
   </div>
