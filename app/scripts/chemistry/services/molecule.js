@@ -140,6 +140,7 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.generateMolFile = function () {
+      this.normalize();
       //var result = [];
       var normalized = [];
       //result.push(this.name);
@@ -149,7 +150,7 @@ angular.module('mctApp')
       this.normalize();
       this.atoms.forEach(function (atom) {
         //result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
-        normalized.push([atom.element, atom.position.x, atom.position.y, atom.position.z].join(' '));
+        normalized.push([atom.element, atom.normal.x, atom.normal.y, atom.normal.z].join(' '));
       });
 
       this.bonds.forEach(function (bond) {
@@ -218,25 +219,22 @@ angular.module('mctApp')
       this.maxZ = positions[positions.length - 1].z;
 
       this.width = this.maxX - this.minX;
-      this.cx = this.minX + (this.width / 2);
+      this.cx = this.minX + (this.workingWidth / 2);
       this.height = this.maxY - this.minY;
-      this.cy = this.minY + (this.height / 2);
+      this.cy = this.minY + (this.workingHeight / 2);
       this.depth = this.maxZ - this.minZ;
       this.cz = this.minZ + (this.depth / 2);
       this.depth = this.depth === 0 ? 1 : this.depth;
     };
 
     Molecule.prototype.normalize = function () {
-
-    };
-    Molecule.prototype.normalize = function () {
       this.getBoundingBox();
       var minX = this.minX, minY = this.minY, minZ = this.minZ;
       var height = this.height, width = this.width, depth = this.depth;
-      var aspect = this.aspect;
+      var aspect = height / width;
       var atoms = this.atoms.map(function (atom) {
         atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(5);
-        atom.ny = ((((atom.position.y - minY) / height) - 0.5) * aspect).toFixed(5);
+        atom.ny = ((((atom.position.y - minY) / height) * aspect - 0.5)).toFixed(5);
         atom.nz = (((atom.position.z - minZ) / depth)).toFixed(5);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);
