@@ -64,6 +64,7 @@ angular.module('mctApp')
     Atom.prototype.distanceFrom = function (x, y, z) {
       var v = this.molecule.toNormalCoordinates(x, y, z);
       var d = this.position.sub(v);
+      d.z = 0;
       var length = d.length();
       return length;
     };
