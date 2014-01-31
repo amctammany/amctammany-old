@@ -106,6 +106,19 @@
           <span class="form-control">{{molecule.selectedAtom.element}}</span>
         </div>
         <div class="input-group row">
+          <span class="input-group-addon">Pos X</span>
+          <span class="form-control">{{molecule.selectedAtom.position.x | number:3}}</span>
+        </div>
+        <div class="input-group row">
+          <span class="input-group-addon">Pos Y</span>
+          <span class="form-control">{{molecule.selectedAtom.position.y | number:3}}</span>
+        </div>
+        <div class="input-group row">
+          <span class="input-group-addon">Pos Z</span>
+          <span class="form-control">{{molecule.selectedAtom.position.z | number:3}}</span>
+        </div>
+
+        <div class="input-group row">
           <span class="input-group-addon">VSPER</span>
           <span class="form-control">{{molecule.selectedAtom.vsper()}}</span>
         </div>

@@ -6,17 +6,9 @@ angular.module('mctApp')
       this.name = name;
       this.molFile = molFile;
       this.canvas = canvas;
-
-      this.canvasWidth = this.canvas.width;
-      this.halfWidth = 0.5 * this.canvasWidth;
-      this.offsetWidth = 0.2 * this.canvasWidth;
-      this.workingWidth = 0.6 * this.canvasWidth;
-
-      this.canvasHeight = this.canvas.height;
-      this.halfHeight = 0.5 * this.canvasHeight;
-      this.offsetHeight = 0.2 * this.canvasHeight;
-      this.workingHeight = 0.6 * this.canvasHeight;
       this.ctx = this.canvas.getContext('2d');
+
+      this.resize();
 
       this.atoms = [];
       this.bonds = [];
@@ -32,6 +24,20 @@ angular.module('mctApp')
       }
     };
 
+    Molecule.prototype.resize = function () {
+      this.canvasWidth = this.canvas.width;
+      this.halfWidth = 0.5 * this.canvasWidth;
+      this.offsetWidth = 0.1 * this.canvasWidth;
+      this.workingWidth = 0.8 * this.canvasWidth;
+
+      this.canvasHeight = this.canvas.height;
+      this.halfHeight = 0.5 * this.canvasHeight;
+      this.offsetHeight = 0.1 * this.canvasHeight;
+      this.workingHeight = 0.8 * this.canvasHeight;
+
+      this.aspect = this.canvasWidth / this.canvasHeight;
+
+    }
     Molecule.prototype.changeSelection = function (objects) {
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
@@ -143,7 +149,7 @@ angular.module('mctApp')
       this.normalize();
       this.atoms.forEach(function (atom) {
         //result.push([atom.element, atom.x, atom.y, atom.z].join(' '));
-        normalized.push([atom.element, atom.normal.x, atom.normal.y, atom.normal.z].join(' '));
+        normalized.push([atom.element, atom.position.x, atom.position.y, atom.position.z].join(' '));
       });
 
       this.bonds.forEach(function (bond) {
@@ -221,12 +227,16 @@ angular.module('mctApp')
     };
 
     Molecule.prototype.normalize = function () {
+
+    };
+    Molecule.prototype.normalize = function () {
       this.getBoundingBox();
       var minX = this.minX, minY = this.minY, minZ = this.minZ;
       var height = this.height, width = this.width, depth = this.depth;
+      var aspect = this.aspect;
       var atoms = this.atoms.map(function (atom) {
         atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(5);
-        atom.ny = (((atom.position.y - minY) / height) - 0.5).toFixed(5);
+        atom.ny = ((((atom.position.y - minY) / height) - 0.5) * aspect).toFixed(5);
         atom.nz = (((atom.position.z - minZ) / depth)).toFixed(5);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);

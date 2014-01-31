@@ -42,8 +42,8 @@ angular.module('mctApp')
     BondAngle.prototype.satisfy = function () {
       var diff = this.a1.position.sub(this.a2.position).normalize();
       var dA = (this.getAngle() - this.ideal) / this.ideal;
-      this.a1.position.isub(diff.mul(dA * 0.03));
-      this.a2.position.iadd(diff.mul(dA * 0.03));
+      this.a1.position.isub(diff.mul(dA * 0.025));
+      this.a2.position.iadd(diff.mul(dA * 0.025));
     };
 
     BondAngle.prototype.select = function () {

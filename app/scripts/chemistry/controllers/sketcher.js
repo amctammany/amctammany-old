@@ -54,10 +54,13 @@ angular.module('mctApp')
     $scope.save = function () {
       var molFile = $scope.molecule.generateMolFile();
       if ($scope.moleculeStore) {
+        console.log('update');
         $scope.moleculeStore.name = $scope.name;
         $scope.moleculeStore.molFile = molFile;
         $scope.moleculeStore.$save();
+        console.log($scope.moleculeStore);
       } else {
+        console.log('new molecule');
         $scope.moleculeStore = new MoleculeStore({name: $scope.name, molFile: molFile});
         $scope.moleculeStore.$save();
       }
@@ -87,6 +90,8 @@ angular.module('mctApp')
         });
       } else {
         $scope.molecule = $scope.molecule || new Molecule($scope.name, undefined, canvas);
+        $scope.molecule.canvas = canvas;
+        $scope.molecule.resize();
         $scope.molecule.draw();
       }
 
