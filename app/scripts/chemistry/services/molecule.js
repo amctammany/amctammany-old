@@ -13,6 +13,8 @@ angular.module('mctApp')
       this.atoms = [];
       this.bonds = [];
       this.bondAngles = [];
+      this.bondConstant = 0.25;
+      this.bondAngleConstant = 0.05;
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
 

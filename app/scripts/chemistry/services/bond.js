@@ -13,7 +13,7 @@ angular.module('mctApp')
       this.atoms = [this.startAtom, this.endAtom];
 
       this.restLength = 0.25;
-      this.k = 0.2;
+      this.k = this.molecule.bondConstant;
       this.selected = false;
 
     };

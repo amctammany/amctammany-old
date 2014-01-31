@@ -16,6 +16,7 @@ angular.module('mctApp')
     var BondAngle = function (atom, b1, b2) {
       this.name = 'foo';
       this.atom = atom;
+      this.molecule = this.atom.molecule;
       this.bonds = [b1, b2];
       this.ideal = BOND_ANGLES[this.atom.vsper()];
       this.idealRad = BOND_ANGLES_RAD[this.atom.vsper()];
@@ -23,6 +24,7 @@ angular.module('mctApp')
       this.a1 = this.b1.getOtherAtom(this.atom);
       this.b2 = b2;
       this.a2 = this.b2.getOtherAtom(this.atom);
+      this.k = this.molecule.bondAngleConstant;
 
     };
     BondAngle.prototype.getAngle = function () {
@@ -42,8 +44,8 @@ angular.module('mctApp')
     BondAngle.prototype.satisfy = function () {
       var diff = this.a1.position.sub(this.a2.position).normalize();
       var dA = (this.getAngle() - this.ideal) / this.ideal;
-      this.a1.position.isub(diff.mul(dA * 0.025));
-      this.a2.position.iadd(diff.mul(dA * 0.025));
+      this.a1.position.isub(diff.mul(dA * this.k));
+      this.a2.position.iadd(diff.mul(dA * this.k));
     };
 
     BondAngle.prototype.select = function () {
