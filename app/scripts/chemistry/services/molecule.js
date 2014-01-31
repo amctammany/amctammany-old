@@ -5,10 +5,11 @@ angular.module('mctApp')
     var Molecule = function (name, molFile, canvas) {
       this.name = name;
       this.molFile = molFile;
-      this.canvas = canvas;
-      this.ctx = this.canvas.getContext('2d');
-
-      this.resize();
+      if (canvas !== undefined) {
+        this.canvas = canvas;
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+      }
 
       this.atoms = [];
       this.bonds = [];

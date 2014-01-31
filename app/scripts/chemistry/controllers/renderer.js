@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('RendererCtrl', function ($scope, $window, $location, $routeParams, MoleculeStore, Vector3, Camera, Mesh, Renderer, World) {
+  .controller('RendererCtrl', function ($scope, $window, $location, $routeParams, MoleculeStore, Molecule, Vector3, Camera, Mesh, Renderer, World) {
     $scope.molecules = MoleculeStore.query();
     $scope.rotX = 0.02;
     $scope.rotY = 0.00;
@@ -50,33 +50,23 @@ angular.module('mctApp')
       if ($scope.animFrame) {
         window.cancelAnimationFrame($scope.animFrame);
       }
-      $scope.molecule = molecule;
+      $scope.molecule = new Molecule(molecule.name, molecule.molFile, undefined);
+      $scope.molecule.getBoundingBox();
       $scope.world = new World();
-      var lines = molecule.molFile.split('\n');
-      var name = lines[0];
-      var info = lines[1].split(' ');
-      var nAtoms = parseInt(info[0], 10);
-      var nBonds = parseInt(info[1], 10);
-      var mesh = new Mesh(name, nAtoms);
-      var line, lineInfo, i;
-      for (i = 0; i < nAtoms; i++) {
-        line = lines[i + 2];
-        lineInfo = line.split(' ');
-        //var element = lineInfo[0];
-        var x = parseFloat(lineInfo[1]);
-        var y = parseFloat(lineInfo[2]);
-        var z = parseFloat(lineInfo[3]);
-        mesh.vertices[i] = new Vector3(x, y, z);
+      $scope.world.x = $scope.molecule.cx;
+      $scope.world.y = $scope.molecule.cy;
+      $scope.world.z = $scope.molecule.cz;
+      var mesh = new Mesh($scope.molecule.name, $scope.molecule.atoms.length + 1);
+      for (var i = 0, l = $scope.molecule.atoms.length; i < l; i++) {
+        var atom = $scope.molecule.atoms[i];
+        mesh.vertices[i] = atom.position;
       }
-      for (i = 0; i < nBonds; i++) {
-        line = lines[i + nAtoms + 2];
-        lineInfo = line.split(' ');
-        var start = parseInt(lineInfo[0], 10);
-        var end = parseInt(lineInfo[1], 10);
-        mesh.connectVertices(start, end);
-      }
+      mesh.vertices[$scope.molecule.atoms.length] = new Vector3($scope.molecule.cx, $scope.molecule.cy, $scope.molecule.cz);
+      for (var i = 0, l = $scope.molecule.bonds.length; i < l; i++) {
+        var bond = $scope.molecule.bonds[i];
+        mesh.connectVertices(bond.startAtom.getIndex(), bond.endAtom.getIndex());
 
-      console.table(mesh.vertices);
+      }
       $scope.world.add(mesh);
       $scope.renderer.render($scope.world, $scope.camera);
     };
