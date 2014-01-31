@@ -20,6 +20,7 @@ angular.module('mctApp')
 
       this.atoms = [];
       this.bonds = [];
+      this.bondAngles = [];
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
 
@@ -34,6 +35,9 @@ angular.module('mctApp')
     Molecule.prototype.changeSelection = function (objects) {
       this.selectedAtom = undefined;
       this.selectedBond = undefined;
+      objects.forEach(function (obj) {
+        obj.select();
+      });
       this.selection.forEach(function (obj) {
         obj.deselect();
       });
@@ -49,6 +53,7 @@ angular.module('mctApp')
           this.selectedBond = obj;
         }
       }
+      this.draw();
     };
 
     Molecule.prototype.toNormalCoordinates = function (x, y, z) {
@@ -185,6 +190,10 @@ angular.module('mctApp')
         //bond.draw(this.ctx);
       }
 
+      this.atoms.forEach(function (atom) {
+        atom.getBondAngles();
+      });
+
     };
 
     Molecule.prototype.getBoundingBox = function () {
@@ -216,9 +225,9 @@ angular.module('mctApp')
       var minX = this.minX, minY = this.minY, minZ = this.minZ;
       var height = this.height, width = this.width, depth = this.depth;
       var atoms = this.atoms.map(function (atom) {
-        atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(3);
-        atom.ny = (((atom.position.y - minY) / height) - 0.5).toFixed(3);
-        atom.nz = (((atom.position.z - minZ) / depth)).toFixed(3);
+        atom.nx = (((atom.position.x - minX) / width) - 0.5).toFixed(5);
+        atom.ny = (((atom.position.y - minY) / height) - 0.5).toFixed(5);
+        atom.nz = (((atom.position.z - minZ) / depth)).toFixed(5);
         //atom.nx = atom.x - (minX + width) / 2;
         //atom.nx = atom.nx / (1 * width / 2);
         //atom.nx = atom.nx.toFixed(3);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('Atom', function (Vector3) {
+  .factory('Atom', function (Vector3, BondAngle) {
     var Atom = function (element, x, y, z, molecule) {
       this.element = element;
       this.x = x;
@@ -13,10 +13,37 @@ angular.module('mctApp')
 
 
       this.bonds = [];
+      this.bondAngles = undefined;
       this.index = undefined;
       this.selected = false;
       this.getScreenPosition();
 
+    };
+
+    Atom.prototype.addBondAngle = function (b1, b2) {
+      if (b1 === b2) { return false;}
+      for (var i = 0, l = this.bondAngles.length; i < l; i++) {
+        var angle = this.bondAngles[i];
+        if (angle.bonds.indexOf(b1) >= 0 && angle.bonds.indexOf(b2) >= 0) {
+          return false;
+        }
+
+      }
+      var bondAngle = new BondAngle(this, b1, b2);
+      this.bondAngles.push(bondAngle);
+      this.molecule.bondAngles.push(bondAngle);
+      return bondAngle;
+    };
+    Atom.prototype.getBondAngles = function () {
+      if (this.bondAngles !== undefined) {return;}
+      this.bondAngles = [];
+      for (var i = 0, l = this.bonds.length; i < l; i++) {
+        for (var j = 0; j < l; j++) {
+          var b1 = this.bonds[i];
+          var b2 = this.bonds[j];
+          this.addBondAngle(b1, b2);
+        }
+      }
     };
 
     Atom.prototype.vsper = function () {
@@ -45,7 +72,7 @@ angular.module('mctApp')
       this.molecule.addBond(this, atom, order);
     };
     Atom.prototype.select = function () {
-      this.selected = this.selected ? false : true;
+      this.selected = true;
     };
     Atom.prototype.deselect = function () {
       this.selected = false;

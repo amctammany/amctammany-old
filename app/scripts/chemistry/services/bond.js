@@ -10,10 +10,17 @@ angular.module('mctApp')
       this.order = order;
       this.molecule = molecule;
 
-      this.restLength = 2.75;
+      this.atoms = [this.startAtom, this.endAtom];
+
+      this.restLength = 0.35;
       this.k = 0.1;
       this.selected = false;
 
+    };
+
+    Bond.prototype.getOtherAtom = function (atom) {
+      if (this.atoms.indexOf(atom) === -1) {return false;}
+      return atom === this.startAtom ? this.endAtom : this.startAtom;
     };
 
     Bond.prototype.select = function () {
@@ -24,7 +31,7 @@ angular.module('mctApp')
     };
     Bond.prototype.satisfy = function () {
       var dir = this.startAtom.position.sub(this.endAtom.position);
-      var d = dir.length() / this.restLength;
+      var d = (dir.length() - this.restLength) / this.restLength;
       this.startAtom.position.isub(dir.mul(this.k * d));
       this.endAtom.position.iadd(dir.mul(this.k * d));
     };
@@ -45,6 +52,8 @@ angular.module('mctApp')
     Bond.prototype.draw = function (ctx) {
       ctx.beginPath();
       ctx.strokeStyle = this.selected ? 'red' : 'black';
+      this.startAtom.getScreenPosition();
+      this.endAtom.getScreenPosition();
       for (var i = 1; i <= this.order; i++) {
         ctx.moveTo(this.startAtom.screenX + (i * 2 - 1), this.startAtom.screenY + i * 2 - 1);
         ctx.lineTo(this.endAtom.screenX + i * 2 - 1, this.endAtom.screenY + i * 2 - 1);

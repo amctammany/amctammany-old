@@ -8,12 +8,18 @@ angular.module('mctApp')
     $scope.dragStart = undefined;
     $scope.atomTool = 'C';
     $scope.bondTool = '1';
+    $scope.selectedBond = undefined;
+    $scope.selectedBondAngle = undefined;
     $scope.mouseTool = undefined;
     $scope.mouseTools = ['select', 'group', 'delete'];
     $scope.bondTypes = ['1', '2', '3', 'd', 's'];
     $scope.atoms = ['C', 'H', 'N', 'O', 'P', 'S', 'B', 'Si', 'F', 'Cl', 'Br', 'I'];
     $scope.atomGroups = $filter('groupBy')($scope.atoms, 6);
     $scope.changeAtomTool = function (atom) {
+      if ($scope.selectedBond) {
+        $scope.selectedBond.deselect();
+        $scope.molecule.draw();
+      }
       $scope.atomTool = atom;
       $scope.bondTool = $scope.bondTool ? $scope.bondTool : '1';
       $scope.mouseTool = undefined;
@@ -33,6 +39,10 @@ angular.module('mctApp')
       return status;
     };
     $scope.changeBondTool = function (bond) {
+      if ($scope.selectedBond) {
+        $scope.selectedBond.deselect();
+        $scope.molecule.draw();
+      }
       $scope.bondTool = bond;
       $scope.mouseTool = undefined;
       $scope.atomTool = $scope.atomTool ? $scope.atomTool : 'C';
@@ -54,6 +64,8 @@ angular.module('mctApp')
     };
 
     $scope.newMolecule = function () {
+      $scope.name = 'molecule';
+      $scope.moleculeStore = undefined;
       $scope.molecule = new Molecule($scope.name, undefined, $scope.canvas);
       $scope.molecule.draw();
     };
@@ -67,7 +79,7 @@ angular.module('mctApp')
 
     $scope.initDemo = function (canvas) {
       $scope.canvas = canvas;
-      if ($routeParams.name) {
+      if ($routeParams.name && !$scope.moleculeStore) {
         $scope.moleculeStore = MoleculeStore.get({name: $routeParams.name}, function () {
           $scope.name = $scope.moleculeStore.name;
           $scope.molecule = new Molecule($scope.moleculeStore.name, $scope.moleculeStore.molFile, $scope.canvas);
@@ -81,7 +93,7 @@ angular.module('mctApp')
     };
 
     $scope.logMolFile = function () {
-      console.log($scope.molecule.normalize());
+      console.log($scope.molecule.generateMolFile());
     };
     $scope.normalize = function () {
       console.table($scope.molecule.normalize());
@@ -91,6 +103,10 @@ angular.module('mctApp')
       var y = e.offsetY;
       var molecule = $scope.molecule;
 
+      if ($scope.selectedBond) {$scope.selectedBond.deselect();}
+      $scope.selectedBond = undefined;
+      if ($scope.selectedBondAngle) {$scope.selectedBondAngle.deselect();}
+      $scope.selectedBondAngle = undefined;
       var closestObject = molecule.findClosestObject(x, y, 0);
       if ($scope.mouseTool !== undefined) {
         if ($scope.mouseTool === 'select') {
@@ -151,12 +167,40 @@ angular.module('mctApp')
         $scope.dragStart.x = x;
         $scope.dragStart.y = y;
       }
+      if (molecule.selectedAtom && $scope.atomTool !== undefined) {
+        var dist = molecule.selectedAtom.distanceFrom(x, y, 0);
+        if (dist > 0.45) {molecule.changeSelection([]);}
+      }
       molecule.draw();
     };
 
+    $scope.getBondClass = function (bond) {
+      return $scope.selectedBond === bond ? 'active' : '';
+    };
+    $scope.selectBond = function (bond) {
+      if ($scope.selectedBond) {$scope.selectedBond.deselect();}
+      if ($scope.selectedBondAngle) {$scope.selectedBondAngle.deselect();}
+      $scope.selectedBond = bond;
+      bond.select();
+      $scope.molecule.draw();
+    };
+
+    $scope.getBondAngleClass = function (bondAngle) {
+      return $scope.selectedBondAngle === bondAngle ? 'active' : '';
+    };
+    $scope.selectBondAngle = function (bondAngle) {
+      if ($scope.selectedBond) {$scope.selectedBond.deselect();}
+      if ($scope.selectedBondAngle) {$scope.selectedBondAngle.deselect();}
+      $scope.selectedBondAngle = bondAngle;
+      bondAngle.select();
+      $scope.molecule.draw();
+    };
     $scope.satisfy = function () {
       $scope.molecule.bonds.forEach(function (bond) {
         bond.satisfy();
+      });
+      $scope.molecule.bondAngles.forEach(function (angle) {
+        angle.satisfy();
       });
       $scope.molecule.draw();
     };
