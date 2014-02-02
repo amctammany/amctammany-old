@@ -20,24 +20,45 @@ angular.module('mctApp')
         var minX = parseFloat(matches[1]);
         var maxX = parseFloat(matches[2]);
         var xRange = maxX - minX;
-        matches = attrs.rangeY.match(arrayParser);
-        var minY = matches[1];
-        var maxY = matches[2];
-        var yRange = maxY - minY;
+        if (attrs.rangeY) {
+          matches = attrs.rangeY.match(arrayParser);
+          var minY = matches[1];
+          var maxY = matches[2];
+        } else {
+          var minY = 10000;
+          var maxY = -10000;
+
+        }
 
         var x = minX;
         var xArray = [];
+        var increment = parseFloat(attrs.increment);
         while (x <= maxX) {
           xArray.push(x);
-          x += 1;
+          x += increment;
         }
+        var points = [];
+        xArray.forEach(function (x) {
+          var y = graphFunc(x);
+          if (y < minY) {
+            minY = y;
+          }
+          if (y > maxY) {
+            maxY = y;
+          }
+          points.push({x: x, y: y});
+        });
+        var yRange = (maxY - minY) * 3;
+
+
+
 
 
 
         function cartesianToCanvas (pt) {
           return {
-            x: ((pt.x - 0) / xRange) * width + midX,
-            y: ((pt.y - 0) / yRange) * height + midY
+            x: ((pt.x) / xRange) * width + midX,
+            y: ((pt.y) / yRange) * height + midY
           };
         }
         function getPoint (x) {
@@ -46,24 +67,30 @@ angular.module('mctApp')
             y: graphFunc(x)
           };
         }
+        var cartesian = points.map(function (pt) {
+          return cartesianToCanvas(pt);
+        });
+        console.log(cartesian);
 
         var canvas = element[0].children[0];
         canvas.width = width;
         canvas.height = height;
         var ctx = canvas.getContext('2d');
-        var pt = getPoint(xArray[0]);
-        var drawPt = cartesianToCanvas(pt);
-        console.log(pt);
-        console.log(drawPt);
-        ctx.moveTo(drawPt.x, drawPt.y);
-        for (var i = 1, l = xArray.length; i < l; i++) {
-          pt = getPoint(xArray[i]);
-          drawPt = cartesianToCanvas(pt);
-          ctx.lineTo(drawPt.x, drawPt.y);
+        ctx.moveTo(cartesian[0].x, cartesian[0].y);
+        for (var i = 1, l = cartesian.length; i < l; i++) {
+          var pt = cartesian[i];
+          ctx.lineTo(pt.x, pt.y);
         }
+        //var pt = getPoint(xArray[0]);
+        //var drawPt = cartesianToCanvas(pt);
+        //ctx.moveTo(drawPt.x, drawPt.y);
+        //for (var i = 1, l = xArray.length; i < l; i++) {
+          //pt = getPoint(xArray[i]);
+          //drawPt = cartesianToCanvas(pt);
+          //ctx.lineTo(drawPt.x, drawPt.y);
+        //}
 
         ctx.stroke();
-        console.log(graphFunc);
       }
     };
   });
