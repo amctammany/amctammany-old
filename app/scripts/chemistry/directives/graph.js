@@ -1,19 +1,21 @@
 'use strict';
 
 angular.module('mctApp')
-  .directive('graph', function () {
+  .directive('graph', function ($window) {
     return {
       templateUrl: 'templates/graph.html',
       restrict: 'E',
       replace: true,
+      transclude: true,
       link: function postLink(scope, element, attrs) {
         var width = element[0].clientWidth;
         // Hack to make square
-        var height = element[0].clientWidth;
+        var height = element[0].clientHeight;
 
         var midX = width / 2;
         var midY = height / 2;
-
+        var canvas = element[0].children[1];
+        var ctx = canvas.getContext('2d');
         var graphFunc = scope[attrs.func];
         var arrayParser = /\[(\-?\d+\.?\d*)\,\s*(\-?\d+\.?\d*)\]/;
         var matches = attrs.rangeX.match(arrayParser);
@@ -51,37 +53,35 @@ angular.module('mctApp')
         });
         var yRange = (maxY - minY) * 3;
 
-
-
-
-
-
+        function resizeCanvas () {
+          width = element[0].clientWidth;
+          console.log(element[0].clientHeight);
+          height = width * 0.67;
+          canvas.width = width;
+          canvas.height = height;
+          ctx = canvas.getContext('2d');
+          midX = width / 2;
+          midY = height / 2;
+          draw();
+        }
         function cartesianToCanvas (pt) {
           return {
             x: ((pt.x) / xRange) * width + midX,
             y: ((pt.y) / yRange) * height + midY
           };
         }
-        var cartesian = points.map(cartesianToCanvas);
-        var canvas = element[0].children[0];
-        canvas.width = width;
-        canvas.height = height;
-        var ctx = canvas.getContext('2d');
-        ctx.moveTo(cartesian[0].x, cartesian[0].y);
-        for (var i = 1, l = cartesian.length; i < l; i++) {
-          var pt = cartesian[i];
-          ctx.lineTo(pt.x, pt.y);
+        function draw () {
+          var cartesian = points.map(cartesianToCanvas);
+          ctx.moveTo(cartesian[0].x, cartesian[0].y);
+          for (var i = 1, l = cartesian.length; i < l; i++) {
+            var pt = cartesian[i];
+            ctx.lineTo(pt.x, pt.y);
+          }
+          ctx.stroke();
         }
-        //var pt = getPoint(xArray[0]);
-        //var drawPt = cartesianToCanvas(pt);
-        //ctx.moveTo(drawPt.x, drawPt.y);
-        //for (var i = 1, l = xArray.length; i < l; i++) {
-          //pt = getPoint(xArray[i]);
-          //drawPt = cartesianToCanvas(pt);
-          //ctx.lineTo(drawPt.x, drawPt.y);
-        //}
 
-        ctx.stroke();
+        resizeCanvas();
+        $window.onresize = resizeCanvas;
       }
     };
   });
