@@ -51,7 +51,9 @@ angular.module('mctApp')
           }
           points.push({x: x, y: y});
         });
-        var yRange = (maxY - minY) * 3;
+        maxY *= 3;
+        minY *= 3;
+        var yRange = (maxY - minY);
 
         function resizeCanvas () {
           width = element[0].clientWidth;
@@ -70,8 +72,25 @@ angular.module('mctApp')
             y: ((pt.y) / yRange) * height + midY
           };
         }
+        function drawAxes () {
+          ctx.beginPath();
+          ctx.strokeStyle = 'black';
+          ctx.moveTo(midX, 0);
+          ctx.lineTo(midX, height);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.strokeStyle = 'black';
+          ctx.moveTo(0, midY);
+          ctx.lineTo(width, midY);
+          ctx.stroke();
+        }
         function draw () {
+          drawAxes();
           var cartesian = points.map(cartesianToCanvas);
+          ctx.beginPath();
+          ctx.strokeStyle = 'red';
+          ctx.lineWidth = 2;
           ctx.moveTo(cartesian[0].x, cartesian[0].y);
           for (var i = 1, l = cartesian.length; i < l; i++) {
             var pt = cartesian[i];
