@@ -21,6 +21,7 @@
     "globals": {
         "angular": false,
         "Showdown": false,
-        "THREE": false
+        "THREE": false,
+        "mat4": false
     }
 }

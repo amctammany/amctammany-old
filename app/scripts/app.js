@@ -68,6 +68,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         controller: 'RendererCtrl'
       })
 
+      .when('/webgl', {
+        templateUrl: 'views/webgl/webgl.html',
+        controller: 'WebGLCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
