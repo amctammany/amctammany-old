@@ -20,13 +20,14 @@ angular.module('mctApp')
         var minX = parseFloat(matches[1]);
         var maxX = parseFloat(matches[2]);
         var xRange = maxX - minX;
+        var minY, maxY;
         if (attrs.rangeY) {
           matches = attrs.rangeY.match(arrayParser);
-          var minY = matches[1];
-          var maxY = matches[2];
+          minY = matches[1];
+          maxY = matches[2];
         } else {
-          var minY = 10000;
-          var maxY = -10000;
+          minY = 10000;
+          maxY = -10000;
 
         }
 
@@ -61,17 +62,7 @@ angular.module('mctApp')
             y: ((pt.y) / yRange) * height + midY
           };
         }
-        function getPoint (x) {
-          return {
-            x: x,
-            y: graphFunc(x)
-          };
-        }
-        var cartesian = points.map(function (pt) {
-          return cartesianToCanvas(pt);
-        });
-        console.log(cartesian);
-
+        var cartesian = points.map(cartesianToCanvas);
         var canvas = element[0].children[0];
         canvas.width = width;
         canvas.height = height;
