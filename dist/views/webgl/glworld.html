@@ -1,0 +1,54 @@
+<p>This is the glWorld view.</p>
+
+<div class="well">
+
+  <demo></demo>
+
+</div>
+<div class="well">
+  <div class="row center">
+    <button class="btn" ng-click="lookLeft()">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </button>
+    <button class="btn" ng-click="forward()">
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    </button>
+    <button class="btn" ng-click="lookRight()">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </button>
+  </div>
+  <div class="row center">
+    <button class="btn" ng-click="left()">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+    <button class="btn" ng-click="back()">
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    </button>
+    <button class="btn" ng-click="right()">
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
+  </div>
+</div>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexColor;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  varying highp vec4 vColor;
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vColor = vec4(aVertexColor, 1.0);
+  }
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+  varying highp vec4 vColor;
+
+  void main(void) {
+    gl_FragColor = vColor;
+  }
+
+</script>

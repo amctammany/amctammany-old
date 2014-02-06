@@ -72,6 +72,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/webgl/webgl.html',
         controller: 'WebGLCtrl'
       })
+      .when('/webgl/world', {
+        templateUrl: 'views/webgl/glworld.html',
+        controller: 'GLWorldCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

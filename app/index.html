@@ -118,11 +118,14 @@
                   </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown" ng-class="getClass('/webgl')">
                   <a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li>
                       <a href="#" ng-href="#/webgl">WebGL</a>
+                    </li>
+                    <li>
+                      <a href="#" ng-href="#/webgl/world">World</a>
                     </li>
                   </ul>
                 </li>
@@ -204,6 +207,7 @@
         <script src="scripts/chemistry/controllers/renderer.js"></script>
         <script src="scripts/chemistry/services/bondangle.js"></script>
         <script src="scripts/webgl/controllers/webgl.js"></script>
+        <script src="scripts/webgl/controllers/glworld.js"></script>
         <!-- endbuild -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     </body>
