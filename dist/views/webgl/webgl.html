@@ -1,0 +1,28 @@
+<p>This is the webgl view.</p>
+
+<div class="well">
+
+  <demo></demo>
+  <button class="btn" ng-click="forward()">Forward</button>
+  <button class="btn" ng-click="back()">Back</button>
+</div>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexColor;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  varying highp vec4 vColor;
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vColor = vec4(aVertexColor, 1.0);
+  }
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+  varying highp vec4 vColor;
+  void main(void) {
+    gl_FragColor = vColor;
+  }
+</script>
