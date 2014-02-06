@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('WebGLCtrl', function ($scope) {
+  .controller('WebGLCtrl', function ($scope, Matrix4) {
 
     var gl = null;
     var glProgram = null;
@@ -9,10 +9,8 @@ angular.module('mctApp')
     var vertexShader = null;
     var z = -7.0;
 
-    var mvMatrix = mat4.create();
-    //var mvMatrix1 = new Matrix4();
-    var pMatrix = mat4.create();
-    //var pMatrix1 = new Matrix4();
+    var mvMatrix1 = new Matrix4();
+    var pMatrix1 = new Matrix4();
 
     var vertexPositionAttribute = null;
     var trianglesVerticeBuffer = null;
@@ -20,7 +18,6 @@ angular.module('mctApp')
     var vertexColorAttribute = null;
     var trianglesColorBuffer = null;
 
-    var angle = 0.0;
 
     $scope.forward = function () {
       z += 1;
@@ -57,8 +54,8 @@ angular.module('mctApp')
       glProgram.mvMatrixUniform = gl.getUniformLocation(glProgram, 'uMVMatrix');
     }
     function setMatrixUniforms () {
-      gl.uniformMatrix4fv(glProgram.pMatrixUniform, false, pMatrix);
-      gl.uniformMatrix4fv(glProgram.mvMatrixUniform, false, mvMatrix);
+      gl.uniformMatrix4fv(glProgram.pMatrixUniform, false, pMatrix1.elements);
+      gl.uniformMatrix4fv(glProgram.mvMatrixUniform, false, mvMatrix1.elements);
     }
 
     function setupWebGL () {
@@ -68,13 +65,13 @@ angular.module('mctApp')
       gl.viewport(0, 0, $scope.canvas.width, $scope.canvas.height);
 
 
-      //pMatrix1.makePerspective(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
-      //mvMatrix1 = Matrix4.Translation(0, 0, -3.0);
-      mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
-      mat4.identity(mvMatrix);
-      mat4.translate(mvMatrix, mvMatrix, [-1.0, -1.0, z]);
-      mat4.rotate(mvMatrix, mvMatrix, angle, [0.0, 1.0, 0.0]);
-      angle += 0.01;
+      pMatrix1.makePerspective(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
+      mvMatrix1 = Matrix4.Translation(0, 0, -3.0);
+      //mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
+      //mat4.identity(mvMatrix);
+      //mat4.translate(mvMatrix, mvMatrix, [-1.0, -1.0, z]);
+      //mat4.rotate(mvMatrix, mvMatrix, angle, [0.0, 1.0, 0.0]);
+      //angle += 0.01;
     }
     function initShaders () {
       //console.log(document.getElementById('shader-fs').html());

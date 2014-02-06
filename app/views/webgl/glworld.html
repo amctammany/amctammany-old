@@ -5,28 +5,38 @@
   <demo></demo>
 
 </div>
-<div class="well">
-  <div class="row center">
-    <button class="btn" ng-click="lookLeft()">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-    </button>
-    <button class="btn" ng-click="forward()">
-      <span class="glyphicon glyphicon-arrow-up"></span>
-    </button>
-    <button class="btn" ng-click="lookRight()">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-    </button>
+<div class="well row">
+
+  <div class="col-lg-4 col-md-4">
+    <matrix4 data="camera.projectionMatrix.elements">Camera Projection</matrix4>
   </div>
-  <div class="row center">
-    <button class="btn" ng-click="left()">
-      <span class="glyphicon glyphicon-arrow-left"></span>
-    </button>
-    <button class="btn" ng-click="back()">
-      <span class="glyphicon glyphicon-arrow-down"></span>
-    </button>
-    <button class="btn" ng-click="right()">
-      <span class="glyphicon glyphicon-arrow-right"></span>
-    </button>
+
+  <div class="col-lg-4 col-md-4">
+    <matrix4 data="camera.matrixWorldInverse.elements">Camera View</matrix4>
+  </div>
+  <div class="col-lg-4 col-md-4">
+    <div class="row center">
+      <button class="btn" ng-click="lookLeft()">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </button>
+      <button class="btn" ng-click="forward()">
+        <span class="glyphicon glyphicon-arrow-up"></span>
+      </button>
+      <button class="btn" ng-click="lookRight()">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+    <div class="row center">
+      <button class="btn" ng-click="left()">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+      </button>
+      <button class="btn" ng-click="back()">
+        <span class="glyphicon glyphicon-arrow-down"></span>
+      </button>
+      <button class="btn" ng-click="right()">
+        <span class="glyphicon glyphicon-arrow-right"></span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -34,12 +44,13 @@
   attribute vec3 aVertexPosition;
   attribute vec3 aVertexColor;
 
-  uniform mat4 uMVMatrix;
+  uniform mat4 uMMatrix;
+  uniform mat4 uVMatrix;
   uniform mat4 uPMatrix;
   varying highp vec4 vColor;
 
   void main(void) {
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    gl_Position = uPMatrix * uVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
     vColor = vec4(aVertexColor, 1.0);
   }
 </script>

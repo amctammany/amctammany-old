@@ -7,7 +7,7 @@ angular.module('mctApp')
       restrict: 'E',
       transclude: true,
       scope: {
-        matrix: '=data'
+        elements: '=data'
       },
     };
   });

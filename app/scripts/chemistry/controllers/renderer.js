@@ -35,7 +35,7 @@ angular.module('mctApp')
     };
 
     $scope.camera = new Camera();
-    $scope.camera.position.z = 5;
+    $scope.camera.position.z = -15;
     $scope.toggleAnimation = function () {
       if ($scope.animFrame) {
         $window.cancelAnimationFrame($scope.animFrame);

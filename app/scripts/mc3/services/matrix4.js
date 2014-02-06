@@ -233,7 +233,7 @@ angular.module('mctApp')
     };
 
     Matrix4.prototype.makePerspective = function (fov, aspect, near, far) {
-      var ymax = near * Math.tan((fov * 0.5 * Math.PI / 180));
+      var ymax = near * Math.tan((fov * 0.5));
       var ymin = - ymax;
       var xmin = ymin * aspect;
       var xmax = ymax * aspect;
@@ -313,10 +313,10 @@ angular.module('mctApp')
     Matrix4.Translation = function (x, y, z) {
       var result = new Matrix4();
       result.set(
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        x, y, z, 1
+        1, 0, 0, x,
+        0, 1, 0, y,
+        0, 0, 1, z,
+        0, 0, 0, 1
       );
       return result;
     };

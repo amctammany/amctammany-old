@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('GLWorldCtrl', function ($scope) {
+  .controller('GLWorldCtrl', function ($scope, Matrix4, Camera) {
     var gl = null;
     var glProgram = null;
     var fragmentShader = null;
@@ -11,10 +11,10 @@ angular.module('mctApp')
     var z = -4.0;
     var angle = 0.0;
 
-    var mvMatrix = mat4.create();
-    //var mvMatrix1 = new Matrix4();
-    var pMatrix = mat4.create();
-    //var pMatrix1 = new Matrix4();
+
+    var mMatrix = new Matrix4();
+    var vMatrix = new Matrix4();
+    var pMatrix = new Matrix4();
 
     var vertexPositionAttribute = null;
     var roomVerticeBuffer = null;
@@ -23,16 +23,18 @@ angular.module('mctApp')
     var vertexColorAttribute = null;
 
     $scope.lookLeft = function () {
+      $scope.camera.rotateY(0.15);
       angle += 0.15;
     };
     $scope.lookRight = function () {
+      $scope.camera.rotateY(-0.15);
       angle -= 0.15;
     };
     $scope.forward = function () {
-      z += 1.0;
+      $scope.camera.position.z -= 1.0;
     };
     $scope.back = function () {
-      z -= 1.0;
+      $scope.camera.position.z += 1.0;
     };
     $scope.left = function () {
       x -= 1.0;
@@ -52,6 +54,8 @@ angular.module('mctApp')
         if ($scope.animFrame) {
           window.cancelAnimationFrame($scope.animFrame);
         }
+        $scope.camera = new Camera(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
+        $scope.camera.position.z = 4.0;
         initShaders();
         setupBuffers();
         getMatrixUniforms();
@@ -69,11 +73,13 @@ angular.module('mctApp')
 
     function getMatrixUniforms () {
       glProgram.pMatrixUniform = gl.getUniformLocation(glProgram, 'uPMatrix');
-      glProgram.mvMatrixUniform = gl.getUniformLocation(glProgram, 'uMVMatrix');
+      glProgram.vMatrixUniform = gl.getUniformLocation(glProgram, 'uVMatrix');
+      glProgram.mMatrixUniform = gl.getUniformLocation(glProgram, 'uMMatrix');
     }
     function setMatrixUniforms () {
-      gl.uniformMatrix4fv(glProgram.pMatrixUniform, false, pMatrix);
-      gl.uniformMatrix4fv(glProgram.mvMatrixUniform, false, mvMatrix);
+      gl.uniformMatrix4fv(glProgram.pMatrixUniform, false, pMatrix.elements);
+      gl.uniformMatrix4fv(glProgram.vMatrixUniform, false, vMatrix.elements);
+      gl.uniformMatrix4fv(glProgram.mMatrixUniform, false, mMatrix.elements);
     }
 
     function setupWebGL () {
@@ -83,13 +89,17 @@ angular.module('mctApp')
       gl.viewport(0, 0, $scope.canvas.width, $scope.canvas.height);
 
 
+      $scope.camera.updateMatrixWorld(true);
+      $scope.camera.matrixWorldInverse.getInverse($scope.camera.matrixWorld);
+      pMatrix = $scope.camera.projectionMatrix;
+      vMatrix = $scope.camera.matrixWorldInverse;
       //pMatrix1.makePerspective(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
-      //mvMatrix1 = Matrix4.Translation(0, 0, -3.0);
-      mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
-      //mat4.identity(pMatrix);
-      mat4.identity(mvMatrix);
-      mat4.translate(mvMatrix, mvMatrix, [x, y, z]);
-      mat4.rotate(pMatrix, pMatrix, angle, [0.0, 1.0, 0.0]);
+      mMatrix = Matrix4.Translation(x, y, z);
+      //mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
+      ////mat4.identity(pMatrix);
+      //mat4.identity(mvMatrix);
+      //mat4.translate(mvMatrix, mvMatrix, [x, y, z]);
+      //mat4.rotate(pMatrix, pMatrix, angle, [0.0, 1.0, 0.0]);
     }
     function initShaders () {
       //console.log(document.getElementById('shader-fs').html());

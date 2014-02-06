@@ -9,7 +9,7 @@
     <textarea ng-model="m1.textarea" rows=4 cols=30></textarea>
     <button class="btn" ng-click="loadMatrix('m1')">Load Matrix 1</button>
     <hr />
-    <matrix4 data="m1">M1</matrix>
+    <matrix4 data="m1.elements">M1</matrix4>
   </div>
   <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 center">
     <h4>Matrix 2</h4>
@@ -17,7 +17,7 @@
     <button class="btn" ng-click="loadMatrix('m2')">Load Matrix 2</button>
     <hr />
     <div class="center">
-      <matrix4 data="m2">M2</matrix>
+      <matrix4 data="m2.elements">M2</matrix4>
     </div>
   </div>
   <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 center">
@@ -26,7 +26,7 @@
     <hr />
     <button class="btn" ng-click="calculate()">Multiply</button>
     <button class="btn" ng-click="calculate1()">Multiply !</button>
-    <matrix4 data="m3">Result</matrix>
+    <matrix4 data="m3.elements">Result</matrix4>
   </div>
 </div>
 <hr>
