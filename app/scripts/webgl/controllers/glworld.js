@@ -1,15 +1,11 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('GLWorldCtrl', function ($scope, Matrix4, Camera) {
+  .controller('GLWorldCtrl', function ($scope, Matrix4, Camera, World) {
     var gl = null;
     var glProgram = null;
     var fragmentShader = null;
     var vertexShader = null;
-    var x = 0.0;
-    var y = 0.0;
-    var z = -4.0;
-    var angle = 0.0;
 
 
     var mMatrix = new Matrix4();
@@ -24,11 +20,9 @@ angular.module('mctApp')
 
     $scope.lookLeft = function () {
       $scope.camera.rotateY(0.15);
-      angle += 0.15;
     };
     $scope.lookRight = function () {
       $scope.camera.rotateY(-0.15);
-      angle -= 0.15;
     };
     $scope.forward = function () {
       $scope.camera.position.z -= 1.0;
@@ -37,10 +31,10 @@ angular.module('mctApp')
       $scope.camera.position.z += 1.0;
     };
     $scope.left = function () {
-      x -= 1.0;
+      $scope.camera.position.x -= 1.0;
     };
     $scope.right = function () {
-      x += 1.0;
+      $scope.camera.position.x += 1.0;
     };
     $scope.initDemo = function (canvas) {
       $scope.canvas = canvas;
@@ -56,6 +50,7 @@ angular.module('mctApp')
         }
         $scope.camera = new Camera(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
         $scope.camera.position.z = 4.0;
+        $scope.world = new World();
         initShaders();
         setupBuffers();
         getMatrixUniforms();
@@ -83,7 +78,7 @@ angular.module('mctApp')
     }
 
     function setupWebGL () {
-      gl.clearColor(0.1, 0.5, 0.1, 1.0);
+      gl.clearColor(0.4, 0.4, 0.4, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.enable(gl.DEPTH_TEST);
       gl.viewport(0, 0, $scope.canvas.width, $scope.canvas.height);
@@ -94,7 +89,7 @@ angular.module('mctApp')
       pMatrix = $scope.camera.projectionMatrix;
       vMatrix = $scope.camera.matrixWorldInverse;
       //pMatrix1.makePerspective(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
-      mMatrix = Matrix4.Translation(x, y, z);
+      mMatrix = $scope.world.matrixWorld;
       //mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
       ////mat4.identity(pMatrix);
       //mat4.identity(mvMatrix);

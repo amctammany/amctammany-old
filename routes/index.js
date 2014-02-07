@@ -10,4 +10,7 @@ module.exports = function (app) {
       title: 'Express'
     });
   });
+  app.get('/matrix4.js', function (req, res) {
+    res.sendfile('app/scripts/mc3/services/matrix4.js');
+  });
 };
