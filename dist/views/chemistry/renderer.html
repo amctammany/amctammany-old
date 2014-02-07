@@ -4,6 +4,9 @@
     <ul class="list-group">
       <li class="list-group-item" ng-class="getMoleculeClass(molecule)" ng-repeat="molecule in molecules" ng-click="loadMolecule(molecule)">
         {{molecule.name}}
+        <span class="badge">
+          <span class="glyphicon glyphicon-remove" ng-click="deleteMolecule(molecule)"></span>
+        </span>
       </li>
     </ul>
   </div>

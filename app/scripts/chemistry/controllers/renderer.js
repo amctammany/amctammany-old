@@ -50,6 +50,16 @@ angular.module('mctApp')
       if (molecule.urlString === $routeParams.name) {return 'active';}
       return $scope.moleculeStore === molecule ? 'active' : '';
     };
+    $scope.deleteMolecule = function (molecule) {
+      console.log(molecule);
+      var confirm = window.confirm('Are you sure?');
+      console.log(confirm);
+      if (confirm) {
+        molecule.$delete();
+        $scope.molecules = MoleculeStore.query();
+      }
+
+    };
     $scope.loadMolecule = function (molecule) {
       if ($scope.animFrame) {
         window.cancelAnimationFrame($scope.animFrame);
