@@ -49,6 +49,7 @@ angular.module('mctApp')
           window.cancelAnimationFrame($scope.animFrame);
         }
         $scope.camera = new Camera(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
+        $scope.camera.position.x = 0.01;
         $scope.camera.position.z = 4.0;
         $scope.world = new World();
         initShaders();
