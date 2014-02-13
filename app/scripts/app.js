@@ -51,6 +51,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/mc3/world.html',
         controller: 'WorldCtrl'
       })
+      .when('/mc3/webgl', {
+        templateUrl: 'views/mc3/mc3gl.html',
+        controller: 'Mc3GLCtrl'
+      })
       .when('/chemistry/sketcher', {
         templateUrl: 'views/chemistry/sketcher.html',
         controller: 'SketcherCtrl'
@@ -87,6 +91,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
       .when('/webgl/test', {
         templateUrl: 'views/webgl/testmatrix.html',
         controller: 'TestMatrixCtrl'
+      })
+      .when('/mc3gl', {
+        templateUrl: 'views/mc3gl.html',
+        controller: 'Mc3glCtrl'
       })
       .otherwise({
         redirectTo: '/'
