@@ -47,7 +47,6 @@ angular.module('mctApp')
           1, 2, 3
         ]
       };
-
       $scope.world.planes.push(obj);
       obj = {
         vertices: [
@@ -69,6 +68,28 @@ angular.module('mctApp')
       };
 
       $scope.world.planes.push(obj);
+      obj = {
+        vertices: [
+          1.0, -1.0, -1.0,
+          1.0, 1.0, -1.0,
+          -1.0, -1.0, -1.0,
+          -1.0, 1.0, -1.0,
+        ],
+        colors: [
+          0.2, 0.0, 0.0,
+          0.2, 0.0, 0.0,
+          0.2, 0.0, 0.0,
+          0.2, 0.0, 0.0,
+        ],
+        indices: [
+          0, 1, 2,
+          1, 2, 3
+        ]
+      };
+
+      $scope.world.planes.push(obj);
+
+
 
       var fsSource = document.getElementById('shader-fs').innerHTML;
       var vsSource = document.getElementById('shader-vs').innerHTML;
