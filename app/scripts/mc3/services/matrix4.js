@@ -171,6 +171,26 @@ angular.module('mctApp')
       return this;
     };
 
+    Matrix4.prototype.translate = function (v) {
+      var te = this.elements;
+      //var x = v.x, y = v.y, z = v.z;
+      var x = v[0], y = v[1], z = v[2];
+
+      te[12] = te[0] * x + te[4] * y + te[8] * z + te[12];
+      te[13] = te[1] * x + te[5] * y + te[9] * z + te[13];
+      te[14] = te[2] * x + te[6] * y + te[10] * z + te[14];
+      te[15] = te[3] * x + te[7] * y + te[11] * z + te[15];
+    };
+
+    Matrix4.prototype.getPosition = function () {
+      var te = this.elements;
+      var x = te[12];
+      var y = te[13];
+      var z = te[14];
+      return new Vector3(x, y, z);
+
+    };
+
     Matrix4.prototype.setPosition = function (v) {
       var te = this.elements;
 

@@ -7,9 +7,48 @@
 </div>
 <div class="well row">
 
-  <div class="col-lg-4 col-md-4">
-    <matrix4 data="camera.projectionMatrix.elements">Camera Projection</matrix4>
+  <div class="col-lg-2 col-md-2">
+    <!--<matrix4 data="camera.projectionMatrix.elements">Camera Projection</matrix4>-->
+    Camera Position
+    <div class="form-horizontal">
+      <div class="input-group">
+        <span class="input-group-addon">X</span>
+        <input class="form-control" type="number" ng-model="camera.position.x" step="0.1">
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-addon">Y</span>
+        <input class="form-control" type="number" ng-model="camera.position.y" step="0.1">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon">Z</span>
+        <input class="form-control" type="number" ng-model="camera.position.z" step="0.1">
+      </div>
+    </div>
   </div>
+  <div class="col-lg-2 col-md-2">
+    <!--<matrix4 data="camera.projectionMatrix.elements">Camera Projection</matrix4>-->
+    Camera Rotation
+    <div class="form-horizontal">
+      <div class="input-group">
+        <span class="input-group-addon">X</span>
+        <span class="form-control">{{camera.rotation.x | number:3}}</span>
+        <!--<input class="form-control" type="number" ng-model="camera.rotation.x" step="0.1">-->
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-addon">Y</span>
+        <span class="form-control">{{camera.rotation.y | number:3}}</span>
+        <!--<input class="form-control" type="number" ng-model="camera.rotation.y" step="0.1">-->
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon">Z</span>
+        <span class="form-control">{{camera.rotation.z | number:3}}</span>
+        <!--<input class="form-control" type="number" ng-model="camera.rotation.z" step="0.1">-->
+      </div>
+    </div>
+  </div>
+
 
   <div class="col-lg-4 col-md-4">
     <matrix4 data="camera.matrixWorldInverse.elements">Camera View</matrix4>

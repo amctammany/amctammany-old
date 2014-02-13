@@ -107,6 +107,12 @@ angular.module('mctApp')
         this.rotateOnAxis(v1, angle);
       },
 
+      move: function (x, y, z) {
+        this.matrixWorld.translate([x, y, z]);
+        this.position = this.matrixWorld.getPosition();
+
+      },
+
 
       lookAt: function (vector) {
         var m1 = new Matrix4();
