@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('GLRenderer', function (Matrix4) {
+  .factory('GLRenderer', function (Matrix4, Wall) {
     var _gl, _glProgram;
     var GLRenderer = function (canvas, fsSource, vsSource) {
       this.canvas = canvas;
@@ -61,84 +61,42 @@ angular.module('mctApp')
 
     };
 
-    GLRenderer.prototype.setupBuffers = function () {
-      var roomVerticeColors = [
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
-      ];
-      this.roomColorBuffer = _gl.createBuffer();
-      _gl.bindBuffer(_gl.ARRAY_BUFFER, this.roomColorBuffer);
-      _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(roomVerticeColors), _gl.STATIC_DRAW);
-
-      var roomVertices = [
-        // Left Wall
-        -1.0, -1.0, 1.0,
-        -1.0, 1.0, 1.0,
-        -1.0, -1.0, -1.0,
-        -1.0, 1.0, -1.0,
-
-        // Right Wall
-        1.0, -1.0, 1.0,
-        1.0, 1.0, 1.0,
-        1.0, -1.0, -1.0,
-        1.0, 1.0, -1.0
-
-      ];
-      this.roomVerticeBuffer = _gl.createBuffer();
-      _gl.bindBuffer(_gl.ARRAY_BUFFER, this.roomVerticeBuffer);
-      _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(roomVertices), _gl.STATIC_DRAW);
-
-      var roomVertexIndices = [
-        // Left
-        0, 1, 2,
-        1, 2, 3,
-
-        // Right
-        4, 5, 6,
-        5, 6, 7,
-        // Back
-        2, 3, 6,
-        6, 7, 3,
-
-
-      ];
-
-      this.roomVerticesIndexBuffer = _gl.createBuffer();
-      this.roomVerticesIndexBuffer.numberVertexPoints = roomVertexIndices.length;
-      _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, this.roomVerticesIndexBuffer);
-      _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(roomVertexIndices), _gl.STATIC_DRAW);
-    };
-
     GLRenderer.prototype.setupWorld = function () {
-      for (var i = 0, l = this.world.planes.length; i < l; i++) {
-        var plane = this.world.planes[i];
-        var colorBuffer = _gl.createBuffer();
-        _gl.bindBuffer(_gl.ARRAY_BUFFER, colorBuffer);
-        _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.colors), _gl.STATIC_DRAW);
+      var bufferGroups = this.bufferGroups;
+      this.world.children.forEach(function (child) {
+        if (child instanceof Wall) {
+          var plane = child.getGLInfo();
+          var colorBuffer = _gl.createBuffer();
+          _gl.bindBuffer(_gl.ARRAY_BUFFER, colorBuffer);
+          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.colors), _gl.STATIC_DRAW);
 
-        var vertexBuffer = _gl.createBuffer();
-        _gl.bindBuffer(_gl.ARRAY_BUFFER, vertexBuffer);
-        _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.vertices), _gl.STATIC_DRAW);
+          var vertexBuffer = _gl.createBuffer();
+          _gl.bindBuffer(_gl.ARRAY_BUFFER, vertexBuffer);
+          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.vertices), _gl.STATIC_DRAW);
 
-        var indexBuffer = _gl.createBuffer();
-        indexBuffer.numberVertexPoints = plane.indices.length;
-        _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.indices), _gl.STATIC_DRAW);
+          var indexBuffer = _gl.createBuffer();
+          indexBuffer.numberVertexPoints = plane.indices.length;
+          _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+          _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.indices), _gl.STATIC_DRAW);
 
-        this.bufferGroups.push({
-          color: colorBuffer,
-          vertex: vertexBuffer,
-          index: indexBuffer
-        });
+          var lineColorBuffer = _gl.createBuffer();
+          _gl.bindBuffer(_gl.ARRAY_BUFFER, lineColorBuffer);
+          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.lineColors), _gl.STATIC_DRAW);
 
-      }
+          var lineIndexBuffer = _gl.createBuffer();
+          lineIndexBuffer.numberVertexPoints = plane.lineIndices.length;
+          _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, lineIndexBuffer);
+          _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.lineIndices), _gl.STATIC_DRAW);
+
+          bufferGroups.push({
+            color: colorBuffer,
+            vertex: vertexBuffer,
+            index: indexBuffer,
+            lineColor: lineColorBuffer,
+            lineIndex: lineIndexBuffer
+          });
+        }
+      });
 
     };
 
@@ -158,6 +116,15 @@ angular.module('mctApp')
 
         _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.index);
         _gl.drawElements(_gl.TRIANGLES, group.index.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
+
+        vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
+        _gl.enableVertexAttribArray(vertexColorAttribute);
+        _gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
+        _gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
+
+        _gl.lineWidth(3);
+        _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
+        _gl.drawElements(_gl.LINES, group.lineIndex.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
       }
 
     };
@@ -196,7 +163,6 @@ angular.module('mctApp')
         this.camera = camera;
         this.world = world;
         this.initShaders();
-        this.setupBuffers();
         this.setupWorld();
         this.getMatrixUniforms();
       }

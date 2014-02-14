@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('Mc3GLCtrl', function ($scope, GLRenderer, Camera, World) {
+  .controller('Mc3GLCtrl', function ($scope, GLRenderer, Camera, World, Wall) {
     $scope.lookLeft = function () {
       $scope.camera.rotateY(0.15);
     };
@@ -25,66 +25,16 @@ angular.module('mctApp')
       //$scope.camera.position.x += 1.0;
     };
     $scope.world = new World();
-    $scope.world.planes = [];
-    var obj = {
-      vertices: [
-        -1.0, -1.0, 1.0,
-        -1.0, 1.0, 1.0,
-        -1.0, -1.0, -1.0,
-        -1.0, 1.0, -1.0,
-      ],
-      colors: [
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-      ],
-      indices: [
-        0, 1, 2,
-        1, 2, 3
-      ]
-    };
-    $scope.world.planes.push(obj);
-    obj = {
-      vertices: [
-        1.0, -1.0, 1.0,
-        1.0, 1.0, 1.0,
-        1.0, -1.0, -1.0,
-        1.0, 1.0, -1.0,
-      ],
-      colors: [
-        0.0, 1.0, 1.0,
-        0.0, 1.0, 1.0,
-        0.0, 1.0, 1.0,
-        0.0, 1.0, 1.0,
-      ],
-      indices: [
-        0, 1, 2,
-        1, 2, 3
-      ]
-    };
 
-    $scope.world.planes.push(obj);
-    obj = {
-      vertices: [
-        1.0, -1.0, -1.0,
-        1.0, 1.0, -1.0,
-        -1.0, -1.0, -1.0,
-        -1.0, 1.0, -1.0,
-      ],
-      colors: [
-        0.2, 0.0, 0.0,
-        0.2, 0.0, 0.0,
-        0.2, 0.0, 0.0,
-        0.2, 0.0, 0.0,
-      ],
-      indices: [
-        0, 1, 2,
-        1, 2, 3
-      ]
-    };
+    var wall = new Wall([0, 0, -1], [0, 0, 1], [1, 0, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    $scope.world.add(wall);
+    wall = new Wall([1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    $scope.world.add(wall);
 
-    $scope.world.planes.push(obj);
+    wall = new Wall([-1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    $scope.world.add(wall);
+
+
 
     $scope.initDemo = function (canvas) {
       if ($scope.animFrame) {
