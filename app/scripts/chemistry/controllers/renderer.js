@@ -45,6 +45,9 @@ angular.module('mctApp')
       }
     };
 
+    $scope.handleKeyPress = function (e) {
+      console.log(e);
+    };
 
     $scope.getMoleculeClass = function (molecule) {
       if (molecule.urlString === $routeParams.name) {return 'active';}
