@@ -8,9 +8,9 @@ angular.module('mctApp')
       $scope.canvas.focus();
       if (prevX && prevY) {
         var dx = prevX - e.x;
-        var dy = prevY - e.y;
+        //var dy = prevY - e.y;
         if (Math.abs(dx) < 20) {
-          $scope.camera.rotateY(dx / 500);
+          $scope.camera.rotateY(dx / 200);
         }
         //$scope.camera.rotateX(dy / 500);
       }
@@ -19,7 +19,20 @@ angular.module('mctApp')
     };
 
     $scope.handleKeyPress = function (e) {
-      console.log(e);
+      switch (e.keyCode) {
+        case 87:
+          $scope.forward();
+          break;
+        case 65:
+          $scope.left();
+          break;
+        case 83:
+          $scope.back();
+          break;
+        case 68:
+          $scope.right();
+          break;
+      }
     };
     $scope.lookLeft = function () {
       $scope.camera.rotateY(0.15);
