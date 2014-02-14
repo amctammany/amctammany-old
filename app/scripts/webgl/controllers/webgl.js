@@ -66,7 +66,7 @@ angular.module('mctApp')
 
 
       pMatrix1.makePerspective(45, $scope.canvas.width / $scope.canvas.height, 0.1, 100);
-      mvMatrix1 = Matrix4.Translation(0, 0, -3.0);
+      mvMatrix1 = Matrix4.Translation(0, 0, z);
       //mat4.perspective(pMatrix, 45, $scope.canvas.width / $scope.canvas.height, 0.1, 100.0);
       //mat4.identity(mvMatrix);
       //mat4.translate(mvMatrix, mvMatrix, [-1.0, -1.0, z]);

@@ -26,12 +26,12 @@ angular.module('mctApp')
     };
     $scope.world = new World();
 
-    var wall = new Wall([0, 0, -1], [0, 0, 1], [1, 0, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    var wall = new Wall([0, 0, -1], [0, 0, 1], [1, 0, 0], 2, 2,  [0.5, 0.5, 0.5]);
     $scope.world.add(wall);
-    wall = new Wall([1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    wall = new Wall([1, 0, 0], [-1, 0, 0], [0, 1, 0], 2, 2,  [0.5, 0.5, 0.5]);
     $scope.world.add(wall);
 
-    wall = new Wall([-1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [1.0, 1.0, 1.0]);
+    wall = new Wall([-1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [0.5, 0.5, 0.5]);
     $scope.world.add(wall);
 
 

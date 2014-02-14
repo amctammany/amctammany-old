@@ -22,6 +22,7 @@
         "angular": false,
         "Showdown": false,
         "THREE": false,
-        "mat4": false
+        "mat4": false,
+        "mat3": false
     }
 }
