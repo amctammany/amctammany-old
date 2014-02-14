@@ -34,6 +34,11 @@ angular.module('mctApp')
         0, 1, 2,
         0, 2, 3
       ];
+      var normals = [];
+      normals.push(this.normal.x, this.normal.y, this.normal.z);
+      normals.push(this.normal.x, this.normal.y, this.normal.z);
+      normals.push(this.normal.x, this.normal.y, this.normal.z);
+      normals.push(this.normal.x, this.normal.y, this.normal.z);
       var lineColors = [
         0.0, 0.0, 0.0,
         0.0, 0.0, 0.0,
@@ -50,6 +55,7 @@ angular.module('mctApp')
         vertices: vertices,
         colors: colors,
         indices: indices,
+        normals: normals,
         lineColors: lineColors,
         lineIndices: lineIndices
       };

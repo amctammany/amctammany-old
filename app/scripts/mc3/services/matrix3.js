@@ -57,6 +57,14 @@ angular.module('mctApp')
       return this;
     };
 
+    Matrix3.prototype.multiplyScalar = function (s) {
+      var te = this.elements;
+      te[0] *= s; te[3] *= s; te[6] *= s;
+      te[1] *= s; te[4] *= s; te[7] *= s;
+      te[2] *= s; te[5] *= s; te[8] *= s;
+      return this;
+    };
+
     Matrix3.prototype.getInverse = function (matrix) {
       // Input: Matrix 4
       var me = matrix.elements;
