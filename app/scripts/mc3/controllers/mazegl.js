@@ -1,21 +1,29 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('MazeGLCtrl', function ($scope, GLRenderer, Camera, World, Wall) {
+  .controller('MazeGLCtrl', function ($scope, GLRenderer, Camera, World, Wall, MazeStore) {
 
     var prevX, prevY;
+    $scope.handleMouseDown = function (e) {
+      prevX = e.x;
+      prevY = e.y;
+    };
+    $scope.handleMouseUp = function () {
+      prevX = null;
+      prevY = null;
+    };
     $scope.handleMouseMove = function (e) {
       $scope.canvas.focus();
       if (prevX && prevY) {
         var dx = prevX - e.x;
         //var dy = prevY - e.y;
         if (Math.abs(dx) < 20) {
-          $scope.camera.rotateY(dx / 200);
+          $scope.camera.rotateY(dx / 100);
+          //$scope.camera.rotateX(dy / 500);
         }
-        //$scope.camera.rotateX(dy / 500);
+        prevX = e.x;
+        prevY = e.y;
       }
-      prevX = e.x;
-      prevY = e.y;
     };
 
     $scope.handleKeyPress = function (e) {
@@ -57,25 +65,44 @@ angular.module('mctApp')
       //$scope.camera.position.x += 1.0;
     };
     $scope.world = new World();
+    function loadMaze (config) {
+      config.cells.forEach(function (cell) {
+        var x = cell.row * 2;
+        var z = cell.column * 2;
+        var color = [0.5, 0.5, 0.5];
+        var floorColor = [0.1, 0.1, 0.1];
+        var wall;
+        if (cell.row === config.start.row && cell.column === config.start.column) {
+          floorColor = [1.0, 0.0, 0.0];
+        }
+        if (cell.row === config.end.row && cell.column === config.end.column) {
+          floorColor = [0.0, 1.0, 0.0];
+        }
+        wall = new Wall([x, -1, z], [0, 1, 0], [0, 0, 1], 2, 2, floorColor);
+        $scope.world.add(wall);
 
-    var wall = new Wall([0, 0, -3], [0, 0, 1], [1, 0, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
+        if (!cell.top) {
+          wall = new Wall([x - 1, 0, z], [-1, 0, 0], [0, 1, 0], 2, 2, color);
+          $scope.world.add(wall);
+        }
+        if (!cell.bottom) {
+          wall = new Wall([x + 1, 0, z], [-1, 0, 0], [0, 1, 0], 2, 2, color);
+          $scope.world.add(wall);
+        }
 
-    wall = new Wall([-2, 0, -3], [0, 0, 1], [1, 0, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
+        if (!cell.left) {
+          wall = new Wall([x, 0, z - 1], [0, 0, -1], [1, 0, 0], 2, 2, color);
+          $scope.world.add(wall);
+        }
+        if (!cell.right) {
+          wall = new Wall([x, 0, z + 1], [0, 0, -1], [1, 0, 0], 2, 2, color);
+          $scope.world.add(wall);
 
-    wall = new Wall([-2, 0, -1], [0, 0, 1], [1, 0, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
-    wall = new Wall([1, 0, 0], [-1, 0, 0], [0, 1, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
+        }
+      });
+      animLoop();
 
-    wall = new Wall([1, 0, -2], [-1, 0, 0], [0, 1, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
-
-    wall = new Wall([-1, 0, 0], [1, 0, 0], [0, 1, 0], 2, 2,  [0.5, 0.5, 0.5]);
-    $scope.world.add(wall);
-
-
+    }
 
     $scope.initDemo = function (canvas) {
       $scope.canvas = canvas;
@@ -84,7 +111,14 @@ angular.module('mctApp')
       }
       if (!$scope.camera) {
         $scope.camera = new Camera(45, canvas.width / canvas.height, 0.1, 100);
-        $scope.camera.position.z = 4.0;
+        $scope.camera.position.y = 0.0;
+        $scope.camera.position.z = 1.0;
+      }
+      if (!$scope.maze) {
+        $scope.maze = MazeStore.get({name: 'big'}, function (maze) {
+          var config = JSON.parse(maze.config);
+          loadMaze(config);
+        });
       }
 
 
@@ -92,11 +126,13 @@ angular.module('mctApp')
       var fsSource = document.getElementById('shader-fs').innerHTML;
       var vsSource = document.getElementById('shader-vs').innerHTML;
       $scope.renderer = new GLRenderer(canvas, fsSource, vsSource);
+      $scope.renderer.lineWidth = 2.0;
 
-      (function animLoop () {
-        $scope.renderer.render($scope.world, $scope.camera);
-        $scope.animFrame = window.requestAnimationFrame(animLoop);
-      })();
     };
+
+    function animLoop () {
+      $scope.renderer.render($scope.world, $scope.camera);
+      $scope.animFrame = window.requestAnimationFrame(animLoop);
+    }
 
   });
