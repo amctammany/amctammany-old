@@ -8,6 +8,7 @@ angular.module('mctApp')
       this.width = canvas.width;
       this.height = canvas.height;
       this.bufferGroups = [];
+      this.lineWidth = 3;
       _gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
 
@@ -18,6 +19,7 @@ angular.module('mctApp')
         this.pMatrix = new Matrix4();
         this.vMatrix = new Matrix4();
         this.mMatrix = new Matrix4();
+        this.mvMatrix = new Matrix4();
         this.normalMatrix = new Matrix3();
         this.vsSource = vsSource;
         this.fsSource = fsSource;
@@ -27,12 +29,14 @@ angular.module('mctApp')
       _glProgram.pMatrixUniform = _gl.getUniformLocation(_glProgram, 'uPMatrix');
       _glProgram.vMatrixUniform = _gl.getUniformLocation(_glProgram, 'uVMatrix');
       _glProgram.mMatrixUniform = _gl.getUniformLocation(_glProgram, 'uMMatrix');
+      _glProgram.mvMatrixUniform = _gl.getUniformLocation(_glProgram, 'uMVMatrix');
       _glProgram.normalMatrixUniform = _gl.getUniformLocation(_glProgram, 'uNormalMatrix');
     };
     GLRenderer.prototype.setMatrixUniforms = function () {
       _gl.uniformMatrix4fv(_glProgram.pMatrixUniform, false, this.pMatrix.elements);
       _gl.uniformMatrix4fv(_glProgram.vMatrixUniform, false, this.vMatrix.elements);
       _gl.uniformMatrix4fv(_glProgram.mMatrixUniform, false, this.mMatrix.elements);
+      _gl.uniformMatrix4fv(_glProgram.mvMatrixUniform, false, this.mvMatrix.elements);
       _gl.uniformMatrix3fv(_glProgram.normalMatrixUniform, false, this.normalMatrix.elements);
     };
 
@@ -137,7 +141,7 @@ angular.module('mctApp')
         _gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
         _gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
 
-        _gl.lineWidth(3);
+        _gl.lineWidth(this.lineWidth);
         _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
         _gl.drawElements(_gl.LINES, group.lineIndex.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
       }
@@ -166,10 +170,13 @@ angular.module('mctApp')
       _gl.viewport(0, 0, this.width, this.height);
       this.camera.updateMatrixWorld(true);
       this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld);
+      this.world.updateMatrixWorld(true);
       this.pMatrix = this.camera.projectionMatrix;
       this.vMatrix = this.camera.matrixWorldInverse;
       this.mMatrix = this.world.matrixWorld;
-      this.normalMatrix.getInverse(this.vMatrix).transpose();
+
+      this.mvMatrix.multiplyMatrices(this.mMatrix, this.vMatrix);
+      this.normalMatrix.getInverse(this.mvMatrix).transpose();
     };
 
 
