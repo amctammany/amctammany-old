@@ -10,7 +10,6 @@ angular.module('mctApp')
         scope.active = false;
         scope.text = attrs.off;
         scope.toggle = function () {
-          scope[attrs.action]();
           if (scope.active) {
             elm.removeClass('btn-danger');
             elm.addClass('btn-success');
@@ -22,6 +21,7 @@ angular.module('mctApp')
             scope.text = attrs.on;
             scope.active = true;
           }
+          scope[attrs.action]();
         };
       }
     };

@@ -100,9 +100,9 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/webgl/testmatrix.html',
         controller: 'TestMatrixCtrl'
       })
-      .when('/mc3gl', {
-        templateUrl: 'views/mc3gl.html',
-        controller: 'Mc3glCtrl'
+      .when('/audio', {
+        templateUrl: 'views/audio/audio.html',
+        controller: 'AudioCtrl'
       })
       .otherwise({
         redirectTo: '/'

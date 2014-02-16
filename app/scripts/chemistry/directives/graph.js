@@ -23,41 +23,45 @@ angular.module('mctApp')
         var maxX = parseFloat(matches[2]);
         var xRange = maxX - minX;
         var minY, maxY;
-        if (attrs.rangeY) {
-          matches = attrs.rangeY.match(arrayParser);
-          minY = matches[1];
-          maxY = matches[2];
-        } else {
-          minY = 10000;
-          maxY = -10000;
-
-        }
-
-        var x = minX;
-        var xArray = [];
-        var increment = parseFloat(attrs.increment);
-        while (x <= maxX) {
-          xArray.push(x);
-          x += increment;
-        }
-        var points = [];
-        xArray.forEach(function (x) {
-          var y = graphFunc(x);
-          if (y < minY) {
-            minY = y;
+        var yRange = 1;
+        function getPoints () {
+          var points = [];
+          var x = minX;
+          var xArray = [];
+          var increment = parseFloat(attrs.increment);
+          while (x <= maxX) {
+            xArray.push(x);
+            x += increment;
           }
-          if (y > maxY) {
-            maxY = y;
+          if (attrs.rangeY) {
+            matches = attrs.rangeY.match(arrayParser);
+            minY = matches[1];
+            maxY = matches[2];
+          } else {
+            minY = 10000;
+            maxY = -10000;
+
           }
-          points.push({x: x, y: y});
-        });
-        maxY *= 3;
-        minY *= 3;
-        var yRange = (maxY - minY);
+
+          xArray.forEach(function (x) {
+            var y = graphFunc(x);
+            if (y < minY) {
+              minY = y;
+            }
+            if (y > maxY) {
+              maxY = y;
+            }
+            points.push({x: x, y: y});
+          });
+          maxY *= 3;
+          minY *= 3;
+          yRange = (maxY - minY);
+          return points;
+        }
 
         function resizeCanvas () {
+          graphFunc = scope[attrs.func];
           width = element[0].clientWidth;
-          console.log(element[0].clientHeight);
           height = width * 0.67;
           canvas.width = width;
           canvas.height = height;
@@ -86,6 +90,8 @@ angular.module('mctApp')
           ctx.stroke();
         }
         function draw () {
+          ctx.clearRect(0, 0, width, height);
+          var points = getPoints();
           drawAxes();
           var cartesian = points.map(cartesianToCanvas);
           ctx.beginPath();
@@ -101,6 +107,10 @@ angular.module('mctApp')
 
         resizeCanvas();
         $window.onresize = resizeCanvas;
+        scope.$watch('graphDirty', function () {
+          draw();
+          scope.graphDirty = false;
+        });
       }
     };
   });

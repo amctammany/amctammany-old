@@ -1,0 +1,24 @@
+<p>This is the audio view.</p>
+
+<div class="row well">
+  <div class="col-lg-6">
+    <div class="row center">
+      <toggle on="Stop" off="Play" action="togglePlay"></toggle>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-horizontal">
+          <div class="input-group">
+            <span class="input-group-addon">Frequency</span>
+            <input class="form-control" type="number" ng-model="frequency">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <graph func="audioFormula" range-x="[-0.05, 0.05]" increment="0.001">
+    
+    </graph>
+  </div>
+</div>
