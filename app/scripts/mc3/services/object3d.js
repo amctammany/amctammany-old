@@ -9,6 +9,7 @@ angular.module('mctApp')
       this.children = [];
 
       this.position = new Vector3(0, 0, 0);
+      this.previous = new Vector3(0, 0, 0);
       this._rotation = new Euler();
       this._quaternion = new Quaternion();
       this.scale = new Vector3(1, 1, 1);
@@ -108,6 +109,7 @@ angular.module('mctApp')
       },
 
       move: function (x, y, z) {
+        this.previous.copy(this.position);
         this.matrixWorld.translate([x, y, z]);
         this.position = this.matrixWorld.getPosition();
 
