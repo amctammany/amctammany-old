@@ -6,31 +6,42 @@ angular.module('mctApp')
     $scope.frequency = 440;
     var ctx = new $window.webkitAudioContext();
 
-    var oscillator = ctx.createOscillator();
-    oscillator.type = 0;
-    oscillator.frequency.value = $scope.frequency;
+    var osc = ctx.createOscillator();
+    //osc.type = 0;
+    osc.frequency.value = $scope.frequency;
 
-    var gain = ctx.createGain();
-    gain.gain.value = 0;
+    var mod = ctx.createOscillator();
+    $scope.mod = mod;
+    mod.frequency.value = 8;
 
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-    oscillator.start(0);
+    $scope.gain = ctx.createGain();
+    $scope.gain.gain.value = 30;
+
+    var finalGain = ctx.createGain();
+    finalGain.gain.value = 0;
+
+    mod.connect($scope.gain);
+    $scope.gain.connect(osc.frequency);
+    osc.connect(finalGain);
+    finalGain.connect(ctx.destination);
+
+    osc.start(0);
+    mod.start(0);
     //oscillator.noteOn(0);
 
     $scope.$watch('frequency', function () {
-      oscillator.frequency.value = $scope.frequency;
+      osc.frequency.value = $scope.frequency;
       $scope.graphDirty = true;
     });
 
     $scope.audioFormula = function (x) {
-      return Math.sin(x * $scope.frequency);
+      return Math.sin( 8 * Math.sin(x * $scope.frequency));
     };
     $scope.togglePlay = function () {
       if ($scope.active) {
-        gain.gain.value = 1;
+        finalGain.gain.value = 1;
       } else {
-        gain.gain.value = 0;
+        finalGain.gain.value = 0;
       }
     };
   });
