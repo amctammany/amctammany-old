@@ -51,6 +51,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/mc3/world.html',
         controller: 'WorldCtrl'
       })
+      .when('/mc3/floors', {
+        templateUrl: 'views/mc3/floors.html',
+        controller: 'FloorsCtrl'
+      })
       .when('/mc3/webgl', {
         templateUrl: 'views/mc3/mc3gl.html',
         controller: 'Mc3GLCtrl'

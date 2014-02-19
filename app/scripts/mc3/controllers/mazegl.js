@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .controller('MazeGLCtrl', function ($scope, GLRenderer, Camera, World, Wall, MazeStore) {
+  .controller('MazeGLCtrl', function ($scope, GLRenderer, Camera, World, Wall, Floor, MazeStore) {
 
     var prevX, prevY;
     $scope.handleMouseDown = function (e) {
@@ -71,15 +71,16 @@ angular.module('mctApp')
         var z = cell.column * 2;
         var color = [0.5, 0.5, 0.5];
         var floorColor = [0.1, 0.1, 0.1];
-        var wall;
+        var wall, floor;
         if (cell.row === config.start.row && cell.column === config.start.column) {
           floorColor = [1.0, 0.0, 0.0];
         }
         if (cell.row === config.end.row && cell.column === config.end.column) {
           floorColor = [0.0, 1.0, 0.0];
         }
-        wall = new Wall([x, -1, z], [0, 1, 0], [0, 0, 1], 2, 2, floorColor);
-        $scope.world.add(wall);
+        floor = new Wall([x, -1, z], [0, 1, 0], [0, 0, 1], 2, 2, floorColor);
+        floor = new Floor([x, -1, z], 2, 2, floorColor);
+        $scope.world.add(floor);
 
         if (!cell.top) {
           wall = new Wall([x - 1, 0, z], [-1, 0, 0], [0, 1, 0], 2, 2, color);
