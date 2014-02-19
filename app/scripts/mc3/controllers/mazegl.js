@@ -112,7 +112,7 @@ angular.module('mctApp')
       }
       if (!$scope.camera) {
         $scope.camera = new Camera(45, canvas.width / canvas.height, 0.1, 100);
-        $scope.camera.position.y = 0.25;
+        $scope.camera.position.y = 0.05;
         $scope.camera.position.z = 1.0;
       }
       if (!$scope.maze) {

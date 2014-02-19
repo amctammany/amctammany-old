@@ -104,7 +104,7 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/webgl/testmatrix.html',
         controller: 'TestMatrixCtrl'
       })
-      .when('/audio', {
+      .when('/experiments/audio', {
         templateUrl: 'views/audio/audio.html',
         controller: 'AudioCtrl'
       })
