@@ -113,12 +113,15 @@ angular.module('mctApp')
       if (!$scope.camera) {
         $scope.camera = new Camera(45, canvas.width / canvas.height, 0.1, 100);
         $scope.camera.position.y = 0.05;
-        $scope.camera.position.z = 1.0;
+        $scope.camera.position.z = 1.01;
+        $scope.camera.world = $scope.world;
+        $scope.world.camera = $scope.camera;
       }
       if (!$scope.maze) {
         $scope.maze = MazeStore.get({name: 'big'}, function (maze) {
           var config = JSON.parse(maze.config);
           loadMaze(config);
+          $scope.camera.findVisible();
         });
       }
 

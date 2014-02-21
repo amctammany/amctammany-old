@@ -14,11 +14,27 @@ angular.module('mctApp')
       this.projectionMatrix = new Matrix4();
 
       this.updateProjectionMatrix();
-
     };
+
 
     Camera.prototype = Object.create(Object3d.prototype);
 
+    Camera.prototype.move = function () {
+      Object3d.prototype.move.apply(this, arguments);
+      console.log(this.findVisible());
+      console.log('move camera');
+    };
+    Camera.prototype.findVisible = function () {
+
+      this.visibleObjects = [];
+      var x = new Vector3(-1, 0, 0);
+      console.log(this.world);
+      var l = this.position.add(x);
+      console.log(this.visibleObjects);
+      console.log(l);
+      return this.visibleObjects;
+
+    };
     Camera.prototype.updateProjectionMatrix = function () {
       if (this.fullWidth) {
         var aspect = this.fullWidth / this.fullHeight;

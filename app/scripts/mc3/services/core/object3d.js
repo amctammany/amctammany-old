@@ -67,6 +67,7 @@ angular.module('mctApp')
           while (world.parent !== undefined) {
             world = world.parent;
           }
+          this.world = world;
           if (world !== undefined) {
             world.addObject(object);
           }
@@ -112,6 +113,9 @@ angular.module('mctApp')
         this.previous.copy(this.position);
         this.matrixWorld.translate([x, y, z]);
         this.position = this.matrixWorld.getPosition();
+        var vector = this.position.sub(this.previous);
+        console.log(vector);
+        //console.log(this.world);
 
       },
 
