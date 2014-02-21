@@ -81,6 +81,7 @@ angular.module('mctApp')
 
     var Ball = function (x, y) {
       this.particle = new Particle('world', x, y, 0, 1);
+      this.radius = 5;
       this.height = 5;
       this.width = 5;
     };
@@ -107,7 +108,7 @@ angular.module('mctApp')
 
     Ball.prototype.draw = function (ctx) {
       ctx.beginPath();
-      ctx.arc(this.particle.current.x, this.particle.current.y, 5, 0, 6.28, 0);
+      ctx.arc(this.particle.current.x, this.particle.current.y, this.radius, 0, 6.28, 0);
       ctx.closePath();
       ctx.fill();
     };
