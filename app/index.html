@@ -88,6 +88,15 @@
                   </ul>
                 </li>
 
+                <li class="dropdown" ng-class="getClass('/games')">
+                  <a class="dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#" ng-href="#/games/cannon">Cannon</a>
+                    </li>
+                  </ul>
+                </li>
+
                 <li class="dropdown" ng-class="getClass('/mc3')">
                   <a class="dropdown-toggle" data-toggle="dropdown">Mc3 <b class="caret"></b></a>
                   <ul class="dropdown-menu">
@@ -136,20 +145,20 @@
                   </ul>
                 </li>
 
-                <li class="dropdown" ng-class="getClass('/webgl')">
-                  <a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#" ng-href="#/webgl">WebGL</a>
-                    </li>
-                    <li>
-                      <a href="#" ng-href="#/webgl/world">World</a>
-                    </li>
-                    <li>
-                      <a href="#" ng-href="#/webgl/test">Test Matrix</a>
-                    </li>
-                  </ul>
-                </li>
+                <!--<li class="dropdown" ng-class="getClass('/webgl')">-->
+                  <!--<a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>-->
+                  <!--<ul class="dropdown-menu">-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl">WebGL</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl/world">World</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl/test">Test Matrix</a>-->
+                    <!--</li>-->
+                  <!--</ul>-->
+                <!--</li>-->
 
               </ul>
             </div>
@@ -242,6 +251,8 @@
         <script src="scripts/webgl/controllers/glworld.js"></script>
         <script src="scripts/webgl/controllers/testmatrix.js"></script>
         <script src="scripts/audio/controllers/audio.js"></script>
+        <script src="scripts/games/controllers/cannon.js"></script>
+        <script src="scripts/games/services/particle.js"></script>
         <!-- endbuild -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     </body>

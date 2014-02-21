@@ -17,7 +17,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
 
-        <link rel="stylesheet" href="styles/38f00dd6.main.css">
+        <link rel="stylesheet" href="styles/20081f07.main.css">
     </head>
     <body ng-app="mctApp" ng-controller="MainCtrl">
         <!--[if lt IE 7]>
@@ -86,6 +86,15 @@
                   </ul>
                 </li>
 
+                <li class="dropdown" ng-class="getClass('/games')">
+                  <a class="dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#" ng-href="#/games/cannon">Cannon</a>
+                    </li>
+                  </ul>
+                </li>
+
                 <li class="dropdown" ng-class="getClass('/mc3')">
                   <a class="dropdown-toggle" data-toggle="dropdown">Mc3 <b class="caret"></b></a>
                   <ul class="dropdown-menu">
@@ -134,20 +143,20 @@
                   </ul>
                 </li>
 
-                <li class="dropdown" ng-class="getClass('/webgl')">
-                  <a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#" ng-href="#/webgl">WebGL</a>
-                    </li>
-                    <li>
-                      <a href="#" ng-href="#/webgl/world">World</a>
-                    </li>
-                    <li>
-                      <a href="#" ng-href="#/webgl/test">Test Matrix</a>
-                    </li>
-                  </ul>
-                </li>
+                <!--<li class="dropdown" ng-class="getClass('/webgl')">-->
+                  <!--<a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>-->
+                  <!--<ul class="dropdown-menu">-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl">WebGL</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl/world">World</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                      <!--<a href="#" ng-href="#/webgl/test">Test Matrix</a>-->
+                    <!--</li>-->
+                  <!--</ul>-->
+                <!--</li>-->
 
               </ul>
             </div>
@@ -170,7 +179,7 @@
 
         <script src="scripts/d2972e81.modules.js"></script>
 
-        <script src="scripts/8901dce2.scripts.js"></script>
+        <script src="scripts/e5520078.scripts.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     </body>
 </html>
