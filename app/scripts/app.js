@@ -112,6 +112,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/games/cannon.html',
         controller: 'CannonCtrl'
       })
+      .when('/games/pegs', {
+        templateUrl: 'views/games/pegs.html',
+        controller: 'PegsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

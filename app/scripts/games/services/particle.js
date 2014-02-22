@@ -14,6 +14,12 @@ angular.module('mctApp')
       this.inverseMass = (this.mass !== 0) ? 1.0 / mass : 0;
 
     };
+    Particle.prototype.getCurrent = function () {
+      return this.current;
+    };
+    Particle.prototype.getPrevious = function () {
+      return this.previous;
+    };
 
     Particle.prototype.integrate = function (delta, damping) {
       if (this.inverseMass === 0) {return;}
