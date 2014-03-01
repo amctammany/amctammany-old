@@ -5,8 +5,12 @@ angular.module('mctApp')
 
 
     var Cannon = function (x, y) {
+      //var nx = 2 * x / $scope.canvas.width - 1;
+      //var ny = 2 * y / $scope.canvas.height - 1;
       this.x = x;
       this.y = y;
+      console.log(this.x);
+      console.log(this.y);
       this.rotation = 0;
     };
     Cannon.prototype.fire = function (dx, dy) {
@@ -17,7 +21,9 @@ angular.module('mctApp')
     Cannon.prototype.draw = function (ctx) {
       ctx.save();
       ctx.beginPath();
-      ctx.translate(this.x, this.y);
+      var x = (this.x * $scope.canvas.width) + $scope.canvas.width;
+      var y = (this.y * -1 * $scope.canvas.height); // + $scope.canvas.height / 2;
+      ctx.translate(x, y);
       ctx.rotate(this.rotation);
       ctx.arc(0, 0, 15, 0, 6.28, 0);
       ctx.fillRect(-3, -25, 6, 25);
@@ -29,6 +35,8 @@ angular.module('mctApp')
     };
 
     var Bucket = function (x, y) {
+      //var nx = 2 * x / $scope.canvas.width - 1;
+      //var ny = 2 * y / $scope.canvas.height - 1;
       this.x = x;
       this.y = y;
       this.width = 40;
@@ -39,7 +47,11 @@ angular.module('mctApp')
     Bucket.prototype.draw = function (ctx) {
       ctx.save();
       ctx.beginPath();
-      ctx.rect(this.x, this.y, this.width, this.height);
+      var x = (this.x * $scope.canvas.width);
+      var y = (this.y * -1 * $scope.canvas.height); // + $scope.canvas.height / 2;
+      console.log(x);
+      ctx.rect(x, y, this.width, this.height);
+      //ctx.rect(this.x * $scope.canvas.width + $scope.canvas.width, this.y * $scope.canvas.height, this.width, this.height);
       ctx.closePath();
       ctx.strokeStyle = 'black';
       ctx.lineWidth = 2;
@@ -98,7 +110,7 @@ angular.module('mctApp')
       //this.particle = new Particle('world', $scope.cannon.x, $scope.cannon.y);
     };
     Ball.prototype.checkBounds = function () {
-      if (this.particle.current.x < 0 || this.particle.current.x > $scope.canvas.width || this.particle.current.y > $scope.canvas.height) { // || this.particle.current.y > $scope.canvas.height) {
+      if (this.particle.current.x < -1 || this.particle.current.x > 1 || this.particle.current.y > -1) { // || this.particle.current.y > $scope.canvas.height) {
         return true;
       }
       else {
@@ -116,8 +128,8 @@ angular.module('mctApp')
     $scope.initDemo = function (canvas) {
       $scope.canvas = canvas;
       $scope.ctx = canvas.getContext('2d');
-      $scope.bucket = new Bucket(canvas.width * 0.9, canvas.height * 0.9);
-      $scope.cannon = new Cannon(canvas.width * 0.05, canvas.height * 0.9);
+      $scope.bucket = new Bucket(0.9, -0.9);
+      $scope.cannon = new Cannon(-0.95, -0.9);
       $scope.animFrame = $window.requestAnimationFrame(animate);
     };
     $scope.handleMouseDown = function (e) {
