@@ -49,7 +49,6 @@ angular.module('mctApp')
       ctx.beginPath();
       var x = (this.x * $scope.canvas.width);
       var y = (this.y * -1 * $scope.canvas.height); // + $scope.canvas.height / 2;
-      console.log(x);
       ctx.rect(x, y, this.width, this.height);
       //ctx.rect(this.x * $scope.canvas.width + $scope.canvas.width, this.y * $scope.canvas.height, this.width, this.height);
       ctx.closePath();
@@ -120,7 +119,7 @@ angular.module('mctApp')
 
     Ball.prototype.draw = function (ctx) {
       ctx.beginPath();
-      ctx.arc(this.particle.current.x, this.particle.current.y, this.radius, 0, 6.28, 0);
+      ctx.arc(this.particle.current.x * $scope.canvas.width, this.particle.current.y * $scope.canvas.height, this.radius, 0, 6.28, 0);
       ctx.closePath();
       ctx.fill();
     };
@@ -134,23 +133,30 @@ angular.module('mctApp')
     };
     $scope.handleMouseDown = function (e) {
       $scope.crosshair = new Crosshair(e.offsetX, e.offsetY);
-      var dx = e.offsetX - $scope.cannon.x;
-      var dy = e.offsetY - $scope.cannon.y;
+      var nx = (2 * e.offsetX / $scope.canvas.width) - 1;
+      var ny = (-2 * e.offsetY / $scope.canvas.height) + 1;
+      var dx = nx - $scope.cannon.x;
+      var dy = $scope.cannon.y - ny;
       var angle = Math.atan2(dy, dx) + (Math.PI / 2);
+      console.log(ny);
       $scope.cannon.rotation = angle;
     };
 
     $scope.handleMouseUp = function (e) {
-      var dx = e.offsetX - $scope.cannon.x;
-      var dy = e.offsetY - $scope.cannon.y;
+      var nx = (2 * e.offsetX / $scope.canvas.width) - 1;
+      var ny = (-2 * e.offsetY / $scope.canvas.height) + 1;
+      var dx = nx - $scope.cannon.x;
+      var dy = $scope.cannon.y - ny;
       $scope.cannon.fire(dx, dy);
       $scope.crosshair = null;
     };
 
     $scope.handleMouseMove = function (e) {
       if ($scope.crosshair) {
-        var dx = e.offsetX - $scope.cannon.x;
-        var dy = e.offsetY - $scope.cannon.y;
+        var nx = (2 * e.offsetX / $scope.canvas.width) - 1;
+        var ny = (-2 * e.offsetY / $scope.canvas.height) + 1;
+        var dx = nx - $scope.cannon.x;
+        var dy = $scope.cannon.y - ny;
         var angle = Math.atan2(dy, dx) + (Math.PI / 2);
         $scope.cannon.rotation = angle;
         $scope.crosshair.x = e.offsetX;
