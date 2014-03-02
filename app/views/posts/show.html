@@ -3,7 +3,11 @@
     <h1 class='page-header'>Blog Home</h1>
     <ol class="breadcrumb">
       <li><a href="#" ng-href="#/posts">Blog</a></li>
-      <li class="active">{{post.title}}</li>
+      <li class="active">
+        {{post.title}} -
+      
+        <small><i>{{post.createdAt | date}}</i></small>
+      </li>
     </ol>
   </div>
 </div>
@@ -11,7 +15,6 @@
     <div class="posts col-lg-12 col-md-12">
         <div class="post row">
             <div class="col-lg-2 col-md-2">
-                {{post.createdAt | date}}
                 <div class="post-tags-list well clearfix">
                   <span class="post-tag-list-item" ng-repeat="tag in post.tags">
                       <a>{{tag.name}}</a>
@@ -20,11 +23,6 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="title">
-                    <h2>
-                        <a ng-href="#/posts/{{post.urlString}}">{{post.title}}</a>
-                    </h2>
-                </div>
                 <div class="post-content" ng-bind-html="content">
                 </div>
                 <hr />

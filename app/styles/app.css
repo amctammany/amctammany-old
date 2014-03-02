@@ -17,10 +17,14 @@
 .matrix-table{border:1px solid #000;}
 .matrix-table td{display:inline-block;text-align:center;width:45px;height:25px}
 
-.post{margin-bottom:20px;}
+.post{margin:5px;margin-bottom:20px;border:1px solid #ddd;border-radius:15px;padding:5px;}
 .post .post-tags-list{vertical-align:top;padding:5px;}
 .post .post-tags-list .post-tag-list-item{float:left;display:inline-block;padding:2px 6px;margin:2px 4px;border:1px solid #000;}
 .post .post-tags-list .post-tag-list-item a{font:bold small-caps 1em Arial,sans-serif}
-.post .post-tags-list .post-tag-list-item.active{background:#00f}
+.post .post-tags-list .post-tag-list-item.active{border-color:#f00;}
+.post .post-tags-list .post-tag-list-item.active a{color:#f00}
+.post .post-title{text-align:center}
+.post .post-content p{font-family:Helvetica}
+#postContent{min-height:200px}
 
 .three{height:400px}
