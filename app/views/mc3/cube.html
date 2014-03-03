@@ -15,30 +15,33 @@
   uniform mat4 uVMatrix;
   uniform mat4 uPMatrix;
 
-  varying highp vec3 vColor;
+  varying highp vec4 vColor;
+  varying highp vec3 vLight;
 
   void main(void) {
     gl_Position = uPMatrix * uVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
+    vColor = vec4(aVertexColor, 1.0);
 
     // Lighting
     vec3 ambientLight = vec3(0.1, 0.1, 0.1);
 
-    vec3 pointLightPosition = vec3(-2.0, 0.0, -4.0);
+    vec3 pointLightPosition = vec3(-0.0, 0.0, -4.0);
     vec3 pointLightDirection = normalize(vec3(pointLightPosition.xyz - aVertexPosition.xyz));
 
     vec3 L = vec3(uPMatrix * uVMatrix * uMMatrix * vec4(pointLightPosition, 1.0));
     vec3 N = uNormalMatrix * aVertexNormal;
     float diffuseLightAmount = max( dot(normalize(N), normalize(L)), 0.0);
     vec3 transformedNormal = uNormalMatrix * aVertexNormal;
-    vColor = ambientLight + (diffuseLightAmount * aVertexColor);
+    vLight = ambientLight + vec3(0.8, 0.8, 0.8) * diffuseLightAmount;
   }
 </script>
 
 <script id="shader-fs" type="x-shader/x-fragment">
-  varying highp vec3 vColor;
+  varying highp vec4 vColor;
+  varying highp vec3 vLight;
 
   void main(void) {
-    gl_FragColor = vec4(vColor, 1.0);
+    gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);
   }
 
 </script>

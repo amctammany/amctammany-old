@@ -21,6 +21,7 @@ angular.module('mctApp')
         this.mMatrix = new Matrix4();
         this.mvMatrix = new Matrix4();
         this.normalMatrix = new Matrix3();
+        //this.normalMatrix1 = mat3.create();
         this.vsSource = vsSource;
         this.fsSource = fsSource;
       }
@@ -38,6 +39,7 @@ angular.module('mctApp')
       _gl.uniformMatrix4fv(_glProgram.mMatrixUniform, false, this.mMatrix.elements);
       _gl.uniformMatrix4fv(_glProgram.mvMatrixUniform, false, this.mvMatrix.elements);
       _gl.uniformMatrix3fv(_glProgram.normalMatrixUniform, false, this.normalMatrix.elements);
+      //_gl.uniformMatrix3fv(_glProgram.normalMatrixUniform, false, this.normalMatrix1);
     };
 
     GLRenderer.prototype.initShaders = function () {
@@ -148,21 +150,6 @@ angular.module('mctApp')
 
     };
 
-    GLRenderer.prototype.drawScene = function () {
-      var vertexPositionAttribute = _gl.getAttribLocation(_glProgram, 'aVertexPosition');
-      _gl.enableVertexAttribArray(vertexPositionAttribute);
-      _gl.bindBuffer(_gl.ARRAY_BUFFER, this.roomVerticeBuffer);
-      _gl.vertexAttribPointer(vertexPositionAttribute, 3, _gl.FLOAT, false, 0, 0);
-
-      var vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
-      _gl.enableVertexAttribArray(vertexColorAttribute);
-      _gl.bindBuffer(_gl.ARRAY_BUFFER, this.roomColorBuffer);
-      _gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
-
-      _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, this.roomVerticesIndexBuffer);
-      _gl.drawElements(_gl.TRIANGLES, this.roomVerticesIndexBuffer.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
-    };
-
     GLRenderer.prototype.setupWebGL = function () {
       _gl.clearColor(0.8, 0.8, 0.8, 1.0);
       _gl.clear(_gl.COLOR_BUFFER_BIT);
@@ -177,6 +164,7 @@ angular.module('mctApp')
 
       this.mvMatrix.multiplyMatrices(this.mMatrix, this.vMatrix);
       this.normalMatrix.getInverse(this.mvMatrix).transpose();
+      //mat3.normalFromMat4(this.normalMatrix1, this.mvMatrix.elements);
     };
 
 
