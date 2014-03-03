@@ -152,7 +152,7 @@ angular.module('mctApp')
 
     GLRenderer.prototype.setupWebGL = function () {
       _gl.clearColor(0.8, 0.8, 0.8, 1.0);
-      _gl.clear(_gl.COLOR_BUFFER_BIT);
+      _gl.clear(_gl.COLOR_BUFFER_BIT | _gl.DEPTH_BUFFER_BIT);
       _gl.enable(_gl.DEPTH_TEST);
       _gl.viewport(0, 0, this.width, this.height);
       this.camera.updateMatrixWorld(true);
