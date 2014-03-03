@@ -148,20 +148,23 @@
                   </ul>
                 </li>
 
-                <!--<li class="dropdown" ng-class="getClass('/webgl')">-->
-                  <!--<a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>-->
-                  <!--<ul class="dropdown-menu">-->
-                    <!--<li>-->
-                      <!--<a href="#" ng-href="#/webgl">WebGL</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                      <!--<a href="#" ng-href="#/webgl/world">World</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                      <!--<a href="#" ng-href="#/webgl/test">Test Matrix</a>-->
-                    <!--</li>-->
-                  <!--</ul>-->
-                <!--</li>-->
+                <li class="dropdown" ng-class="getClass('/webgl')">
+                  <a class="dropdown-toggle" data-toggle="dropdown">WebGL <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#" ng-href="#/webgl">WebGL</a>
+                    </li>
+                    <li>
+                      <a href="#" ng-href="#/webgl/world">World</a>
+                    </li>
+                    <li>
+                      <a href="#" ng-href="#/webgl/test">Test Matrix</a>
+                    </li>
+                    <li>
+                      <a href="#" ng-href="#/webgl/lighting">Lighting</a>
+                    </li>
+                  </ul>
+                </li>
 
               </ul>
             </div>
@@ -258,6 +261,7 @@
         <script src="scripts/games/controllers/pegs.js"></script>
         <script src="scripts/games/services/particle.js"></script>
         <script src="scripts/games/services/gameworld.js"></script>
+        <script src="scripts/webgl/controllers/lighting.js"></script>
         <!-- endbuild -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     </body>
