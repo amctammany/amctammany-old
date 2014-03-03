@@ -30,7 +30,7 @@ angular.module('mctApp')
       $scope.renderer.lineWidth = 1;
 
       (function animLoop () {
-        $scope.world.rotateY(0.005);
+        $scope.world.rotateY(0.01);
         $scope.renderer.render($scope.world, $scope.camera);
         $scope.animFrame = window.requestAnimationFrame(animLoop);
       })();
