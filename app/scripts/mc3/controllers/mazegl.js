@@ -5,6 +5,10 @@ angular.module('mctApp')
 
     var prevX, prevY;
     $scope.handleMouseDown = function (e) {
+      var nx = (2 * e.offsetX / $scope.canvas.width) - 1;
+      var ny = (-2 * e.offsetY / $scope.canvas.height) + 1;
+      console.log(nx);
+      console.log(ny);
       prevX = e.x;
       prevY = e.y;
     };
