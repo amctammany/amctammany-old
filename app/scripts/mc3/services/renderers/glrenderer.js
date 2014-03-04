@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('GLRenderer', function (Matrix4, Matrix3, Wall) {
+  .factory('GLRenderer', function (Matrix4, Matrix3) {
     var _gl, _glProgram;
     var GLRenderer = function (canvas, fsSource, vsSource) {
       this.canvas = canvas;
@@ -73,7 +73,7 @@ angular.module('mctApp')
     GLRenderer.prototype.setupWorld = function () {
       var bufferGroups = this.bufferGroups;
       this.world.children.forEach(function (child) {
-        if (child instanceof Wall) {
+        if (true) {
           var plane = child.getGLInfo();
           var colorBuffer = _gl.createBuffer();
           _gl.bindBuffer(_gl.ARRAY_BUFFER, colorBuffer);
@@ -92,22 +92,22 @@ angular.module('mctApp')
           _gl.bindBuffer(_gl.ARRAY_BUFFER, normalBuffer);
           _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.normals), _gl.STATIC_DRAW);
 
-          var lineColorBuffer = _gl.createBuffer();
-          _gl.bindBuffer(_gl.ARRAY_BUFFER, lineColorBuffer);
-          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.lineColors), _gl.STATIC_DRAW);
+          //var lineColorBuffer = _gl.createBuffer();
+          //_gl.bindBuffer(_gl.ARRAY_BUFFER, lineColorBuffer);
+          //_gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.lineColors), _gl.STATIC_DRAW);
 
-          var lineIndexBuffer = _gl.createBuffer();
-          lineIndexBuffer.numberVertexPoints = plane.lineIndices.length;
-          _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, lineIndexBuffer);
-          _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.lineIndices), _gl.STATIC_DRAW);
+          //var lineIndexBuffer = _gl.createBuffer();
+          //lineIndexBuffer.numberVertexPoints = plane.lineIndices.length;
+          //_gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, lineIndexBuffer);
+          //_gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.lineIndices), _gl.STATIC_DRAW);
 
           bufferGroups.push({
             color: colorBuffer,
             vertex: vertexBuffer,
             index: indexBuffer,
             normal: normalBuffer,
-            lineColor: lineColorBuffer,
-            lineIndex: lineIndexBuffer
+            //lineColor: lineColorBuffer,
+            //lineIndex: lineIndexBuffer
           });
         }
       });
@@ -138,14 +138,14 @@ angular.module('mctApp')
         _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.index);
         _gl.drawElements(_gl.TRIANGLES, group.index.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
 
-        vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
-        _gl.enableVertexAttribArray(vertexColorAttribute);
-        _gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
-        _gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
+        //vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
+        //_gl.enableVertexAttribArray(vertexColorAttribute);
+        //_gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
+        //_gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
 
-        _gl.lineWidth(this.lineWidth);
-        _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
-        _gl.drawElements(_gl.LINES, group.lineIndex.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
+        //_gl.lineWidth(this.lineWidth);
+        //_gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
+        //_gl.drawElements(_gl.LINES, group.lineIndex.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
       }
 
     };

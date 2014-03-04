@@ -112,6 +112,10 @@ angular.module('mctApp', ['ngRoute', 'ngSanitize', 'ngResource'])
         templateUrl: 'views/webgl/lighting.html',
         controller: 'LightingCtrl'
       })
+      .when('/mc3/spheres', {
+        templateUrl: 'views/mc3/spheres.html',
+        controller: 'SpheresCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
