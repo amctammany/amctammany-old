@@ -72,8 +72,10 @@ angular.module('mctApp')
 
     GLRenderer.prototype.setupWorld = function () {
       var bufferGroups = this.bufferGroups;
+      var group;
       this.world.children.forEach(function (child) {
-        bufferGroups.push(child.setupBuffers(_gl));
+        group = child.setupBuffers(_gl);
+        bufferGroups.push(group);
       });
 
     };
@@ -103,6 +105,18 @@ angular.module('mctApp')
           _gl.drawElements(_gl.TRIANGLES, group.index.numItems, _gl.UNSIGNED_SHORT, 0);
         } else if (group.drawFunc === 'arrays') {
           _gl.drawArrays(_gl.TRIANGLES, 0, group.vertex.numItems);
+        }
+
+        if (group.lines === true) {
+          vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
+          _gl.enableVertexAttribArray(vertexColorAttribute);
+          _gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
+          _gl.vertexAttribPointer(vertexColorAttribute, group.lineColor.itemSize, _gl.FLOAT, false, 0, 0);
+
+          _gl.lineWidth(group.lineWidth);
+          _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
+          _gl.drawElements(_gl.LINES, group.lineIndex.numItems, _gl.UNSIGNED_SHORT, 0);
+
         }
       }
     };

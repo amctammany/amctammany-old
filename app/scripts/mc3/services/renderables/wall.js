@@ -89,13 +89,28 @@ angular.module('mctApp')
       indexBuffer.itemSize = 3;
       indexBuffer.numItems = info.indices.length;
 
+      var lineColorBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, lineColorBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.lineColors), gl.STATIC_DRAW);
+      lineColorBuffer.itemSize = 3;
+      lineColorBuffer.numItems = info.lineColors.length / 3;
+
+      var lineIndexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, lineIndexBuffer);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(info.lineIndices), gl.STATIC_DRAW);
+      lineIndexBuffer.itemSize = 2;
+      lineIndexBuffer.numItems = info.lineIndices.length / 1;
 
       return {
         color: colorBuffer,
         vertex: vertexBuffer,
         index: indexBuffer,
         normal: normalBuffer,
-        drawFunc: 'elements'
+        drawFunc: 'elements',
+        lineColor: lineColorBuffer,
+        lineIndex: lineIndexBuffer,
+        lines: true,
+        lineWidth: 1
       };
 
     };
