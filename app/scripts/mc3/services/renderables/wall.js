@@ -61,6 +61,45 @@ angular.module('mctApp')
       };
 
     };
+
+    Wall.prototype.setupBuffers = function (gl) {
+      var info = this.getGLInfo();
+
+      var colorBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.colors), gl.STATIC_DRAW);
+      colorBuffer.itemSize = 3;
+      colorBuffer.numItems = info.colors.length / 3;
+
+      var normalBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.normals), gl.STATIC_DRAW);
+      normalBuffer.itemSize = 3;
+      normalBuffer.numItems = info.normals.length / 3;
+
+      var vertexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.vertices), gl.STATIC_DRAW);
+      vertexBuffer.itemSize = 3;
+      vertexBuffer.numItems = info.vertices.length / 3;
+
+      var indexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(info.indices), gl.STREAM_DRAW);
+      indexBuffer.itemSize = 3;
+      indexBuffer.numItems = info.indices.length;
+
+
+      return {
+        color: colorBuffer,
+        vertex: vertexBuffer,
+        index: indexBuffer,
+        normal: normalBuffer,
+        drawFunc: 'elements'
+      };
+
+    };
+
     Wall.prototype.getVertices = function () {
       var planeY = this.normal.cross(this.tangent).normalize();
       var planeX = this.normal.cross(planeY).normalize();

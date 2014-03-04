@@ -7,7 +7,7 @@ angular.module('mctApp')
       this.radius = radius;
       this.divisions = (divisions !== undefined) ? divisions : 10;
       this.color = (color !== undefined) ? color : [1.0, 0.0, 0.0, 1.0];
-      this.smoothShading = true;
+      this.smoothShading = false;
 
       Object3d.call(this);
     };
@@ -50,6 +50,7 @@ angular.module('mctApp')
           colorData.push(this.color[0]);
           colorData.push(this.color[1]);
           colorData.push(this.color[2]);
+          colorData.push(this.color[3]);
 
           vertexPositionData.push(this.radius * x + this.position.x);
           vertexPositionData.push(this.radius * y + this.position.y);
@@ -79,6 +80,7 @@ angular.module('mctApp')
           colorData.push(this.color[0]);
           colorData.push(this.color[1]);
           colorData.push(this.color[2]);
+          colorData.push(this.color[3]);
         }
         normalData = calculatePerFaceNormals(normalData, indexData);
       }
@@ -87,6 +89,43 @@ angular.module('mctApp')
         colors: colorData,
         indices: indexData,
         normals: normalData,
+      };
+    };
+
+    Sphere.prototype.setupBuffers = function (gl) {
+      var info = this.getGLInfo();
+
+      var colorBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.colors), gl.STATIC_DRAW);
+      colorBuffer.itemSize = 4;
+      colorBuffer.numItems = info.colors.length / 4;
+
+      var normalBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.normals), gl.STATIC_DRAW);
+      normalBuffer.itemSize = 3;
+      normalBuffer.numItems = info.normals.length / 3;
+
+      var vertexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(info.vertices), gl.STATIC_DRAW);
+      vertexBuffer.itemSize = 3;
+      vertexBuffer.numItems = info.vertices.length / 3;
+
+      var indexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(info.indices), gl.STREAM_DRAW);
+      indexBuffer.itemSize = 3;
+      indexBuffer.numItems = info.indices.length;
+
+
+      return {
+        color: colorBuffer,
+        vertex: vertexBuffer,
+        index: indexBuffer,
+        normal: normalBuffer,
+        drawFunc: (this.smoothShading ? 'elements' : 'arrays')
       };
     };
 

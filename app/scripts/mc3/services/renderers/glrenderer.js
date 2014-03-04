@@ -73,43 +73,7 @@ angular.module('mctApp')
     GLRenderer.prototype.setupWorld = function () {
       var bufferGroups = this.bufferGroups;
       this.world.children.forEach(function (child) {
-        if (true) {
-          var plane = child.getGLInfo();
-          var colorBuffer = _gl.createBuffer();
-          _gl.bindBuffer(_gl.ARRAY_BUFFER, colorBuffer);
-          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.colors), _gl.STATIC_DRAW);
-
-          var vertexBuffer = _gl.createBuffer();
-          _gl.bindBuffer(_gl.ARRAY_BUFFER, vertexBuffer);
-          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.vertices), _gl.STATIC_DRAW);
-
-          var indexBuffer = _gl.createBuffer();
-          indexBuffer.numberVertexPoints = plane.indices.length;
-          _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-          _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.indices), _gl.STATIC_DRAW);
-
-          var normalBuffer = _gl.createBuffer();
-          _gl.bindBuffer(_gl.ARRAY_BUFFER, normalBuffer);
-          _gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.normals), _gl.STATIC_DRAW);
-
-          //var lineColorBuffer = _gl.createBuffer();
-          //_gl.bindBuffer(_gl.ARRAY_BUFFER, lineColorBuffer);
-          //_gl.bufferData(_gl.ARRAY_BUFFER, new Float32Array(plane.lineColors), _gl.STATIC_DRAW);
-
-          //var lineIndexBuffer = _gl.createBuffer();
-          //lineIndexBuffer.numberVertexPoints = plane.lineIndices.length;
-          //_gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, lineIndexBuffer);
-          //_gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(plane.lineIndices), _gl.STATIC_DRAW);
-
-          bufferGroups.push({
-            color: colorBuffer,
-            vertex: vertexBuffer,
-            index: indexBuffer,
-            normal: normalBuffer,
-            //lineColor: lineColorBuffer,
-            //lineIndex: lineIndexBuffer
-          });
-        }
+        bufferGroups.push(child.setupBuffers(_gl));
       });
 
     };
@@ -121,33 +85,26 @@ angular.module('mctApp')
         var vertexPositionAttribute = _gl.getAttribLocation(_glProgram, 'aVertexPosition');
         _gl.enableVertexAttribArray(vertexPositionAttribute);
         _gl.bindBuffer(_gl.ARRAY_BUFFER, group.vertex);
-        _gl.vertexAttribPointer(vertexPositionAttribute, 3, _gl.FLOAT, false, 0, 0);
+        _gl.vertexAttribPointer(vertexPositionAttribute, group.vertex.itemSize, _gl.FLOAT, false, 0, 0);
 
         var vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
         _gl.enableVertexAttribArray(vertexColorAttribute);
         _gl.bindBuffer(_gl.ARRAY_BUFFER, group.color);
-        _gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
+        _gl.vertexAttribPointer(vertexColorAttribute, group.color.itemSize, _gl.FLOAT, false, 0, 0);
 
         var vertexNormalAttribute = _gl.getAttribLocation(_glProgram, 'aVertexNormal');
         _gl.enableVertexAttribArray(vertexNormalAttribute);
         _gl.bindBuffer(_gl.ARRAY_BUFFER, group.normal);
         _gl.vertexAttribPointer(vertexNormalAttribute, 3, _gl.FLOAT, false, 0, 0);
 
-        //_gl.drawArrays(_gl.TRIANGLES, 0, 4);
 
         _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.index);
-        _gl.drawElements(_gl.TRIANGLES, group.index.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
-
-        //vertexColorAttribute = _gl.getAttribLocation(_glProgram, 'aVertexColor');
-        //_gl.enableVertexAttribArray(vertexColorAttribute);
-        //_gl.bindBuffer(_gl.ARRAY_BUFFER, group.lineColor);
-        //_gl.vertexAttribPointer(vertexColorAttribute, 3, _gl.FLOAT, false, 0, 0);
-
-        //_gl.lineWidth(this.lineWidth);
-        //_gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, group.lineIndex);
-        //_gl.drawElements(_gl.LINES, group.lineIndex.numberVertexPoints, _gl.UNSIGNED_SHORT, 0);
+        if (group.drawFunc === 'elements') {
+          _gl.drawElements(_gl.TRIANGLES, group.index.numItems, _gl.UNSIGNED_SHORT, 0);
+        } else if (group.drawFunc === 'arrays') {
+          _gl.drawArrays(_gl.TRIANGLES, 0, group.vertex.numItems);
+        }
       }
-
     };
 
     GLRenderer.prototype.setupWebGL = function () {
