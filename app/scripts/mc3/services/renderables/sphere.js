@@ -3,13 +3,13 @@
 angular.module('mctApp')
   .factory('Sphere', function (Object3d, Vector3) {
     var Sphere = function (position, radius, divisions, color) {
+      Object3d.call(this);
       this.position = new Vector3(position[0], position[1], position[2]);
       this.radius = radius;
       this.divisions = (divisions !== undefined) ? divisions : 10;
       this.color = (color !== undefined) ? color : [1.0, 0.0, 0.0, 1.0];
-      this.smoothShading = false;
+      this.smoothShading = true;
 
-      Object3d.call(this);
     };
     Sphere.prototype = Object.create(Object3d.prototype);
 

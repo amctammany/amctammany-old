@@ -3,7 +3,9 @@
 angular.module('mctApp')
   .controller('SpheresCtrl', function ($scope, $window, GLRenderer, Camera, World, Sphere) {
     $scope.world = new World();
-    var sphere = new Sphere([0, 0, 0], 1, 25, [1, 0, 0, 1]);
+    var sphere = new Sphere([2, 2, 0], 1, 25, [1, 0, 0, 1]);
+    $scope.world.add(sphere);
+    sphere = new Sphere([0.5, 1, 0.5], 1, 25, [0, 1, 0, 1]);
     $scope.world.add(sphere);
 
     $scope.initDemo = function (canvas) {
@@ -14,7 +16,7 @@ angular.module('mctApp')
       if (!$scope.camera) {
         $scope.camera = new Camera(45, canvas.width / canvas.height, 0.1, 100);
         $scope.camera.position.y = 0.0;
-        $scope.camera.position.z = 5.0;
+        $scope.camera.position.z = 8.0;
       }
 
       var fsSource = document.getElementById('shader-fs').innerHTML;
