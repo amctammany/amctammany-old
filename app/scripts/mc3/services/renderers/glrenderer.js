@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mctApp')
-  .factory('GLRenderer', function (Matrix4, Matrix3) {
+  .factory('GLRenderer', function (Matrix4, Matrix3, Vector3) {
     var _gl, _glProgram;
     var GLRenderer = function (canvas, fsSource, vsSource) {
       this.canvas = canvas;
@@ -68,6 +68,15 @@ angular.module('mctApp')
       }
       return shader;
 
+    };
+
+    GLRenderer.prototype.unprojectVector = function (camera, x, y) {
+      var projectionMatrixInverse = new Matrix4();
+      var viewProjectionMatrix = new Matrix4();
+      projectionMatrixInverse.getInverse(camera.projectionMatrix);
+      viewProjectionMatrix.multiplyMatrices(camera.matrixWorld, projectionMatrixInverse);
+      var v = new Vector3(x, y, 0.1);
+      return v.applyProjection(viewProjectionMatrix);
     };
 
     GLRenderer.prototype.setupWorld = function () {

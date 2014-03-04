@@ -4,23 +4,32 @@ angular.module('mctApp')
   .controller('FloorsCtrl', function ($scope, $window, GLRenderer, Camera, World, Floor) {
     $scope.world = new World();
     var floor = new Floor([0, 0, 0], 2, 2, [1, 0, 0]);
+    floor.index = 0;
     $scope.world.add(floor);
     floor = new Floor([2, 0, 0], 2, 2, [1, 0, 0]);
+    floor.index = 1;
     $scope.world.add(floor);
     floor = new Floor([-2, 0, 0], 2, 2, [1, 0, 0]);
+    floor.index = 2;
     $scope.world.add(floor);
     floor = new Floor([-2, 0, -2], 2, 2, [1, 0, 0]);
+    floor.index = 3;
     $scope.world.add(floor);
     floor = new Floor([0, 0, -2], 2, 2, [1, 0, 0]);
+    floor.index = 4;
     $scope.world.add(floor);
     floor = new Floor([2, 0, -2], 2, 2, [1, 0, 0]);
+    floor.index = 5;
     $scope.world.add(floor);
 
     floor = new Floor([-2, 0, -4], 2, 2, [1, 0, 0]);
+    floor.index = 6;
     $scope.world.add(floor);
     floor = new Floor([0, 0, -4], 2, 2, [1, 0, 0]);
+    floor.index = 7;
     $scope.world.add(floor);
     floor = new Floor([2, 0, -4], 2, 2, [1, 0, 0]);
+    floor.index = 8;
     $scope.world.add(floor);
     $scope.initDemo = function (canvas) {
       $scope.canvas = canvas;
@@ -30,7 +39,7 @@ angular.module('mctApp')
       if (!$scope.camera) {
         $scope.camera = new Camera(45, canvas.width / canvas.height, 0.1, 100);
         $scope.camera.position.y = 2.0;
-        $scope.camera.position.z = 7.0;
+        $scope.camera.position.z = 5.0;
       }
       var fsSource = document.getElementById('shader-fs').innerHTML;
       var vsSource = document.getElementById('shader-vs').innerHTML;
@@ -43,18 +52,12 @@ angular.module('mctApp')
       $scope.renderer.render($scope.world, $scope.camera);
       $scope.animFrame = $window.requestAnimationFrame(animLoop);
     }
-    var prevY, prevX;
     $scope.handleMouseDown = function (e) {
       var nx = (2 * e.offsetX / $scope.canvas.width) - 1;
       var ny = (-2 * e.offsetY / $scope.canvas.height) + 1;
-      console.log(nx);
-      console.log(ny);
-      prevX = e.x;
-      prevY = e.y;
+      console.log($scope.renderer.unprojectVector($scope.camera, nx, ny));
     };
     $scope.handleMouseUp = function () {
-      prevX = null;
-      prevY = null;
     };
     //$scope.handleMouseMove = function (e) {
       //$scope.canvas.focus();
